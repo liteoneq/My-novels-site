@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رواياتي | مكتبة الكتاب الشخصية</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+    
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            --primary-light: #4CAF50;
+            --bg-color: #f4f6f8;
+            --card-bg: #ffffff;
+            --text-main: #1A1A1A;
+            --text-secondary: #666666;
+            --border-color: #e0e0e0;
+            --like-color: #4CAF50;
+            --dislike-color: #f44336;
+            --star-color: #FFC107;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: var(--bg-color); 
+            color: var(--text-main); 
+            min-height: 100vh;
+        }
+
+        header { 
+            text-align: center; 
+            padding: 40px 20px; 
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            color: white;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
+            margin-bottom: 30px;
+        }
+
+        h1 { font-size: 2em; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .subtitle { font-size: 0.95em; opacity: 0.9; font-weight: 300; }
+
+        /* مربع البحث */
+        .search-container {
+            max-width: 600px;
+            margin: -20px auto 30px;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            outline: none;
+            transition: box-shadow 0.3s;
+        }
+
+        .search-box:focus {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        /* التبويبات */
+        .tabs-container {
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: white;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #e8f5e9;
+        }
+
+        /* الأقسام */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            border-right: 4px solid var(--primary-color);
+            padding-right: 12px;
+        }
+
+        .container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 24px; 
+        }
+
+        .card { 
+            background: var(--card-bg); 
+            padding: 24px; 
+            border-radius: 16px; 
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06); 
+            cursor: pointer; 
+            border-top: 4px solid var(--primary-color); 
+            transition: all 0.3s ease;
+        }
+
+        .card:hover { 
+            transform: translateY(-6px); 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12); 
+        }
+
+        .title { font-size: 1.25em; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
+        
+        .info { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            font-size: 0.85em; 
+            color: var(--text-secondary); 
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            background: #e8f5e9;
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8em;
+        }
+
+        /* الإحصائيات */
+        .stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* نافذة القراءة */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.7); 
+            backdrop-filter: blur(4px);
+            z-index: 1000; 
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .modal-content { 
+            background: white; 
+            width: 92%; 
+            max-width: 800px; 
+            height: 90vh; 
+            border-radius: 20px; 
+            padding: 30px; 
+            overflow-y: auto; 
+            position: relative; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+
+        .close-btn:hover {
+            background: var(--primary-light);
+        }
+
+        .chapter-box { 
+            margin-bottom: 35px; 
+            border-bottom: 1px solid #eee; 
+            padding-bottom: 25px; 
+        }
+        .ch-title { color: var(--primary-color); font-weight: 700; margin-bottom: 12px; font-size: 1.15em; }
+        .ch-text { white-space: pre-wrap; line-height: 2; font-size: 1.05em; color: #333; }
+
+        /* قسم التفاعل */
+        .interaction-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .interaction-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        /* التقييم بالنجوم */
+        .rating-container {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .star {
+            font-size: 1.8em;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star.active {
+            color: var(--star-color);
+        }
+
+        .star:hover {
+            color: var(--star-color);
+        }
+
+        /* أزرار الإعجاب */
+        .like-dislike-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .like-btn, .dislike-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .like-btn {
+            background: #e8f5e9;
+            color: var(--like-color);
+        }
+
+        .like-btn.active {
+            background: var(--like-color);
+            color: white;
+        }
+
+        .dislike-btn {
+            background: #ffebee;
+            color: var(--dislike-color);
+        }
+
+        .dislike-btn.active {
+            background: var(--dislike-color);
+            color: white;
+        }
+
+        /* التعليقات */
+        .comments-container {
+            margin-top: 20px;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95em;
+            resize: vertical;
+            min-height: 80px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .comment-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .submit-comment-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .comment-item {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-right: 3px solid var(--primary-color);
+        }
+
+        .comment-author {
+            font-weight: 700;
+            font-size: 0.85em;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            font-size: 0.9em;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .comment-date {
+            font-size: 0.75em;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .empty-section {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 40px 0;
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>رواياتي</h1>
+        <div class="subtitle">المساحة الخاصة بك لعرض إبداعاتك الأدبية</div>
+    </header>
+
+    <!-- مربع البحث -->
+    <div class="search-container">
+        <input type="text" class="search-box" id="searchBox" placeholder="ابحث عن رواية...">
+    </div>
+
+    <!-- التبويبات -->
+    <div class="tabs-container">
+        <button class="tab-btn active" data-tab="recent">مضافة حديثاً</button>
+        <button class="tab-btn" data-tab="reading">جاري القراءة</button>
+        <button class="tab-btn" data-tab="read">تمت قراءتها</button>
+        <button class="tab-btn" data-tab="last-read">مؤخراً</button>
+    </div>
+
+    <!-- الأقسام -->
+    <div class="section">
+        <h2 class="section-title" id="sectionTitle">روايات مضافة حديثاً</h2>
+        <div class="container" id="container">
+            <div class="empty-section">جاري تحميل رواياتك...</div>
+        </div>
+    </div>
+
+    <!-- نافذة القراءة -->
+    <div id="readerModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">إغلاق</button>
+            <h2 id="mTitle" style="color:var(--primary-color); text-align:center; margin-bottom:20px;"></h2>
+            <div id="mContent"></div>
+            
+            <!-- قسم التفاعل -->
+            <div class="interaction-section">
+                <div class="interaction-title">التقييم</div>
+                <div class="rating-container" id="ratingContainer">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+
+                <div class="interaction-title">إعجاب</div>
+                <div class="like-dislike-container">
+                    <button class="like-btn" id="likeBtn">👍 إعجاب <span id="likeCount">0</span></button>
+                    <button class="dislike-btn" id="dislikeBtn">👎 عدم إعجاب <span id="dislikeCount">0</span></button>
+                </div>
+
+                <div class="interaction-title">التعليقات</div>
+                <div class="comments-container">
+                    <textarea class="comment-input" id="commentInput" placeholder="اكتب تعليقك هنا..."></textarea>
+                    <button class="submit-comment-btn" onclick="submitComment()">إرسال التعليق</button>
+                    <div id="commentsList" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const BIN_ID = "6abf950bac6210605a0c12ca"; 
+        const MASTER_KEY = "$2a$10$riyvUp9B2wS2NHY5AR4Ifu/J6du4in5kPBmOzvRmg9p9SvKD8FPPS";
+        const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
+
+        let currentNovel = null;
+        let currentTab = 'recent';
+        let searchTerm = '';
+
+        function getDeviceId() {
+            let id = localStorage.getItem('my_device_id');
+            if (!id) {
+                id = 'dev_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+                localStorage.setItem('my_device_id', id);
+            }
+            return id;
+        }
+
+        const MY_DEVICE_ID = getDeviceId();
+
+        // تحميل حالة القراءة من localStorage
+        function getReadingStatus() {
+            return JSON.parse(localStorage.getItem('reading_status') || '{}');
+        }
+
+        function setReadingStatus(novelId, status) {
+            const statusObj = getReadingStatus();
+            statusObj[novelId] = {
+                status: status,
+                lastRead: Date.now()
+            };
+            localStorage.setItem('reading_status', JSON.stringify(statusObj));
+        }
+
+        // تحميل التقييمات
+        function getRatings() {
+            return JSON.parse(localStorage.getItem('ratings') || '{}');
+        }
+
+        function setRating(novelId, rating) {
+            const ratings = getRatings();
+            ratings[novelId] = rating;
+            localStorage.setItem('ratings', JSON.stringify(ratings));
+        }
+
+        // تحميل الإعجابات
+        function getLikes() {
+            return JSON.parse(localStorage.getItem('likes') || '{}');
+        }
+
+        function setLike(novelId, type) {
+            const likes = getLikes();
+            likes[novelId] = type;
+            localStorage.setItem('likes', JSON.stringify(likes));
+        }
+
+        // تحميل التعليقات
+        function getComments() {
+            return JSON.parse(localStorage.getItem('comments') || '{}');
+        }
+
+        function addComment(novelId, text) {
+            const comments = getComments();
+            if (!comments[novelId]) comments[novelId] = [];
+            comments[novelId].push({
+                author: MY_DEVICE_ID.substring(0, 8),
+                text: text,
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('comments', JSON.stringify(comments));
+        }
+
+        async function loadNovels() {
+            const container = document.getElementById('container');
+            
+            try {
+                const res = await fetch(API_URL, {
+                    headers: { "X-Master-Key": MASTER_KEY }
+                });
+                const data = await res.json();
+                let allNovels = data.record || [];
+
+                // فلترة حسب الجهاز
+                let myNovels = allNovels.filter(novel => novel.deviceId === MY_DEVICE_ID);
+
+                // تطبيق البحث
+                if (searchTerm) {
+                    myNovels = myNovels.filter(novel => 
+                        novel.title.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+                }
+
+                // ترتيب حسب التبويب
+                if (currentTab === 'recent') {
+                    myNovels.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                } else if (currentTab === 'last-read') {
+                    const status = getReadingStatus();
+                    myNovels.sort((a, b) => (status[b.title]?.lastRead || 0) - (status[a.title]?.lastRead || 0));
+                } else if (currentTab === 'reading') {
+                    const status = getReadingStatus();
+                    myNovels = myNovels.filter(n => status[n.title]?.status === 'reading');
+                } else if (currentTab === 'read') {
+                    const status = getReadingStatus();
+                    myNovels = myNovels.filter(n => status[n.title]?.status === 'read');
+                }
+
+                container.innerHTML = '';
+                
+                if (myNovels.length === 0) {
+                    container.innerHTML = '<div class="empty-section">لا توجد روايات في هذا القسم</div>';
+                    return;
+                }
+
+                myNovels.forEach(novel => {
+                    const div = document.createElement('div');
+                    div.className = 'card';
+                    div.onclick = () => openNovel(novel);
+                    
+                    const typeText = novel.continuous ? 'مستمرة 🟢' : 'منتهية 🔴';
+                    const views = novel.views || 0;
+                    const readers = novel.readers?.length || 0;
+                    
+                    div.innerHTML = `
+                        <div class="title">${novel.title}</div>
+                        <div class="info">
+                            <span>${novel.chapterTitles.length} فصل</span>
+                            <span class="badge">${typeText}</span>
+                        </div>
+                        <div class="stats">
+                            <div class="stat-item">👁️ ${views}</div>
+                            <div class="stat-item">👥 ${readers}</div>
+                            <div class="stat-item">👍 ${novel.likes || 0}</div>
+                            <div class="stat-item"> ${novel.dislikes || 0}</div>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function openNovel(novel) {
+            currentNovel = novel;
+            
+            // تحديث الإحصائيات
+            novel.views = (novel.views || 0) + 1;
+            if (!novel.readers) novel.readers = [];
+            if (!novel.readers.includes(MY_DEVICE_ID)) {
+                novel.readers.push(MY_DEVICE_ID);
+            }
+            saveNovelUpdate(novel);
+
+            // تحديث حالة القراءة
+            setReadingStatus(novel.title, 'reading');
+
+            document.getElementById('mTitle').innerText = novel.title;
+            const contentDiv = document.getElementById('mContent');
+            contentDiv.innerHTML = '';
+            
+            novel.chapterTitles.forEach((title, idx) => {
+                const text = novel.chapterContents[idx] || "";
+                const box = document.createElement('div');
+                box.className = 'chapter-box';
+                box.innerHTML = `<div class="ch-title">${title}</div><div class="ch-text">${text}</div>`;
+                contentDiv.appendChild(box);
+            });
+
+            // تحميل التقييم
+            const ratings = getRatings();
+            const userRating = ratings[novel.title] || 0;
+            updateStars(userRating);
+
+            // تحميل الإعجابات
+            const likes = getLikes();
+            const userLike = likes[novel.title];
+            document.getElementById('likeBtn').classList.toggle('active', userLike === 'like');
+            document.getElementById('dislikeBtn').classList.toggle('active', userLike === 'dislike');
+            document.getElementById('likeCount').innerText = novel.likes || 0;
+            document.getElementById('dislikeCount').innerText = novel.dislikes || 0;
+
+            // تحميل التعليقات
+            loadComments(novel.title);
+
+            document.getElementById('readerModal').style.display = 'flex';
+        }
+
+        function updateStars(rating) {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                star.classList.toggle('active', index < rating);
+            });
+        }
+
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.dataset.value);
+                updateStars(rating);
+                setRating(currentNovel.title, rating);
+            });
+        });
+
+        document.getElementById('likeBtn').addEventListener('click', function() {
+            setLike(currentNovel.title, 'like');
+            currentNovel.likes = (currentNovel.likes || 0) + 1;
+            document.getElementById('likeCount').innerText = currentNovel.likes;
+            this.classList.add('active');
+            document.getElementById('dislikeBtn').classList.remove('active');
+            saveNovelUpdate(currentNovel);
+        });
+
+        document.getElementById('dislikeBtn').addEventListener('click', function() {
+            setLike(currentNovel.title, 'dislike');
+            currentNovel.dislikes = (currentNovel.dislikes || 0) + 1;
+            document.getElementById('dislikeCount').innerText = currentNovel.dislikes;
+            this.classList.add('active');
+            document.getElementById('likeBtn').classList.remove('active');
+            saveNovelUpdate(currentNovel);
+        });
+
+        function submitComment() {
+            const input = document.getElementById('commentInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            addComment(currentNovel.title, text);
+            input.value = '';
+            loadComments(currentNovel.title);
+        }
+
+        function loadComments(novelTitle) {
+            const comments = getComments();
+            const novelComments = comments[novelTitle] || [];
+            const commentsList = document.getElementById('commentsList');
+            commentsList.innerHTML = '';
+
+            novelComments.forEach(comment => {
+                const div = document.createElement('div');
+                div.className = 'comment-item';
+                const date = new Date(comment.date).toLocaleDateString('ar-SA');
+                div.innerHTML = `
+                    <div class="comment-author">${comment.author}</div>
+                    <div class="comment-text">${comment.text}</div>
+                    <div class="comment-date">${date}</div>
+                `;
+                commentsList.appendChild(div);
+            });
+        }
+
+        async function saveNovelUpdate(novel) {
+            try {
+                const res = await fetch(API_URL, {
+                    headers: { "X-Master-Key": MASTER_KEY }
+                });
+                const data = await res.json();
+                let allNovels = data.record || [];
+
+                const index = allNovels.findIndex(n => n.title === novel.title && n.deviceId === MY_DEVICE_ID);
+                if (index !== -1) {
+                    allNovels[index] = novel;
+                }
+
+                await fetch(API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Master-Key": MASTER_KEY
+                    },
+                    body: JSON.stringify(allNovels)
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('readerModal').style.display = 'none';
+            setReadingStatus(currentNovel.title, 'read');
+            loadNovels();
+        }
+
+        // التبويبات
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentTab = this.dataset.tab;
+                
+                const titles = {
+                    'recent': 'روايات مضافة حديثاً',
+                    'reading': 'روايات جاري قراءتها',
+                    'read': 'روايات تمت قراءتها',
+                    'last-read': 'روايات مؤخراً'
+                };
+                document.getElementById('sectionTitle').innerText = titles[currentTab];
+                loadNovels();
+            });
+        });
+
+        // البحث
+        document.getElementById('searchBox').addEventListener('input', function() {
+            searchTerm = this.value;
+            loadNovels();
+        });
+
+        loadNovels();
+        setInterval(loadNovels, 30000);
+    </script>
+</body>
+</html>
