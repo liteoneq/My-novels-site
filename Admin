@@ -1,0 +1,2111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>إدارة الروايات</title>
+
+
+<style>
+
+/* =========================================================
+   الأساس
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    font-family:
+        Arial,
+        Tahoma,
+        sans-serif;
+
+    background: #101114;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   الرأس
+   ========================================================= */
+
+header {
+
+    background: #181a20;
+
+    padding: 20px;
+
+    text-align: center;
+
+    border-bottom:
+        1px solid #30323a;
+}
+
+header h1 {
+
+    margin:
+        0 0 8px;
+
+    font-size: 25px;
+}
+
+header p {
+
+    margin: 0;
+
+    color: #aaaaaa;
+}
+
+
+/* =========================================================
+   الحاوية
+   ========================================================= */
+
+.container {
+
+    width: 95%;
+
+    max-width: 1100px;
+
+    margin:
+        20px auto;
+}
+
+
+/* =========================================================
+   رسالة الحالة
+   ========================================================= */
+
+.status {
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    margin-bottom: 15px;
+
+    background: #1b1d23;
+
+    border:
+        1px solid #30323a;
+}
+
+.status.success {
+
+    border-color: #238636;
+
+    color: #7ee787;
+}
+
+.status.error {
+
+    border-color: #da3633;
+
+    color: #ff7b72;
+}
+
+
+/* =========================================================
+   الإحصائيات
+   ========================================================= */
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+.stat {
+
+    background: #1b1d23;
+
+    border:
+        1px solid #30323a;
+
+    border-radius: 12px;
+
+    padding: 18px;
+
+    text-align: center;
+}
+
+.stat-number {
+
+    display: block;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    margin-bottom: 5px;
+}
+
+.stat-label {
+
+    color: #aaaaaa;
+}
+
+
+/* =========================================================
+   أدوات البحث
+   ========================================================= */
+
+.controls {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 18px;
+}
+
+input,
+select {
+
+    flex: 1;
+
+    min-width: 180px;
+
+    padding: 12px;
+
+    border-radius: 9px;
+
+    border:
+        1px solid #3b3e46;
+
+    background: #181a20;
+
+    color: white;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+input:focus,
+select:focus {
+
+    border-color: #6b7280;
+}
+
+
+/* =========================================================
+   الأزرار
+   ========================================================= */
+
+button {
+
+    border: 0;
+
+    border-radius: 9px;
+
+    padding:
+        11px 16px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    color: white;
+}
+
+button:active {
+
+    transform: scale(.98);
+}
+
+.refresh {
+
+    background: #2563eb;
+}
+
+.show-btn {
+
+    background: #238636;
+}
+
+.hide-btn {
+
+    background: #9a6700;
+}
+
+.delete-btn {
+
+    background: #da3633;
+}
+
+.details-btn {
+
+    background: #555b66;
+}
+
+
+/* =========================================================
+   بطاقة الرواية
+   ========================================================= */
+
+.novel {
+
+    background: #191b21;
+
+    border:
+        1px solid #30323a;
+
+    border-radius: 14px;
+
+    padding: 18px;
+
+    margin-bottom: 14px;
+
+    transition:
+        .2s;
+}
+
+.novel:hover {
+
+    border-color:
+        #4b4f59;
+}
+
+.novel.hidden {
+
+    opacity: .68;
+
+    border-color:
+        #9a6700;
+}
+
+.novel-title {
+
+    font-size: 21px;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   الشارات
+   ========================================================= */
+
+.badges {
+
+    display: flex;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 13px;
+}
+
+.badge {
+
+    background: #30343d;
+
+    color: #dddddd;
+
+    padding:
+        5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+}
+
+.badge.visible {
+
+    background: #1f6f3c;
+}
+
+.badge.hidden {
+
+    background: #7a5200;
+}
+
+
+/* =========================================================
+   أزرار البطاقة
+   ========================================================= */
+
+.actions {
+
+    display: flex;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   حالة عدم وجود روايات
+   ========================================================= */
+
+.empty {
+
+    text-align: center;
+
+    padding: 40px;
+
+    color: #aaaaaa;
+}
+
+
+/* =========================================================
+   نافذة تفاصيل الرواية
+   ========================================================= */
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,.78);
+
+    z-index: 1000;
+
+    padding: 20px;
+
+    overflow-y: auto;
+}
+
+.modal-box {
+
+    max-width: 850px;
+
+    margin:
+        30px auto;
+
+    background: #191b21;
+
+    border:
+        1px solid #3b3e46;
+
+    border-radius: 15px;
+
+    padding: 20px;
+}
+
+.modal-box h2 {
+
+    margin-top: 0;
+
+    word-break: break-word;
+}
+
+.chapter {
+
+    background: #101216;
+
+    border:
+        1px solid #30323a;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    margin-top: 12px;
+}
+
+.chapter-title {
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+}
+
+.chapter-content {
+
+    color: #cccccc;
+
+    white-space: pre-wrap;
+
+    line-height: 1.8;
+
+    word-break: break-word;
+}
+
+.close {
+
+    background: #555b66;
+}
+
+
+/* =========================================================
+   نافذة تأكيد الحذف
+   ========================================================= */
+
+.delete-modal {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0, 0, 0, 0.80);
+
+    z-index: 2000;
+
+    padding: 20px;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.delete-box {
+
+    width: 100%;
+
+    max-width: 430px;
+
+    background: #191b21;
+
+    border:
+        1px solid #444750;
+
+    border-radius: 18px;
+
+    padding:
+        28px 22px;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 50px
+        rgba(0,0,0,.55);
+
+    animation:
+        deleteAppear .18s ease-out;
+}
+
+@keyframes deleteAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(.94);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+}
+
+.delete-icon {
+
+    font-size: 48px;
+
+    margin-bottom: 10px;
+}
+
+.delete-box h2 {
+
+    margin:
+        5px 0 12px;
+
+    font-size: 23px;
+}
+
+.delete-box p {
+
+    color: #bbbbbb;
+
+    line-height: 1.7;
+
+    margin:
+        8px 0;
+}
+
+.delete-title {
+
+    margin:
+        18px 0;
+
+    padding: 13px;
+
+    background: #24262d;
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    word-break: break-word;
+}
+
+.delete-warning {
+
+    color: #ff7b72 !important;
+
+    font-size: 13px;
+}
+
+.delete-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 22px;
+}
+
+.delete-actions button {
+
+    flex: 1;
+
+    padding: 13px;
+
+    font-size: 14px;
+
+    border-radius: 10px;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+.confirm-delete {
+
+    background: #da3633;
+
+    color: white;
+}
+
+.confirm-delete:hover {
+
+    background: #b62324;
+}
+
+.cancel-delete {
+
+    background: #3b3e46;
+
+    color: white;
+}
+
+.cancel-delete:hover {
+
+    background: #50545e;
+}
+
+
+/* =========================================================
+   معلومات التشخيص
+   ========================================================= */
+
+.debug {
+
+    margin-top: 20px;
+
+    background: #0b0c0e;
+
+    border:
+        1px solid #30323a;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    direction: ltr;
+
+    text-align: left;
+
+    white-space: pre-wrap;
+
+    overflow-x: auto;
+
+    font-size: 12px;
+
+    color: #aaaaaa;
+}
+
+
+/* =========================================================
+   الهاتف
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .stats {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .actions button {
+
+        flex: 1;
+
+        min-width:
+            120px;
+    }
+
+    .delete-actions {
+
+        flex-direction:
+            column;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     الرأس
+     ======================================================= -->
+
+<header>
+
+    <h1>
+        📚 إدارة الروايات
+    </h1>
+
+    <p>
+        لوحة التحكم الخاصة بموقع الروايات
+    </p>
+
+</header>
+
+
+
+<div class="container">
+
+
+<!-- =======================================================
+     الحالة
+     ======================================================= -->
+
+<div id="status"
+     class="status">
+
+    جاري الاتصال بقاعدة البيانات...
+
+</div>
+
+
+
+<!-- =======================================================
+     الإحصائيات
+     ======================================================= -->
+
+<div class="stats">
+
+    <div class="stat">
+
+        <span
+            id="totalCount"
+            class="stat-number">
+
+            0
+
+        </span>
+
+        <span class="stat-label">
+
+            إجمالي الروايات
+
+        </span>
+
+    </div>
+
+
+    <div class="stat">
+
+        <span
+            id="visibleCount"
+            class="stat-number">
+
+            0
+
+        </span>
+
+        <span class="stat-label">
+
+            الروايات الظاهرة
+
+        </span>
+
+    </div>
+
+
+    <div class="stat">
+
+        <span
+            id="hiddenCount"
+            class="stat-number">
+
+            0
+
+        </span>
+
+        <span class="stat-label">
+
+            الروايات المخفية
+
+        </span>
+
+    </div>
+
+</div>
+
+
+
+<!-- =======================================================
+     البحث والتصفية
+     ======================================================= -->
+
+<div class="controls">
+
+    <input
+        id="searchInput"
+        type="text"
+        placeholder="🔎 البحث عن رواية..."
+        oninput="renderNovels()">
+
+
+    <select
+        id="filterSelect"
+        onchange="renderNovels()">
+
+        <option value="all">
+            كل الروايات
+        </option>
+
+        <option value="visible">
+            الظاهرة فقط
+        </option>
+
+        <option value="hidden">
+            المخفية فقط
+        </option>
+
+    </select>
+
+
+    <button
+        class="refresh"
+        onclick="loadNovels()">
+
+        🔄 تحديث
+
+    </button>
+
+</div>
+
+
+
+<!-- =======================================================
+     قائمة الروايات
+     ======================================================= -->
+
+<div id="novelsContainer"></div>
+
+
+
+<!-- =======================================================
+     التشخيص
+     ======================================================= -->
+
+<div id="debug"
+     class="debug"
+     style="display:none;">
+</div>
+
+
+</div>
+
+
+
+<!-- =======================================================
+     نافذة تفاصيل الرواية
+     ======================================================= -->
+
+<div id="detailsModal"
+     class="modal">
+
+    <div class="modal-box">
+
+        <h2 id="modalTitle"></h2>
+
+        <div id="modalContent"></div>
+
+        <br>
+
+        <button
+            class="close"
+            onclick="closeModal()">
+
+            إغلاق
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =======================================================
+     نافذة تأكيد الحذف
+     ======================================================= -->
+
+<div id="deleteConfirmModal"
+     class="delete-modal">
+
+    <div class="delete-box">
+
+
+        <div class="delete-icon">
+            🗑️
+        </div>
+
+
+        <h2>
+            تأكيد الحذف
+        </h2>
+
+
+        <p>
+            هل أنت متأكد من حذف هذه الرواية؟
+        </p>
+
+
+        <div id="deleteNovelTitle"
+             class="delete-title">
+
+        </div>
+
+
+        <p class="delete-warning">
+
+            ⚠️ سيتم حذف الرواية نهائيًا من قاعدة البيانات
+            ولا يمكن استعادتها.
+
+        </p>
+
+
+        <div class="delete-actions">
+
+            <button
+                id="confirmDeleteButton"
+                class="confirm-delete">
+
+                نعم، حذف الرواية
+
+            </button>
+
+
+            <button
+                class="cancel-delete"
+                onclick="closeDeleteModal()">
+
+                إلغاء
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================================
+   إعدادات JSONBin
+   ========================================================= */
+
+const BIN_ID =
+    "6abf950bac6210605a0c12ca";
+
+
+const MASTER_KEY =
+    "$2a$10$riyvUp9B2wS2NHY5AR4Ifu/J6du4in5kPBmOzvRmg9p9SvKD8FPPS";
+
+
+const API_URL =
+    "https://api.jsonbin.io/v3/b/" +
+    BIN_ID;
+
+
+/* =========================================================
+   المتغيرات
+   ========================================================= */
+
+let allNovels = [];
+
+
+/* =========================================================
+   عناصر الصفحة
+   ========================================================= */
+
+const statusBox =
+    document.getElementById(
+        "status"
+    );
+
+
+const novelsContainer =
+    document.getElementById(
+        "novelsContainer"
+    );
+
+
+const debugBox =
+    document.getElementById(
+        "debug"
+    );
+
+
+/* =========================================================
+   عرض الحالة
+   ========================================================= */
+
+function setStatus(
+    message,
+    type = ""
+) {
+
+    statusBox.textContent =
+        message;
+
+    statusBox.className =
+        "status " + type;
+}
+
+
+/* =========================================================
+   استخراج سجل JSONBin
+   ========================================================= */
+
+function extractRecord(data) {
+
+    if (!data) {
+
+        return [];
+    }
+
+
+    /*
+       الشكل الأساسي:
+
+       {
+           "record": [
+               {...},
+               {...}
+           ]
+       }
+    */
+
+    if (
+        Array.isArray(
+            data.record
+        )
+    ) {
+
+        return data.record;
+    }
+
+
+    /*
+       record.data
+    */
+
+    if (
+        data.record &&
+        Array.isArray(
+            data.record.data
+        )
+    ) {
+
+        return data.record.data;
+    }
+
+
+    /*
+       record.novels
+    */
+
+    if (
+        data.record &&
+        Array.isArray(
+            data.record.novels
+        )
+    ) {
+
+        return data.record.novels;
+    }
+
+
+    /*
+       الاستجابة نفسها Array
+    */
+
+    if (
+        Array.isArray(data)
+    ) {
+
+        return data;
+    }
+
+
+    return [];
+}
+
+
+/* =========================================================
+   تحميل الروايات
+   ========================================================= */
+
+async function loadNovels() {
+
+    setStatus(
+        "⏳ جاري تحميل الروايات..."
+    );
+
+
+    debugBox.style.display =
+        "none";
+
+
+    debugBox.textContent =
+        "";
+
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL + "/latest",
+                {
+                    method: "GET",
+
+                    headers: {
+
+                        "X-Master-Key":
+                            MASTER_KEY
+                    }
+                }
+            );
+
+
+        const rawText =
+            await response.text();
+
+
+        if (!response.ok) {
+
+            debugBox.style.display =
+                "block";
+
+
+            debugBox.textContent =
+                "HTTP STATUS: " +
+                response.status +
+                "\n\n" +
+                rawText;
+
+
+            throw new Error(
+                "فشل الاتصال بـ JSONBin. HTTP " +
+                response.status
+            );
+        }
+
+
+        let data;
+
+
+        try {
+
+            data =
+                JSON.parse(
+                    rawText
+                );
+
+        } catch (error) {
+
+            debugBox.style.display =
+                "block";
+
+
+            debugBox.textContent =
+                rawText;
+
+
+            throw new Error(
+                "الاستجابة ليست JSON صحيحة."
+            );
+        }
+
+
+        allNovels =
+            extractRecord(data);
+
+
+        if (
+            !Array.isArray(
+                allNovels
+            )
+        ) {
+
+            allNovels = [];
+        }
+
+
+        updateStats();
+
+        renderNovels();
+
+
+        setStatus(
+            "✅ تم تحميل " +
+            allNovels.length +
+            " رواية.",
+            "success"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        setStatus(
+            "❌ " +
+            error.message,
+            "error"
+        );
+
+
+        novelsContainer.innerHTML =
+            `
+            <div class="empty">
+
+                تعذر تحميل الروايات.
+
+                <br><br>
+
+                تأكد من أن MASTER_KEY صحيح
+                وأن JSONBin يسمح بالاتصال.
+
+            </div>
+            `;
+    }
+}
+
+
+/* =========================================================
+   الإحصائيات
+   ========================================================= */
+
+function updateStats() {
+
+    const total =
+        allNovels.length;
+
+
+    /*
+       أي رواية لا تحتوي على visible
+       تعتبر ظاهرة.
+
+       فقط visible === false
+       تعتبر مخفية.
+    */
+
+    const visible =
+        allNovels.filter(
+            novel =>
+                novel.visible !== false
+        ).length;
+
+
+    const hidden =
+        allNovels.filter(
+            novel =>
+                novel.visible === false
+        ).length;
+
+
+    document.getElementById(
+        "totalCount"
+    ).textContent =
+        total;
+
+
+    document.getElementById(
+        "visibleCount"
+    ).textContent =
+        visible;
+
+
+    document.getElementById(
+        "hiddenCount"
+    ).textContent =
+        hidden;
+}
+
+
+/* =========================================================
+   حماية النص
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+/* =========================================================
+   عرض الروايات
+   ========================================================= */
+
+function renderNovels() {
+
+    const search =
+        document
+            .getElementById(
+                "searchInput"
+            )
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const filter =
+        document
+            .getElementById(
+                "filterSelect"
+            )
+            .value;
+
+
+    let novels =
+        allNovels.map(
+            function(
+                novel,
+                index
+            ) {
+
+                return {
+
+                    novel:
+                        novel,
+
+                    index:
+                        index
+                };
+            }
+        );
+
+
+    /* البحث */
+
+    if (search) {
+
+        novels =
+            novels.filter(
+                function(item) {
+
+                    const title =
+                        String(
+                            item.novel.title ||
+                            ""
+                        ).toLowerCase();
+
+
+                    return title.includes(
+                        search
+                    );
+                }
+            );
+    }
+
+
+    /* الظاهرة فقط */
+
+    if (
+        filter === "visible"
+    ) {
+
+        novels =
+            novels.filter(
+                function(item) {
+
+                    return (
+                        item.novel.visible !== false
+                    );
+                }
+            );
+    }
+
+
+    /* المخفية فقط */
+
+    if (
+        filter === "hidden"
+    ) {
+
+        novels =
+            novels.filter(
+                function(item) {
+
+                    return (
+                        item.novel.visible === false
+                    );
+                }
+            );
+    }
+
+
+    if (
+        novels.length === 0
+    ) {
+
+        novelsContainer.innerHTML =
+            `
+            <div class="empty">
+
+                لا توجد روايات مطابقة.
+
+            </div>
+            `;
+
+        return;
+    }
+
+
+    novelsContainer.innerHTML =
+        novels
+            .map(
+                function(item) {
+
+                    return createNovelHTML(
+                        item.novel,
+                        item.index
+                    );
+                }
+            )
+            .join("");
+}
+
+
+/* =========================================================
+   إنشاء بطاقة الرواية
+   ========================================================= */
+
+function createNovelHTML(
+    novel,
+    index
+) {
+
+    const isHidden =
+        novel.visible === false;
+
+
+    const title =
+        escapeHTML(
+            novel.title ||
+            "بدون عنوان"
+        );
+
+
+    const chapters =
+        Array.isArray(
+            novel.chapterTitles
+        )
+            ? novel.chapterTitles.length
+            : 0;
+
+
+    let dateText =
+        "";
+
+
+    if (
+        novel.createdAt
+    ) {
+
+        try {
+
+            dateText =
+                new Date(
+                    novel.createdAt
+                ).toLocaleString(
+                    "ar-IQ"
+                );
+
+        } catch (error) {
+
+            dateText =
+                "";
+        }
+    }
+
+
+    return `
+
+        <div class="novel ${
+            isHidden
+                ? "hidden"
+                : ""
+        }">
+
+
+            <div class="novel-title">
+
+                ${title}
+
+            </div>
+
+
+            <div class="badges">
+
+
+                <span class="badge ${
+                    isHidden
+                        ? "hidden"
+                        : "visible"
+                }">
+
+                    ${
+                        isHidden
+                            ? "🔒 مخفية"
+                            : "👁 ظاهرة"
+                    }
+
+                </span>
+
+
+                <span class="badge">
+
+                    📖 ${chapters} فصل
+
+                </span>
+
+
+                <span class="badge">
+
+                    ${
+                        novel.continuous
+                            ? "📚 مستمرة"
+                            : "🏁 مكتملة"
+                    }
+
+                </span>
+
+
+                ${
+                    dateText
+                        ? `
+
+                            <span class="badge">
+
+                                📅
+                                ${escapeHTML(
+                                    dateText
+                                )}
+
+                            </span>
+
+                          `
+                        : ""
+                }
+
+
+            </div>
+
+
+            <div class="actions">
+
+
+                <button
+                    class="details-btn"
+                    onclick="showDetails(${index})">
+
+                    📖 التفاصيل
+
+                </button>
+
+
+                ${
+                    isHidden
+
+                        ? `
+
+                            <button
+                                class="show-btn"
+                                onclick="setVisibility(
+                                    ${index},
+                                    true
+                                )">
+
+                                👁 إظهار
+
+                            </button>
+
+                          `
+
+                        : `
+
+                            <button
+                                class="hide-btn"
+                                onclick="setVisibility(
+                                    ${index},
+                                    false
+                                )">
+
+                                🔒 إخفاء
+
+                            </button>
+
+                          `
+                }
+
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteNovel(${index})">
+
+                    🗑 حذف
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
+   إظهار / إخفاء
+   ========================================================= */
+
+async function setVisibility(
+    index,
+    visible
+) {
+
+    if (
+        !allNovels[index]
+    ) {
+
+        return;
+    }
+
+
+    const title =
+        allNovels[index].title ||
+        "هذه الرواية";
+
+
+    const action =
+        visible
+            ? "إظهار"
+            : "إخفاء";
+
+
+    const confirmed =
+        confirm(
+            "هل تريد " +
+            action +
+            " الرواية:\n\n" +
+            title +
+            " ؟"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+    }
+
+
+    allNovels[index].visible =
+        visible;
+
+
+    await saveNovels();
+}
+
+
+/* =========================================================
+   فتح نافذة تأكيد الحذف
+   ========================================================= */
+
+function deleteNovel(index) {
+
+    if (
+        !allNovels[index]
+    ) {
+
+        return;
+    }
+
+
+    const title =
+        allNovels[index].title ||
+        "بدون عنوان";
+
+
+    document.getElementById(
+        "deleteNovelTitle"
+    ).textContent =
+        title;
+
+
+    document.getElementById(
+        "deleteConfirmModal"
+    ).style.display =
+        "flex";
+
+
+    /*
+       نضع عملية الحذف على زر التأكيد
+    */
+
+    document.getElementById(
+        "confirmDeleteButton"
+    ).onclick =
+        async function() {
+
+
+            /*
+               إغلاق النافذة
+            */
+
+            closeDeleteModal();
+
+
+            /*
+               حذف الرواية من المصفوفة
+            */
+
+            allNovels.splice(
+                index,
+                1
+            );
+
+
+            /*
+               حفظ البيانات
+            */
+
+            await saveNovels();
+
+        };
+}
+
+
+/* =========================================================
+   إلغاء الحذف
+   ========================================================= */
+
+function closeDeleteModal() {
+
+    document.getElementById(
+        "deleteConfirmModal"
+    ).style.display =
+        "none";
+}
+
+
+/* =========================================================
+   إغلاق تأكيد الحذف بالضغط خارج النافذة
+   ========================================================= */
+
+document
+    .getElementById(
+        "deleteConfirmModal"
+    )
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === this
+            ) {
+
+                closeDeleteModal();
+            }
+        }
+    );
+
+
+/* =========================================================
+   حذف الرواية من لوحة التحكم
+   ========================================================= */
+
+
+/*
+   ملاحظة:
+
+   لا يوجد حذف قبل الضغط على:
+
+   "نعم، حذف الرواية"
+
+   أما "إلغاء" فيغلق النافذة
+   دون أي تعديل على البيانات.
+*/
+
+
+/* =========================================================
+   حفظ الروايات
+   ========================================================= */
+
+async function saveNovels() {
+
+    setStatus(
+        "⏳ جاري حفظ التغييرات..."
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL,
+                {
+                    method: "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "X-Master-Key":
+                            MASTER_KEY
+                    },
+
+                    body:
+                        JSON.stringify(
+                            allNovels
+                        )
+                }
+            );
+
+
+        const rawText =
+            await response.text();
+
+
+        if (
+            !response.ok
+        ) {
+
+            debugBox.style.display =
+                "block";
+
+
+            debugBox.textContent =
+                "HTTP STATUS: " +
+                response.status +
+                "\n\n" +
+                rawText;
+
+
+            throw new Error(
+                "فشل حفظ البيانات. HTTP " +
+                response.status
+            );
+        }
+
+
+        updateStats();
+
+        renderNovels();
+
+
+        setStatus(
+            "✅ تم حفظ التغييرات بنجاح.",
+            "success"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        setStatus(
+            "❌ " +
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+/* =========================================================
+   تفاصيل الرواية
+   ========================================================= */
+
+function showDetails(index) {
+
+    const novel =
+        allNovels[index];
+
+
+    if (!novel) {
+
+        return;
+    }
+
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        novel.title ||
+        "بدون عنوان";
+
+
+    const titles =
+        Array.isArray(
+            novel.chapterTitles
+        )
+            ? novel.chapterTitles
+            : [];
+
+
+    const contents =
+        Array.isArray(
+            novel.chapterContents
+        )
+            ? novel.chapterContents
+            : [];
+
+
+    let html =
+        "";
+
+
+    if (
+        titles.length === 0
+    ) {
+
+        html =
+            `
+            <div class="empty">
+
+                لا توجد فصول.
+
+            </div>
+            `;
+
+    } else {
+
+        for (
+            let i = 0;
+            i < titles.length;
+            i++
+        ) {
+
+            const chapterTitle =
+                escapeHTML(
+                    titles[i] ||
+                    (
+                        "الفصل " +
+                        (i + 1)
+                    )
+                );
+
+
+            const content =
+                escapeHTML(
+                    contents[i] ||
+                    ""
+                );
+
+
+            html += `
+
+                <div class="chapter">
+
+                    <div class="chapter-title">
+
+                        ${chapterTitle}
+
+                    </div>
+
+
+                    <div class="chapter-content">
+
+                        ${content}
+
+                    </div>
+
+                </div>
+
+            `;
+        }
+    }
+
+
+    document.getElementById(
+        "modalContent"
+    ).innerHTML =
+        html;
+
+
+    document.getElementById(
+        "detailsModal"
+    ).style.display =
+        "block";
+}
+
+
+/* =========================================================
+   إغلاق التفاصيل
+   ========================================================= */
+
+function closeModal() {
+
+    document.getElementById(
+        "detailsModal"
+    ).style.display =
+        "none";
+}
+
+
+/* =========================================================
+   إغلاق التفاصيل عند الضغط خارجها
+   ========================================================= */
+
+document
+    .getElementById(
+        "detailsModal"
+    )
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === this
+            ) {
+
+                closeModal();
+            }
+        }
+    );
+
+
+/* =========================================================
+   مفتاح ESC
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeModal();
+
+            closeDeleteModal();
+        }
+    }
+);
+
+
+/* =========================================================
+   بدء التشغيل
+   ========================================================= */
+
+loadNovels();
+
+</script>
+
+</body>
+
+</html>
