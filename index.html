@@ -18,10 +18,14 @@
             --like-color: #4CAF50;
             --dislike-color: #f44336;
             --star-color: #FFC107;
-            --notif-color: #ff9800;
+            --notif-color: #9e9e9e;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -30,7 +34,6 @@
             min-height: 100vh;
         }
 
-        /* ================= Header & Buttons ================= */
         header {
             text-align: center;
             padding: 30px 20px;
@@ -43,34 +46,47 @@
             position: relative;
         }
 
-        h1 { font-size: 2em; margin-bottom: 8px; letter-spacing: -0.5px; }
-        .subtitle { font-size: 0.95em; opacity: 0.9; font-weight: 300; }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.95em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
 
         .header-buttons {
             position: absolute;
             top: 20px;
             left: 20px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
             z-index: 100;
+            flex-wrap: wrap;
         }
 
         .header-btn {
             background: rgba(255,255,255,0.25);
             border: 1px solid rgba(255,255,255,0.5);
             color: white;
-            padding: 8px 14px;
+            padding: 8px 12px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 0.85em;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             white-space: nowrap;
             position: relative;
         }
-        .header-btn:hover { background: rgba(255,255,255,0.4); }
+
+        .header-btn:hover {
+            background: rgba(255,255,255,0.4);
+        }
 
         .notif-badge {
             background: #f44336;
@@ -86,40 +102,190 @@
             animation: pulse 1.5s infinite;
             padding: 0 5px;
         }
-        .notif-badge.show { display: flex; }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+        .notif-badge.show {
+            display: flex;
         }
 
-        /* ================= Main Content ================= */
-        .search-container { max-width: 600px; margin: -20px auto 20px; padding: 0 20px; position: relative; }
-        .search-box { width: 100%; padding: 14px 20px; border: none; border-radius: 30px; font-size: 1em; box-shadow: 0 4px 12px rgba(0,0,0,0.1); outline: none; }
-        
-        .tabs-container { max-width: 1200px; margin: 0 auto 20px; padding: 0 20px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-        .tab-btn { padding: 10px 20px; border: none; border-radius: 20px; background: white; color: var(--text-secondary); cursor: pointer; font-size: 0.9em; transition: all 0.3s; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-        .tab-btn.active { background: var(--primary-color); color: white; }
-        .tab-btn:hover:not(.active) { background: #e8f5e9; }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
 
-        .section { max-width: 1200px; margin: 0 auto 40px; padding: 0 20px; }
-        .section-title { font-size: 1.4em; font-weight: 700; margin-bottom: 20px; color: var(--text-main); border-right: 4px solid var(--primary-color); padding-right: 12px; }
-        
-        .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
-        
-        .card { background: var(--card-bg); padding: 24px; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); cursor: pointer; border-top: 4px solid var(--primary-color); transition: all 0.3s ease; }
-        .card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
-        
-        .title { font-size: 1.25em; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
-        .info { display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; color: var(--text-secondary); margin-bottom: 12px; }
-        .badge { background: #e8f5e9; color: var(--primary-color); padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 0.8em; }
-        
-        .stats { display: flex; gap: 15px; font-size: 0.8em; color: var(--text-secondary); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-color); }
-        .stat-item { display: flex; align-items: center; gap: 4px; }
+            50% {
+                transform: scale(1.2);
+            }
 
-        /* ================= Novel Reader Page ================= */
-        #novelReaderPage {
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: -20px auto 20px;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 50px 14px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2em;
+            color: #888;
+            pointer-events: none;
+        }
+
+        .tabs-container {
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: white;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #e8f5e9;
+        }
+
+        .section {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            border-right: 4px solid var(--primary-color);
+            padding-right: 12px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            cursor: pointer;
+            border-top: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .title {
+            font-size: 1.25em;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            background: #e8f5e9;
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8em;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .author-link {
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .author-link:hover {
+            color: var(--primary-light);
+        }
+
+        .follow-btn {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .follow-btn.following {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        #novelReaderPage,
+        #profilePage,
+        #authorProfilePage {
             display: none;
             position: fixed;
             top: 0;
@@ -131,7 +297,8 @@
             overflow-y: auto;
         }
 
-        .reader-toolbar {
+        .reader-toolbar,
+        .profile-toolbar {
             background: white;
             padding: 15px 20px;
             display: flex;
@@ -151,11 +318,11 @@
             border-radius: 20px;
             cursor: pointer;
             font-size: 0.9em;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
-        .back-btn:hover { background: var(--primary-light); }
+
+        .back-btn:hover {
+            background: var(--primary-light);
+        }
 
         .reader-novel-title {
             font-size: 1.1em;
@@ -163,7 +330,8 @@
             color: var(--primary-color);
         }
 
-        .reader-body {
+        .reader-body,
+        .profile-body {
             max-width: 800px;
             margin: 0 auto;
             padding: 30px 20px;
@@ -206,10 +374,16 @@
             font-size: 0.9em;
             transition: 0.3s;
         }
+
         .chapter-btn.active {
             background: var(--primary-color);
             color: white;
             border-color: var(--primary-color);
+        }
+
+        .chapter-btn.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .reading-area {
@@ -241,29 +415,223 @@
             border-right: 3px solid var(--primary-color);
             padding-right: 10px;
         }
-        
-        .rating-container { display: flex; gap: 5px; margin-bottom: 20px; }
-        .star { font-size: 1.8em; color: #ddd; cursor: pointer; transition: color 0.2s; }
-        .star.active { color: var(--star-color); }
-        
-        .like-dislike-container { display: flex; gap: 10px; margin-bottom: 20px; }
-        .like-btn, .dislike-btn { padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.9em; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
-        .like-btn { background: #e8f5e9; color: var(--like-color); }
-        .like-btn.active { background: var(--like-color); color: white; }
-        .dislike-btn { background: #ffebee; color: var(--dislike-color); }
-        .dislike-btn.active { background: var(--dislike-color); color: white; }
 
-        .comment-input { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 0.95em; resize: vertical; min-height: 80px; outline: none; font-family: inherit; margin-bottom: 10px; }
-        .comment-input:focus { border-color: var(--primary-color); }
-        .submit-comment-btn { padding: 10px 25px; background: var(--primary-color); color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 0.9em; }
-        
-        .comments-list { margin-top: 20px; }
-        .comment-item { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-right: 3px solid var(--primary-color); }
-        .comment-author { font-weight: 700; font-size: 0.85em; color: var(--primary-color); margin-bottom: 5px; }
-        .comment-text { font-size: 0.95em; color: var(--text-main); line-height: 1.6; }
-        .comment-date { font-size: 0.75em; color: var(--text-secondary); margin-top: 5px; }
+        .rating-container {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
 
-        /* ================= Login Modal ================= */
+        .star {
+            font-size: 1.8em;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star.active {
+            color: var(--star-color);
+        }
+
+        .like-dislike-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .like-btn,
+        .dislike-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.3s;
+        }
+
+        .like-btn {
+            background: #e8f5e9;
+            color: var(--like-color);
+        }
+
+        .like-btn.active {
+            background: var(--like-color);
+            color: white;
+        }
+
+        .dislike-btn {
+            background: #ffebee;
+            color: var(--dislike-color);
+        }
+
+        .dislike-btn.active {
+            background: var(--dislike-color);
+            color: white;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.95em;
+            resize: vertical;
+            min-height: 80px;
+            outline: none;
+            font-family: inherit;
+            margin-bottom: 10px;
+        }
+
+        .comment-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .submit-comment-btn {
+            padding: 10px 25px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .comments-list {
+            margin-top: 20px;
+        }
+
+        .comment-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-right: 3px solid var(--primary-color);
+        }
+
+        .comment-author {
+            font-weight: 700;
+            font-size: 0.85em;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            font-size: 0.95em;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .comment-date {
+            font-size: 0.75em;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .profile-header {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .profile-name {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .profile-role {
+            display: inline-block;
+            background: #e8f5e9;
+            color: var(--primary-color);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .profile-stat {
+            text-align: center;
+        }
+
+        .profile-stat-num {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .profile-stat-label {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+        }
+
+        .followers-list,
+        .activity-list {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .followers-list h3,
+        .activity-list h3 {
+            margin-bottom: 15px;
+            border-right: 3px solid var(--primary-color);
+            padding-right: 10px;
+        }
+
+        .follower-item,
+        .activity-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logout-btn,
+        .delete-account-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .logout-btn {
+            background: #ff9800;
+            color: white;
+        }
+
+        .delete-account-btn {
+            background: #f44336;
+            color: white;
+        }
+
         .modal-overlay {
             display: none;
             position: fixed;
@@ -277,28 +645,57 @@
 
         .login-box {
             background: white;
-            padding: 40px;
+            padding: 35px;
             border-radius: 20px;
             width: 90%;
-            max-width: 420px;
+            max-width: 440px;
             text-align: center;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .login-box h2 { color: var(--primary-color); margin-bottom: 10px; }
-        .login-box p { color: #666; margin-bottom: 20px; font-size: 0.9em; }
-        .login-input { width: 100%; padding: 12px 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; font-size: 1em; outline: none; }
-        .login-input:focus { border-color: var(--primary-color); }
+        .login-box h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
 
-        .role-selector { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+        .login-box p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        .login-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .role-selector {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
         .role-option {
             cursor: pointer;
-            padding: 12px 25px;
+            padding: 12px 22px;
             border: 2px solid #eee;
             border-radius: 12px;
             transition: 0.3s;
             font-weight: 600;
         }
+
         .role-option.selected {
             border-color: var(--primary-color);
             background: #e8f5e9;
@@ -316,10 +713,46 @@
             font-size: 1.1em;
             font-weight: bold;
             transition: 0.3s;
+            margin-top: 10px;
         }
-        .login-submit:hover { background: var(--primary-light); }
 
-        /* ================= Notifications Panel ================= */
+        .login-submit:hover {
+            background: var(--primary-light);
+        }
+
+        .login-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .login-tab {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .login-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .guest-btn {
+            width: 100%;
+            padding: 12px;
+            background: #eee;
+            color: #555;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 12px;
+            font-size: 0.95em;
+        }
+
         .notif-panel {
             position: fixed;
             top: 0;
@@ -335,10 +768,13 @@
             display: flex;
             flex-direction: column;
         }
-        .notif-panel.open { transform: translateX(0); }
+
+        .notif-panel.open {
+            transform: translateX(0);
+        }
 
         .notif-header {
-            background: var(--notif-color);
+            background: linear-gradient(135deg, #b0b0b0 0%, #7a7a7a 100%);
             color: white;
             padding: 20px;
             display: flex;
@@ -346,7 +782,9 @@
             align-items: center;
         }
 
-        .notif-header h2 { font-size: 1.2em; }
+        .notif-header h2 {
+            font-size: 1.2em;
+        }
 
         .notif-close {
             background: rgba(255,255,255,0.2);
@@ -366,19 +804,34 @@
         }
 
         .notif-item {
-            background: #fff9e6;
-            border: 1px solid #ffe082;
+            background: #f5f5f5;
+            border: 1px solid #d0d0d0;
             border-radius: 12px;
             padding: 15px;
             margin-bottom: 12px;
             cursor: pointer;
             transition: 0.3s;
-            border-right: 4px solid var(--notif-color);
+            border-right: 4px solid #9e9e9e;
         }
-        .notif-item:hover { background: #fff3cd; transform: translateX(-3px); }
 
-        .notif-item.new-novel { border-right-color: #4caf50; background: #e8f5e9; border-color: #a5d6a7; }
-        .notif-item.new-chapter { border-right-color: #2196f3; background: #e3f2fd; border-color: #90caf9; }
+        .notif-item:hover {
+            background: #eeeeee;
+        }
+
+        .notif-item.new-novel {
+            border-right-color: #4caf50;
+            background: #e8f5e9;
+        }
+
+        .notif-item.new-chapter {
+            border-right-color: #2196f3;
+            background: #e3f2fd;
+        }
+
+        .notif-item.like-comment {
+            border-right-color: #ff9800;
+            background: #fff3e0;
+        }
 
         .notif-type {
             font-size: 0.75em;
@@ -387,15 +840,25 @@
             border-radius: 10px;
             display: inline-block;
             margin-bottom: 8px;
+            color: white;
         }
-        .notif-type.new-novel { background: #4caf50; color: white; }
-        .notif-type.new-chapter { background: #2196f3; color: white; }
+
+        .notif-type.new-novel {
+            background: #4caf50;
+        }
+
+        .notif-type.new-chapter {
+            background: #2196f3;
+        }
+
+        .notif-type.like-comment {
+            background: #ff9800;
+        }
 
         .notif-title {
             font-weight: bold;
             font-size: 1em;
             margin-bottom: 5px;
-            color: var(--text-main);
         }
 
         .notif-details {
@@ -423,9 +886,11 @@
             background: rgba(0,0,0,0.4);
             z-index: 3999;
         }
-        .notif-overlay.show { display: block; }
 
-        /* ================= Support Chat Modal ================= */
+        .notif-overlay.show {
+            display: block;
+        }
+
         .support-modal-content {
             background: white;
             width: 92%;
@@ -450,9 +915,22 @@
             font-size: 0.85em;
         }
 
-        .chat-header { text-align: center; padding-bottom: 15px; border-bottom: 2px solid #eee; margin-bottom: 15px; }
-        .chat-header h2 { color: var(--primary-color); margin-bottom: 5px; }
-        .chat-header p { font-size: 0.85em; color: #666; }
+        .chat-header {
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 15px;
+        }
+
+        .chat-header h2 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            font-size: 0.85em;
+            color: #666;
+        }
 
         .chat-messages {
             flex: 1;
@@ -474,12 +952,14 @@
             line-height: 1.5;
             word-wrap: break-word;
         }
+
         .chat-bubble.user {
             background: var(--primary-color);
             color: white;
             margin-left: auto;
             border-bottom-left-radius: 4px;
         }
+
         .chat-bubble.admin {
             background: white;
             color: var(--text-main);
@@ -487,11 +967,33 @@
             margin-right: auto;
             border-bottom-right-radius: 4px;
         }
-        .chat-bubble .sender-name { font-size: 0.75em; opacity: 0.8; margin-bottom: 3px; display: block; }
-        .chat-bubble.admin .sender-name { color: var(--primary-color); font-weight: bold; opacity: 1; }
-        .chat-bubble .bubble-time { font-size: 0.7em; opacity: 0.7; margin-top: 5px; display: block; text-align: left; }
 
-        .chat-input-area { display: flex; gap: 10px; }
+        .chat-bubble .sender-name {
+            font-size: 0.75em;
+            opacity: 0.8;
+            margin-bottom: 3px;
+            display: block;
+        }
+
+        .chat-bubble.admin .sender-name {
+            color: var(--primary-color);
+            font-weight: bold;
+            opacity: 1;
+        }
+
+        .chat-bubble .bubble-time {
+            font-size: 0.7em;
+            opacity: 0.7;
+            margin-top: 5px;
+            display: block;
+            text-align: left;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+        }
+
         .chat-input {
             flex: 1;
             padding: 10px 15px;
@@ -501,6 +1003,7 @@
             font-family: inherit;
             font-size: 0.9em;
         }
+
         .chat-send-btn {
             padding: 10px 20px;
             background: var(--primary-color);
@@ -511,959 +1014,6314 @@
             font-size: 0.9em;
         }
 
-        .empty-chat { text-align: center; color: #999; padding: 40px 20px; font-size: 0.9em; }
+        .empty-chat {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+            font-size: 0.9em;
+        }
 
-        /* ================= Utilities ================= */
-        .empty-section { text-align: center; color: var(--text-secondary); padding: 40px 0; grid-column: 1 / -1; }
-        .error-section { text-align: center; color: #c62828; background: #ffebee; padding: 20px; border-radius: 12px; grid-column: 1 / -1; }
-        .loading-section { text-align: center; color: var(--text-secondary); padding: 40px 0; grid-column: 1 / -1; }
+        .empty-section {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 40px 0;
+            grid-column: 1 / -1;
+        }
+
+        .error-section {
+            text-align: center;
+            color: #c62828;
+            background: #ffebee;
+            padding: 20px;
+            border-radius: 12px;
+            grid-column: 1 / -1;
+        }
+
+        .loading-section {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 40px 0;
+            grid-column: 1 / -1;
+        }
+
+        .share-btn {
+            padding: 8px 16px;
+            background: #e3f2fd;
+            color: #1976d2;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+
+        .guest-warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 0.9em;
+        }
 
         @media (max-width: 600px) {
-            .container { grid-template-columns: 1fr; }
-            .reader-main-title { font-size: 1.4em; }
-            .reader-body { padding: 20px 15px; }
-            .reading-area { padding: 18px; font-size: 1.05em; }
-            .header-buttons { top: 15px; left: 10px; gap: 6px; }
-            .header-btn { padding: 6px 10px; font-size: 0.8em; }
-            .header-btn .btn-text { display: none; }
-            .role-selector { gap: 10px; }
-            .role-option { padding: 10px 15px; font-size: 0.9em; }
-            .notif-panel { max-width: 100%; }
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .reader-main-title {
+                font-size: 1.4em;
+            }
+
+            .reader-body,
+            .profile-body {
+                padding: 20px 15px;
+            }
+
+            .reading-area {
+                padding: 18px;
+                font-size: 1.05em;
+            }
+
+            .header-buttons {
+                top: 12px;
+                left: 8px;
+                gap: 5px;
+            }
+
+            .header-btn {
+                padding: 6px 9px;
+                font-size: 0.78em;
+            }
+
+            .header-btn .btn-text {
+                display: none;
+            }
+
+            .role-selector {
+                gap: 8px;
+            }
+
+            .role-option {
+                padding: 10px 14px;
+                font-size: 0.9em;
+            }
+
+            .notif-panel {
+                max-width: 100%;
+            }
+
+            .profile-stats {
+                gap: 20px;
+            }
+
+            .search-icon {
+                left: 30px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<!-- ================= الصفحة الرئيسية ================= -->
 <div id="mainPage">
+
     <header>
         <h1>رواياتي</h1>
         <div class="subtitle">المساحة الخاصة بك لعرض إبداعاتك الأدبية</div>
+
         <div class="header-buttons">
+
             <button class="header-btn" onclick="openNotifPanel()">
-                🔔 <span class="btn-text">التنبيهات</span>
+                🔔
+                <span class="btn-text">التنبيهات</span>
                 <span class="notif-badge" id="notifBadge">0</span>
             </button>
+
             <button class="header-btn" onclick="openSupportModal()">
-                🎧 <span class="btn-text">الدعم</span>
+                🎧
+                <span class="btn-text">الدعم</span>
             </button>
+
+            <button class="header-btn" id="profileBtn" onclick="openMyProfile()" style="display:none;">
+                👤
+                <span class="btn-text">ملفي</span>
+            </button>
+
         </div>
     </header>
 
     <div class="search-container">
-        <input type="text" class="search-box" id="searchBox" placeholder="ابحث عن رواية...">
+        <input
+            type="text"
+            class="search-box"
+            id="searchBox"
+            placeholder="ابحث عن رواية..."
+        >
+        <span class="search-icon">🔍</span>
     </div>
 
     <div class="tabs-container">
-        <button class="tab-btn active" data-tab="recent">مضافة حديثاً</button>
-        <button class="tab-btn" data-tab="reading">جاري القراءة</button>
-        <button class="tab-btn" data-tab="read">تمت قراءتها</button>
-        <button class="tab-btn" data-tab="last-read">مؤخراً</button>
+
+        <button class="tab-btn active" data-tab="recent">
+            مضافة حديثاً
+        </button>
+
+        <button class="tab-btn" data-tab="last-read">
+            مؤخراً
+        </button>
+
     </div>
 
     <div class="section">
-        <h2 class="section-title" id="sectionTitle">روايات مضافة حديثاً</h2>
+
+        <h2 class="section-title" id="sectionTitle">
+            روايات مضافة حديثاً
+        </h2>
+
         <div class="container" id="container">
-            <div class="loading-section">جاري تحميل رواياتك...</div>
+            <div class="loading-section">
+                جاري تحميل الروايات...
+            </div>
         </div>
+
     </div>
+
 </div>
 
-<!-- ================= صفحة قراءة الرواية ================= -->
+<!-- صفحة قراءة الرواية -->
 <div id="novelReaderPage">
+
     <div class="reader-toolbar">
+
         <button class="back-btn" onclick="goBackToHome()">
-            🏠 الرئيسية
+            الرئيسية
         </button>
+
         <div class="reader-novel-title" id="toolbarTitle"></div>
-        <div style="width: 80px;"></div>
+
+        <div style="width:80px;"></div>
+
     </div>
 
     <div class="reader-body">
+
         <div class="reader-header-info">
+
             <div class="reader-main-title" id="readerTitle"></div>
-            <div class="reader-author-name">بقلم: <span id="readerAuthor"></span></div>
+
+            <div class="reader-author-name">
+                بقلم:
+                <span id="readerAuthor" class="author-link"></span>
+            </div>
+
+            <div id="followAuthorContainer" style="margin-top:12px;"></div>
+
+            <button class="share-btn" onclick="shareChapter()">
+                مشاركة هذا الفصل
+            </button>
+
+        </div>
+
+        <div id="guestWarning" class="guest-warning" style="display:none;">
+            أنت تتصفح كزائر. يمكنك قراءة الفصل الأول فقط.
+            سجّل الدخول لقراءة باقي الفصول.
         </div>
 
         <div class="chapter-nav" id="chapterNav"></div>
-        <div class="reading-area" id="readerContent">اختر فصلاً للبدء...</div>
 
-        <div class="interaction-section">
-            <div class="interaction-title">التقييم والتفاعل</div>
+        <div class="reading-area" id="readerContent">
+            اختر فصلاً للبدء...
+        </div>
+
+        <div class="interaction-section" id="interactionSection">
+
+            <div class="interaction-title">
+                التقييم والتفاعل
+            </div>
+
             <div class="rating-container" id="ratingContainer">
+
                 <span class="star" data-value="1">★</span>
                 <span class="star" data-value="2">★</span>
                 <span class="star" data-value="3">★</span>
                 <span class="star" data-value="4">★</span>
                 <span class="star" data-value="5">★</span>
+
             </div>
+
             <div class="like-dislike-container">
-                <button class="like-btn" id="likeBtn">👍 إعجاب <span id="likeCount">0</span></button>
-                <button class="dislike-btn" id="dislikeBtn">👎 عدم إعجاب <span id="dislikeCount">0</span></button>
+
+                <button class="like-btn" id="likeBtn">
+                    إعجاب
+                    <span id="likeCount">0</span>
+                </button>
+
+                <button class="dislike-btn" id="dislikeBtn">
+                    عدم إعجاب
+                    <span id="dislikeCount">0</span>
+                </button>
+
             </div>
+
         </div>
 
-        <div class="interaction-section">
-            <div class="interaction-title">التعليقات</div>
-            <textarea class="comment-input" id="commentInput" placeholder="اكتب رأيك في هذه الرواية..."></textarea>
-            <button class="submit-comment-btn" onclick="submitComment()">إرسال التعليق</button>
+        <div class="interaction-section" id="commentsSection">
+
+            <div class="interaction-title">
+                التعليقات
+            </div>
+
+            <textarea
+                class="comment-input"
+                id="commentInput"
+                placeholder="اكتب رأيك في هذه الرواية..."
+            ></textarea>
+
+            <button class="submit-comment-btn" onclick="submitComment()">
+                إرسال التعليق
+            </button>
+
             <div id="commentsList" class="comments-list"></div>
+
         </div>
+
     </div>
+
 </div>
 
-<!-- ================= نافذة التنبيهات ================= -->
-<div class="notif-overlay" id="notifOverlay" onclick="closeNotifPanel()"></div>
+<!-- صفحة الملف الشخصي -->
+<div id="profilePage">
+
+    <div class="profile-toolbar">
+
+        <button class="back-btn" onclick="goBackToHome()">
+            الرئيسية
+        </button>
+
+        <div style="font-weight:700;color:var(--primary-color);">
+            ملفي الشخصي
+        </div>
+
+        <div style="width:80px;"></div>
+
+    </div>
+
+    <div class="profile-body" id="myProfileContent"></div>
+
+</div>
+
+<!-- صفحة ملف المؤلف -->
+<div id="authorProfilePage">
+
+    <div class="profile-toolbar">
+
+        <button class="back-btn" onclick="goBackToHome()">
+            الرئيسية
+        </button>
+
+        <div style="font-weight:700;color:var(--primary-color);">
+            ملف المؤلف
+        </div>
+
+        <div style="width:80px;"></div>
+
+    </div>
+
+    <div class="profile-body" id="authorProfileContent"></div>
+
+</div>
+
+<!-- التنبيهات -->
+<div
+    class="notif-overlay"
+    id="notifOverlay"
+    onclick="closeNotifPanel()"
+></div>
+
 <div class="notif-panel" id="notifPanel">
+
     <div class="notif-header">
-        <h2>🔔 التنبيهات</h2>
-        <button class="notif-close" onclick="closeNotifPanel()">✕</button>
+
+        <h2>التنبيهات</h2>
+
+        <button
+            class="notif-close"
+            onclick="closeNotifPanel()"
+        >
+            ✕
+        </button>
+
     </div>
+
     <div class="notif-list" id="notifList">
-        <div class="notif-empty">لا توجد تنبيهات جديدة</div>
+
+        <div class="notif-empty">
+            لا توجد تنبيهات جديدة
+        </div>
+
     </div>
+
 </div>
 
-<!-- ================= نافذة تسجيل الدخول ================= -->
+<!-- تسجيل الدخول -->
 <div id="loginModal" class="modal-overlay">
+
     <div class="login-box">
-        <h2>مرحباً بك! 👋</h2>
-        <p>سجّل دخولك لتتمكن من التفاعل والتعليق ومراسلة الدعم</p>
-        <input type="text" id="usernameInput" class="login-input" placeholder="اختر اسماً مستعاراً لك">
-        <div class="role-selector">
-            <div class="role-option selected" onclick="selectRole('reader')" id="roleReader">📖 قارئ</div>
-            <div class="role-option" onclick="selectRole('author')" id="roleAuthor">✍️ مؤلف</div>
+
+        <h2>
+            مرحباً بك في رواياتي
+        </h2>
+
+        <p>
+            سجّل دخولك للتفاعل والمتابعة وقراءة كل الفصول
+        </p>
+
+        <div class="login-tabs">
+
+            <button
+                class="login-tab active"
+                id="tabLogin"
+                onclick="switchLoginTab('login')"
+            >
+                تسجيل دخول
+            </button>
+
+            <button
+                class="login-tab"
+                id="tabRegister"
+                onclick="switchLoginTab('register')"
+            >
+                حساب جديد
+            </button>
+
         </div>
-        <button class="login-submit" onclick="completeLogin()">دخول للموقع</button>
+
+        <div id="loginForm">
+
+            <input
+                type="text"
+                id="loginUsername"
+                class="login-input"
+                placeholder="الاسم المستعار أو اسم المؤلف"
+            >
+
+            <input
+                type="password"
+                id="loginPassword"
+                class="login-input"
+                placeholder="كلمة المرور"
+            >
+
+            <button
+                class="login-submit"
+                onclick="doLogin()"
+            >
+                دخول
+            </button>
+
+        </div>
+
+        <div id="registerForm" style="display:none;">
+
+            <div class="role-selector">
+
+                <div
+                    class="role-option selected"
+                    onclick="selectRole('reader')"
+                    id="roleReader"
+                >
+                    قارئ
+                </div>
+
+                <div
+                    class="role-option"
+                    onclick="selectRole('author')"
+                    id="roleAuthor"
+                >
+                    مؤلف
+                </div>
+
+            </div>
+
+            <!-- الاسم المستعار للقارئ فقط -->
+            <div id="readerUsernameField">
+
+                <input
+                    type="text"
+                    id="regUsername"
+                    class="login-input"
+                    placeholder="الاسم المستعار للقارئ"
+                >
+
+            </div>
+
+            <input
+                type="password"
+                id="regPassword"
+                class="login-input"
+                placeholder="كلمة المرور"
+            >
+
+            <!-- حقول المؤلف -->
+            <div id="authorFields" style="display:none;">
+
+                <p style="font-size:0.85em;color:#666;margin:8px 0;">
+
+                    حساب المؤلف لا يحتاج اسماً مستعاراً.
+                    اكتب اسم المؤلف الذي سيظهر للقراء
+                    واسم إحدى رواياتك المنشورة.
+
+                </p>
+
+                <input
+                    type="text"
+                    id="regAuthorName"
+                    class="login-input"
+                    placeholder="اسم المؤلف (كما يظهر في الموقع)"
+                >
+
+                <input
+                    type="text"
+                    id="regNovelName"
+                    class="login-input"
+                    placeholder="اسم الرواية المنشورة (إجباري)"
+                >
+
+            </div>
+
+            <div
+                style="margin:15px 0;text-align:right;font-size:0.85em;"
+            >
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        id="notifConsent"
+                    >
+
+                    أوافق على استلام إشعارات من موقع رواياتي على جهازي
+
+                </label>
+
+            </div>
+
+            <button
+                class="login-submit"
+                onclick="doRegister()"
+            >
+                إنشاء حساب
+            </button>
+
+        </div>
+
+        <button
+            class="guest-btn"
+            onclick="continueAsGuest()"
+        >
+            تصفح كزائر (الفصل الأول فقط)
+        </button>
+
     </div>
+
 </div>
 
-<!-- ================= نافذة الدعم الفني ================= -->
+<!-- الدعم -->
 <div id="supportModal" class="modal-overlay">
+
     <div class="support-modal-content">
-        <button class="close-btn" onclick="closeSupportModal()">✕ إغلاق</button>
+
+        <button
+            class="close-btn"
+            onclick="closeSupportModal()"
+        >
+            ✕ إغلاق
+        </button>
+
         <div class="chat-header">
-            <h2>🎧 الدعم الفني</h2>
-            <p>تواصل مباشر مع الإدارة</p>
+
+            <h2>
+                الدعم الفني
+            </h2>
+
+            <p>
+                تواصل مباشر مع الإدارة
+            </p>
+
         </div>
+
         <div class="chat-messages" id="chatMessages">
-            <div class="empty-chat">ابدأ المحادثة بإرسال رسالة للإدارة...</div>
+
+            <div class="empty-chat">
+                ابدأ المحادثة بإرسال رسالة للإدارة...
+            </div>
+
         </div>
+
         <div class="chat-input-area">
-            <input type="text" class="chat-input" id="chatInput" placeholder="اكتب رسالتك هنا..." onkeypress="if(event.key==='Enter') sendChatMessage()">
-            <button class="chat-send-btn" onclick="sendChatMessage()">إرسال ➤</button>
+
+            <input
+                type="text"
+                class="chat-input"
+                id="chatInput"
+                placeholder="اكتب رسالتك هنا..."
+                onkeypress="if(event.key==='Enter') sendChatMessage()"
+            >
+
+            <button
+                class="chat-send-btn"
+                onclick="sendChatMessage()"
+            >
+                إرسال
+            </button>
+
         </div>
+
     </div>
+
 </div>
 
 <script>
-    /* =========================================================
-       إعدادات JSONBin
-       ========================================================= */
-    const BIN_ID = "6abf950bac6210605a0c12ca";
-    const MASTER_KEY = "$2a$10$riyvUp9B2wS2NHY5AR4Ifu/J6du4in5kPBmOzvRmg9p9SvKD8FPPS";
-    const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
-    const BASE_API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
-    let currentNovel = null;
-    let currentTab = 'recent';
-    let searchTerm = '';
-    let currentUser = null;
-    let selectedRole = 'reader';
-    let lastSeenReplyId = null;
-    let allNovelsCache = []; // لتتبع التغييرات
+const BIN_ID = "6abf950bac6210605a0c12ca";
 
-    const RANDOM_AUTHOR_NAMES = [
-        "كاتب الظل", "حبر الليل", "راوي الحكايات", "قلم مجهول", 
-        "كاتب الغموض", "صوت الصمت", "حكيم الشرق", "ناثر الكلمات",
-        "كاتب الفجر", "روح القصة", "خيال الكاتب", "مبدع مجهول"
-    ];
+const MASTER_KEY = "$2a$10$riyvUp9B2wS2NHY5AR4Ifu/J6du4in5kPBmOzvRmg9p9SvKD8FPPS";
 
-    /* =========================================================
-       إدارة المستخدم
-       ========================================================= */
-    function checkUserLogin() {
-        const storedUser = localStorage.getItem('novel_site_user');
-        if (!storedUser) {
-            document.getElementById('loginModal').style.display = 'flex';
-        } else {
-            currentUser = JSON.parse(storedUser);
-            lastSeenReplyId = localStorage.getItem('last_seen_reply_' + currentUser.deviceId) || null;
+const API_URL =
+    `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
+
+const BASE_API_URL =
+    `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+/*
+ * مهم:
+ * تغيير SITE_VERSION لن يؤدي إلى تسجيل خروج المستخدم.
+ */
+const SITE_VERSION = "2.3";
+
+let currentNovel = null;
+
+let currentTab = 'recent';
+
+let searchTerm = '';
+
+let currentUser = null;
+
+let selectedRole = 'reader';
+
+let lastSeenReplyId = null;
+
+let allNovelsCache = [];
+
+let isGuest = false;
+
+let currentChapterIndex = 0;
+
+
+/* =========================================================
+   أسماء المؤلفين العشوائية القديمة
+   ========================================================= */
+
+const RANDOM_AUTHOR_NAMES = [
+    "كاتب الظل",
+    "حبر الليل",
+    "راوي الحكايات",
+    "قلم مجهول",
+    "كاتب الغموض",
+    "صوت الصمت",
+    "حكيم الشرق",
+    "ناثر الكلمات",
+    "كاتب الفجر",
+    "روح القصة",
+    "خيال الكاتب",
+    "مبدع مجهول"
+];
+
+
+/* =========================================================
+   إدارة المستخدم
+   ========================================================= */
+
+function checkUserLogin() {
+
+    const storedVersion =
+        localStorage.getItem('site_version');
+
+    /*
+     * لا نحذف novel_site_user عند تحديث الموقع.
+     * الحساب يبقى مسجلاً مرة واحدة فقط على الجهاز.
+     */
+
+    if (storedVersion !== SITE_VERSION) {
+
+        localStorage.setItem(
+            'site_version',
+            SITE_VERSION
+        );
+
+    }
+
+    const storedUser =
+        localStorage.getItem('novel_site_user');
+
+    if (!storedUser) {
+
+        document.getElementById(
+            'loginModal'
+        ).style.display = 'flex';
+
+    } else {
+
+        try {
+
+            currentUser =
+                JSON.parse(storedUser);
+
+            isGuest = false;
+
+            document.getElementById(
+                'profileBtn'
+            ).style.display = 'flex';
+
+            lastSeenReplyId =
+                localStorage.getItem(
+                    'last_seen_reply_' +
+                    currentUser.deviceId
+                ) || null;
+
             loadNovels();
+
             checkNewReplies();
+
+            requestNotificationPermission();
+
+        } catch (e) {
+
+            console.error(e);
+
+            localStorage.removeItem(
+                'novel_site_user'
+            );
+
+            document.getElementById(
+                'loginModal'
+            ).style.display = 'flex';
+
         }
+
     }
 
-    function selectRole(role) {
-        selectedRole = role;
-        document.querySelectorAll('.role-option').forEach(el => el.classList.remove('selected'));
-        if (role === 'reader') document.getElementById('roleReader').classList.add('selected');
-        else document.getElementById('roleAuthor').classList.add('selected');
+}
+
+
+/* =========================================================
+   تبويبات الدخول
+   ========================================================= */
+
+function switchLoginTab(tab) {
+
+    if (tab === 'login') {
+
+        document.getElementById(
+            'loginForm'
+        ).style.display = 'block';
+
+        document.getElementById(
+            'registerForm'
+        ).style.display = 'none';
+
+        document.getElementById(
+            'tabLogin'
+        ).classList.add('active');
+
+        document.getElementById(
+            'tabRegister'
+        ).classList.remove('active');
+
+    } else {
+
+        document.getElementById(
+            'loginForm'
+        ).style.display = 'none';
+
+        document.getElementById(
+            'registerForm'
+        ).style.display = 'block';
+
+        document.getElementById(
+            'tabLogin'
+        ).classList.remove('active');
+
+        document.getElementById(
+            'tabRegister'
+        ).classList.add('active');
+
     }
 
-    function completeLogin() {
-        const name = document.getElementById('usernameInput').value.trim();
-        if (!name) { alert('الرجاء كتابة اسم مستعار'); return; }
+}
 
-        currentUser = {
-            name: name,
-            role: selectedRole,
-            joinedAt: Date.now(),
-            deviceId: getDeviceId()
+
+/* =========================================================
+   اختيار نوع الحساب
+   ========================================================= */
+
+function selectRole(role) {
+
+    selectedRole = role;
+
+    document
+        .querySelectorAll('.role-option')
+        .forEach(el =>
+            el.classList.remove('selected')
+        );
+
+    const readerField =
+        document.getElementById(
+            'readerUsernameField'
+        );
+
+    const authorFields =
+        document.getElementById(
+            'authorFields'
+        );
+
+    if (role === 'reader') {
+
+        document.getElementById(
+            'roleReader'
+        ).classList.add('selected');
+
+        if (readerField) {
+
+            readerField.style.display =
+                'block';
+
+        }
+
+        authorFields.style.display =
+            'none';
+
+    } else {
+
+        document.getElementById(
+            'roleAuthor'
+        ).classList.add('selected');
+
+        /*
+         * المؤلف لا يحتاج الاسم المستعار.
+         */
+
+        if (readerField) {
+
+            readerField.style.display =
+                'none';
+
+        }
+
+        authorFields.style.display =
+            'block';
+
+    }
+
+}
+
+
+/* =========================================================
+   دخول كزائر
+   ========================================================= */
+
+function continueAsGuest() {
+
+    isGuest = true;
+
+    currentUser = null;
+
+    document.getElementById(
+        'loginModal'
+    ).style.display = 'none';
+
+    document.getElementById(
+        'profileBtn'
+    ).style.display = 'none';
+
+    loadNovels();
+
+}
+
+
+/* =========================================================
+   تسجيل الخروج
+   ========================================================= */
+
+function logout() {
+
+    if (!confirm(
+        'هل تريد تسجيل الخروج؟'
+    )) return;
+
+    localStorage.removeItem(
+        'novel_site_user'
+    );
+
+    currentUser = null;
+
+    isGuest = false;
+
+    document.getElementById(
+        'profileBtn'
+    ).style.display = 'none';
+
+    document.getElementById(
+        'loginModal'
+    ).style.display = 'flex';
+
+    goBackToHome();
+
+}
+
+
+/* =========================================================
+   حذف الحساب
+   ========================================================= */
+
+async function deleteAccount() {
+
+    if (!currentUser) return;
+
+    if (!confirm(
+        'هل أنت متأكد من حذف حسابك نهائياً؟ لا يمكن التراجع.'
+    )) return;
+
+    if (!confirm(
+        'تأكيد نهائي: سيتم حذف حسابك من الموقع.'
+    )) return;
+
+    try {
+
+        const res = await fetch(
+            API_URL,
+            {
+                method: 'GET',
+                headers: {
+                    "X-Master-Key": MASTER_KEY
+                },
+                cache: 'no-store'
+            }
+        );
+
+        const data = await res.json();
+
+        let payload =
+            data.record || {};
+
+        if (payload.users) {
+
+            payload.users =
+                payload.users.filter(
+                    u =>
+                        !u.username ||
+                        u.username.toLowerCase() !==
+                        currentUser.name.toLowerCase()
+                );
+
+        }
+
+        await fetch(
+            BASE_API_URL,
+            {
+                method: 'PUT',
+                headers: {
+                    "Content-Type":
+                        "application/json",
+                    "X-Master-Key":
+                        MASTER_KEY
+                },
+                body:
+                    JSON.stringify(payload)
+            }
+        );
+
+        localStorage.removeItem(
+            'novel_site_user'
+        );
+
+        currentUser = null;
+
+        document.getElementById(
+            'profileBtn'
+        ).style.display = 'none';
+
+        document.getElementById(
+            'loginModal'
+        ).style.display = 'flex';
+
+        goBackToHome();
+
+        alert(
+            'تم حذف الحساب بنجاح'
+        );
+
+    } catch (e) {
+
+        console.error(e);
+
+        alert(
+            'حدث خطأ أثناء حذف الحساب'
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   تسجيل حساب جديد
+   ========================================================= */
+
+async function doRegister() {
+
+    let username = '';
+
+    const password =
+        document.getElementById(
+            'regPassword'
+        ).value.trim();
+
+    const notifConsent =
+        document.getElementById(
+            'notifConsent'
+        ).checked;
+
+
+    /*
+     * الاسم المستعار للقارئ فقط.
+     */
+
+    if (selectedRole === 'reader') {
+
+        username =
+            document.getElementById(
+                'regUsername'
+            ).value.trim();
+
+        if (!username) {
+
+            alert(
+                'الرجاء كتابة الاسم المستعار للقارئ'
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    if (!password) {
+
+        alert(
+            'الرجاء كتابة كلمة المرور'
+        );
+
+        return;
+
+    }
+
+
+    if (password.length < 4) {
+
+        alert(
+            'كلمة المرور يجب أن تكون 4 أحرف على الأقل'
+        );
+
+        return;
+
+    }
+
+
+    if (!notifConsent) {
+
+        alert(
+            'يجب الموافقة على استلام الإشعارات للمتابعة'
+        );
+
+        return;
+
+    }
+
+
+    let authorName = '';
+
+    let novelName = '';
+
+
+    /*
+     * المؤلف:
+     *
+     * لا يوجد اسم مستعار.
+     *
+     * المطلوب:
+     * اسم المؤلف + اسم رواية منشورة.
+     */
+
+    if (selectedRole === 'author') {
+
+        authorName =
+            document.getElementById(
+                'regAuthorName'
+            ).value.trim();
+
+        novelName =
+            document.getElementById(
+                'regNovelName'
+            ).value.trim();
+
+        if (!authorName || !novelName) {
+
+            alert(
+                'للمؤلف يجب كتابة اسم المؤلف الظاهر في الموقع واسم الرواية المنشورة'
+            );
+
+            return;
+
+        }
+
+        /*
+         * نستخدم اسم المؤلف كاسم دخول داخلي
+         * حتى لا نحتاج إلى اسم مستعار.
+         */
+
+        username = authorName;
+
+    }
+
+
+    try {
+
+        const res = await fetch(
+            API_URL,
+            {
+                method: 'GET',
+                headers: {
+                    "X-Master-Key":
+                        MASTER_KEY
+                },
+                cache: 'no-store'
+            }
+        );
+
+        const data =
+            await res.json();
+
+        let payload =
+            data.record || {};
+
+
+        if (!payload.users) {
+
+            payload.users = [];
+
+        }
+
+
+        if (!payload.novels) {
+
+            payload.novels =
+                extractNovels(data);
+
+        }
+
+
+        /*
+         * منع تكرار اسم مستعار القارئ.
+         */
+
+        if (selectedRole === 'reader') {
+
+            const duplicateReader =
+                payload.users.find(
+                    u =>
+                        u.username &&
+                        u.username.toLowerCase() ===
+                        username.toLowerCase()
+                );
+
+            if (duplicateReader) {
+
+                alert(
+                    'هذا الاسم المستعار مستخدم مسبقاً'
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        /*
+         * التحقق من حساب المؤلف.
+         */
+
+        if (selectedRole === 'author') {
+
+            /*
+             * البحث عن الرواية باسمها
+             * وباسم المؤلف الظاهر.
+             */
+
+            const matchingNovel =
+                payload.novels.find(
+                    n => {
+
+                        const nAuthor =
+                            getAuthorName(n)
+                                .trim()
+                                .toLowerCase();
+
+                        const nTitle =
+                            String(
+                                n.title || ''
+                            )
+                            .trim()
+                            .toLowerCase();
+
+                        return (
+                            nAuthor ===
+                                authorName
+                                    .toLowerCase()
+                            &&
+                            nTitle ===
+                                novelName
+                                    .toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            if (!matchingNovel) {
+
+                alert(
+                    'لم يتم العثور على الرواية بهذا الاسم واسم المؤلف في الموقع. تأكد من كتابة الاسمين كما يظهران في الرواية.'
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * منع المطالبة بنفس الرواية
+             * أكثر من مرة.
+             */
+
+            const alreadyClaimed =
+                payload.users.find(
+                    u =>
+                        u.role === 'author' &&
+                        u.authorName &&
+                        u.authorName
+                            .toLowerCase() ===
+                            authorName
+                                .toLowerCase() &&
+                        u.claimedNovel &&
+                        u.claimedNovel
+                            .toLowerCase() ===
+                            novelName
+                                .toLowerCase()
+                );
+
+
+            if (alreadyClaimed) {
+
+                alert(
+                    'هذه الرواية مسجلة مسبقاً لحساب مؤلف. لا يمكن تسجيلها مرة أخرى.'
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * لا ننشئ حساب مؤلف ثانياً
+             * بنفس اسم المؤلف.
+             */
+
+            const existingAuthor =
+                payload.users.find(
+                    u =>
+                        u.role === 'author' &&
+                        u.authorName &&
+                        u.authorName
+                            .toLowerCase() ===
+                            authorName
+                                .toLowerCase()
+                );
+
+
+            if (existingAuthor) {
+
+                alert(
+                    'يوجد حساب مؤلف مسجل بهذا الاسم بالفعل. استخدم تسجيل الدخول.'
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        /*
+         * إنشاء المستخدم.
+         */
+
+        const newUser = {
+
+            /*
+             * القارئ:
+             * username = الاسم المستعار
+             *
+             * المؤلف:
+             * username = اسم المؤلف للتوافق
+             * مع البيانات القديمة.
+             */
+
+            username:
+                username,
+
+            password:
+                password,
+
+            role:
+                selectedRole,
+
+            authorName:
+                authorName || null,
+
+            claimedNovel:
+                novelName || null,
+
+            deviceId:
+                getDeviceId(),
+
+            joinedAt:
+                Date.now(),
+
+            following:
+                [],
+
+            followers:
+                []
+
         };
 
-        localStorage.setItem('novel_site_user', JSON.stringify(currentUser));
-        document.getElementById('loginModal').style.display = 'none';
-        loadNovels();
-        checkNewReplies();
-    }
 
-    /* =========================================================
-       دوال مساعدة
-       ========================================================= */
-    function getDeviceId() {
-        let id = localStorage.getItem('my_device_id');
-        if (!id) {
-            id = 'web_' + Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
-            localStorage.setItem('my_device_id', id);
-        }
-        return id;
-    }
+        payload.users.push(
+            newUser
+        );
 
-    function getNovelKey(novel) {
-        if (novel && novel.id) return String(novel.id);
-        if (novel && novel.novelId) return String(novel.novelId);
-        return String((novel?.title || 'novel') + '_' + (novel?.createdAt || '0'));
-    }
 
-    function extractNovels(data) {
-        if (!data) return [];
-        let record = data.record;
-        if (record && Array.isArray(record.novels)) return record.novels;
-        if (Array.isArray(record)) return record;
-        if (record && Array.isArray(record.data)) return record.data;
-        return [];
-    }
+        const saveRes =
+            await fetch(
+                BASE_API_URL,
+                {
+                    method: 'PUT',
 
-    function escapeHtml(value) {
-        if (value === null || value === undefined) return '';
-        return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-    }
+                    headers: {
+                        "Content-Type":
+                            "application/json",
 
-    function getOrCreateAuthorName(novel) {
-        if (novel.author && novel.author.trim() !== '' && novel.author !== 'غير معروف') {
-            return novel.author;
-        }
-        if (!novel._randomAuthor) {
-            let hash = 0;
-            const title = novel.title || 'unknown';
-            for (let i = 0; i < title.length; i++) {
-                hash = ((hash << 5) - hash) + title.charCodeAt(i);
-                hash |= 0;
-            }
-            const index = Math.abs(hash) % RANDOM_AUTHOR_NAMES.length;
-            novel._randomAuthor = RANDOM_AUTHOR_NAMES[index];
-        }
-        return novel._randomAuthor;
-    }
+                        "X-Master-Key":
+                            MASTER_KEY
+                    },
 
-    /* =========================================================
-       نظام الإشعارات
-       ========================================================= */
-    function getSeenNovels() {
-        try {
-            return JSON.parse(localStorage.getItem('seen_novels') || '{}');
-        } catch (e) {
-            return {};
-        }
-    }
-
-    function saveSeenNovels(seen) {
-        localStorage.setItem('seen_novels', JSON.stringify(seen));
-    }
-
-    function getNotifications() {
-        try {
-            return JSON.parse(localStorage.getItem('notifications') || '[]');
-        } catch (e) {
-            return [];
-        }
-    }
-
-    function saveNotifications(notifs) {
-        localStorage.setItem('notifications', JSON.stringify(notifs));
-    }
-
-    function checkForNewContent(novels) {
-        if (!currentUser) return;
-
-        const seen = getSeenNovels();
-        const notifs = getNotifications();
-        let hasNew = false;
-
-        novels.forEach(novel => {
-            const key = getNovelKey(novel);
-            const chapterCount = Array.isArray(novel.chapterTitles) ? novel.chapterTitles.length : 0;
-            const lastSeenChapter = seen[key]?.chapters || 0;
-
-            // رواية جديدة تماماً
-            if (!seen[key]) {
-                notifs.push({
-                    id: Date.now() + Math.random(),
-                    type: 'new-novel',
-                    novelKey: key,
-                    novelTitle: novel.title,
-                    author: getOrCreateAuthorName(novel),
-                    continuous: novel.continuous,
-                    chapterIndex: 0,
-                    date: new Date().toISOString()
-                });
-                seen[key] = { chapters: chapterCount, time: Date.now() };
-                hasNew = true;
-            }
-            // فصل جديد
-            else if (chapterCount > lastSeenChapter) {
-                for (let i = lastSeenChapter; i < chapterCount; i++) {
-                    notifs.push({
-                        id: Date.now() + Math.random() + i,
-                        type: 'new-chapter',
-                        novelKey: key,
-                        novelTitle: novel.title,
-                        author: getOrCreateAuthorName(novel),
-                        chapterIndex: i,
-                        chapterName: novel.chapterTitles[i] || `فصل ${i + 1}`,
-                        date: new Date().toISOString()
-                    });
+                    body:
+                        JSON.stringify(
+                            payload
+                        )
                 }
-                seen[key] = { chapters: chapterCount, time: Date.now() };
-                hasNew = true;
-            }
-        });
+            );
 
-        // حذف إشعارات الروايات المحذوفة من الإدارة
-        const currentKeys = new Set(novels.map(n => getNovelKey(n)));
-        const filteredNotifs = notifs.filter(n => currentKeys.has(n.novelKey));
-        
-        if (filteredNotifs.length !== notifs.length) {
-            hasNew = true;
+
+        if (!saveRes.ok) {
+
+            throw new Error(
+                'فشل حفظ الحساب'
+            );
+
         }
 
-        if (hasNew) {
-            saveSeenNovels(seen);
-            saveNotifications(filteredNotifs);
-            updateNotifBadge();
-        }
-    }
 
-    function updateNotifBadge() {
-        const notifs = getNotifications();
-        const badge = document.getElementById('notifBadge');
-        if (notifs.length > 0) {
-            badge.innerText = notifs.length > 99 ? '99+' : notifs.length;
-            badge.classList.add('show');
+        /*
+         * بيانات الجلسة المحلية.
+         */
+
+        currentUser = {
+
+            name:
+                selectedRole === 'author'
+                    ? authorName
+                    : username,
+
+            role:
+                selectedRole,
+
+            authorName:
+                authorName || null,
+
+            claimedNovel:
+                novelName || null,
+
+            deviceId:
+                getDeviceId(),
+
+            joinedAt:
+                newUser.joinedAt
+
+        };
+
+
+        /*
+         * حفظ الدخول.
+         *
+         * لن يحتاج المستخدم إلى
+         * التسجيل مرة ثانية على هذا الجهاز.
+         */
+
+        localStorage.setItem(
+            'novel_site_user',
+            JSON.stringify(
+                currentUser
+            )
+        );
+
+        localStorage.setItem(
+            'site_version',
+            SITE_VERSION
+        );
+
+
+        isGuest = false;
+
+
+        document.getElementById(
+            'loginModal'
+        ).style.display = 'none';
+
+
+        document.getElementById(
+            'profileBtn'
+        ).style.display = 'flex';
+
+
+        requestNotificationPermission();
+
+
+        await loadNovels();
+
+
+        /*
+         * المؤلف يدخل مباشرة إلى
+         * صفحة الترحيب وأعماله.
+         */
+
+        if (
+            selectedRole ===
+            'author'
+        ) {
+
+            alert(
+                'تم إنشاء حساب المؤلف بنجاح. مرحباً بك يا ' +
+                authorName +
+                '!'
+            );
+
+            openMyProfile();
+
         } else {
-            badge.classList.remove('show');
+
+            alert(
+                'تم إنشاء حساب القارئ بنجاح!'
+            );
+
         }
+
+    } catch (e) {
+
+        console.error(e);
+
+        alert(
+            'حدث خطأ أثناء التسجيل'
+        );
+
     }
 
-    function openNotifPanel() {
-        document.getElementById('notifPanel').classList.add('open');
-        document.getElementById('notifOverlay').classList.add('show');
-        renderNotifications();
+}
+
+
+/* =========================================================
+   تسجيل الدخول
+   ========================================================= */
+
+async function doLogin() {
+
+    const loginName =
+        document.getElementById(
+            'loginUsername'
+        ).value.trim();
+
+    const password =
+        document.getElementById(
+            'loginPassword'
+        ).value.trim();
+
+
+    if (!loginName || !password) {
+
+        alert(
+            'الرجاء كتابة الاسم المستعار للقارئ أو اسم المؤلف وكلمة المرور'
+        );
+
+        return;
+
     }
 
-    function closeNotifPanel() {
-        document.getElementById('notifPanel').classList.remove('open');
-        document.getElementById('notifOverlay').classList.remove('show');
-    }
 
-    function renderNotifications() {
-        const notifs = getNotifications();
-        const list = document.getElementById('notifList');
+    try {
 
-        if (notifs.length === 0) {
-            list.innerHTML = '<div class="notif-empty">لا توجد تنبيهات جديدة</div>';
+        const res =
+            await fetch(
+                API_URL,
+                {
+                    method: 'GET',
+
+                    headers: {
+                        "X-Master-Key":
+                            MASTER_KEY
+                    },
+
+                    cache:
+                        'no-store'
+                }
+            );
+
+
+        const data =
+            await res.json();
+
+
+        const users =
+            (
+                data.record &&
+                data.record.users
+            )
+                ? data.record.users
+                : [];
+
+
+        /*
+         * القارئ:
+         * الاسم المستعار.
+         *
+         * المؤلف:
+         * اسم المؤلف.
+         *
+         * الحسابات القديمة:
+         * ندعم username القديم أيضاً.
+         */
+
+        const user =
+            users.find(
+                u => {
+
+                    if (
+                        u.password !==
+                        password
+                    ) {
+                        return false;
+                    }
+
+
+                    if (
+                        u.role ===
+                        'author'
+                    ) {
+
+                        return (
+
+                            (
+                                u.authorName &&
+                                u.authorName
+                                    .toLowerCase() ===
+                                    loginName
+                                        .toLowerCase()
+                            )
+
+                            ||
+
+                            (
+                                u.username &&
+                                u.username
+                                    .toLowerCase() ===
+                                    loginName
+                                        .toLowerCase()
+                            )
+
+                        );
+
+                    }
+
+
+                    return (
+                        u.username &&
+                        u.username
+                            .toLowerCase() ===
+                            loginName
+                                .toLowerCase()
+                    );
+
+                }
+            );
+
+
+        if (!user) {
+
+            alert(
+                'الاسم أو كلمة المرور غير صحيحة'
+            );
+
             return;
+
         }
 
-        list.innerHTML = '';
-        [...notifs].reverse().forEach(notif => {
-            const item = document.createElement('div');
-            item.className = `notif-item ${notif.type}`;
-            item.onclick = () => goToNotif(notif);
 
-            const typeLabel = notif.type === 'new-novel' ? '📚 رواية جديدة' : '📖 فصل جديد';
-            const details = notif.type === 'new-novel'
-                ? `رواية جديدة: <b>${escapeHtml(notif.novelTitle)}</b><br>بقلم: ${escapeHtml(notif.author)}<br>النوع: ${notif.continuous ? 'مستمرة 🟢' : 'منتهية 🔴'}`
-                : `فصل جديد في: <b>${escapeHtml(notif.novelTitle)}</b><br>الفصل: ${escapeHtml(notif.chapterName)}<br>بقلم: ${escapeHtml(notif.author)}`;
+        currentUser = {
 
-            item.innerHTML = `
-                <span class="notif-type ${notif.type}">${typeLabel}</span>
-                <div class="notif-details">${details}</div>
-                <div class="notif-date">${new Date(notif.date).toLocaleString('ar-SA')}</div>
-            `;
-            list.appendChild(item);
-        });
-    }
+            name:
+                user.role === 'author'
+                    ? (
+                        user.authorName ||
+                        user.username
+                    )
+                    : user.username,
 
-    async function goToNotif(notif) {
-        closeNotifPanel();
+            role:
+                user.role,
 
-        let novel = allNovelsCache.find(n => getNovelKey(n) === notif.novelKey);
+            authorName:
+                user.authorName ||
+                null,
 
-        if (!novel) {
-            try {
-                const res = await fetch(API_URL, { method: 'GET', headers: { "X-Master-Key": MASTER_KEY }, cache: 'no-store' });
-                const data = await res.json();
-                const allNovels = extractNovels(data);
-                novel = allNovels.find(n => getNovelKey(n) === notif.novelKey);
-            } catch (e) {
-                alert('تعذر فتح الرواية');
-                return;
-            }
+            claimedNovel:
+                user.claimedNovel ||
+                null,
+
+            deviceId:
+                getDeviceId(),
+
+            joinedAt:
+                user.joinedAt
+
+        };
+
+
+        localStorage.setItem(
+            'novel_site_user',
+            JSON.stringify(
+                currentUser
+            )
+        );
+
+        localStorage.setItem(
+            'site_version',
+            SITE_VERSION
+        );
+
+
+        isGuest = false;
+
+
+        document.getElementById(
+            'loginModal'
+        ).style.display = 'none';
+
+
+        document.getElementById(
+            'profileBtn'
+        ).style.display = 'flex';
+
+
+        requestNotificationPermission();
+
+
+        await loadNovels();
+
+
+        checkNewReplies();
+
+
+        /*
+         * المؤلف:
+         * لا يذهب إلى صفحة آخر رواية قرأها.
+         * يذهب مباشرة إلى صفحته وأعماله.
+         */
+
+        if (
+            currentUser.role ===
+            'author'
+        ) {
+
+            openMyProfile();
+
         }
 
-        if (novel) {
-            openNovel(novel, notif.chapterIndex);
-            removeNotification(notif.id);
+    } catch (e) {
+
+        console.error(e);
+
+        alert(
+            'تعذر الاتصال'
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   الإشعارات
+   ========================================================= */
+
+function requestNotificationPermission() {
+
+    if (
+        'Notification' in window &&
+        Notification.permission ===
+        'default'
+    ) {
+
+        Notification.requestPermission();
+
+    }
+
+}
+
+
+/* =========================================================
+   Device ID
+   ========================================================= */
+
+function getDeviceId() {
+
+    let id =
+        localStorage.getItem(
+            'my_device_id'
+        );
+
+
+    if (!id) {
+
+        id =
+            'web_' +
+            Math.random()
+                .toString(36)
+                .substring(2, 11) +
+            Date.now()
+                .toString(36);
+
+
+        localStorage.setItem(
+            'my_device_id',
+            id
+        );
+
+    }
+
+
+    return id;
+
+}
+
+
+/* =========================================================
+   Novel Key
+   ========================================================= */
+
+function getNovelKey(novel) {
+
+    if (
+        novel &&
+        novel.id
+    ) {
+
+        return String(
+            novel.id
+        );
+
+    }
+
+
+    if (
+        novel &&
+        novel.novelId
+    ) {
+
+        return String(
+            novel.novelId
+        );
+
+    }
+
+
+    return String(
+        (
+            novel?.title ||
+            'novel'
+        ) +
+        '_' +
+        (
+            novel?.createdAt ||
+            '0'
+        )
+    );
+
+}
+
+
+/* =========================================================
+   استخراج الروايات
+   ========================================================= */
+
+function extractNovels(data) {
+
+    if (!data) return [];
+
+    let record =
+        data.record;
+
+
+    if (
+        record &&
+        Array.isArray(
+            record.novels
+        )
+    ) {
+
+        return record.novels;
+
+    }
+
+
+    if (
+        Array.isArray(record)
+    ) {
+
+        return record;
+
+    }
+
+
+    if (
+        record &&
+        Array.isArray(
+            record.data
+        )
+    ) {
+
+        return record.data;
+
+    }
+
+
+    return [];
+
+}
+
+
+/* =========================================================
+   حماية HTML
+   ========================================================= */
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return '';
+
+    }
+
+
+    return String(value)
+        .replace(
+            /&/g,
+            '&amp;'
+        )
+        .replace(
+            /</g,
+            '&lt;'
+        )
+        .replace(
+            />/g,
+            '&gt;'
+        )
+        .replace(
+            /"/g,
+            '&quot;'
+        )
+        .replace(
+            /'/g,
+            '&#039;'
+        );
+
+}
+
+
+/* =========================================================
+   اسم المؤلف
+   ========================================================= */
+
+function getAuthorName(novel) {
+
+    if (!novel) {
+
+        return 'مؤلف مجهول';
+
+    }
+
+
+    if (
+        novel.author &&
+        novel.author.trim() !== '' &&
+        novel.author !== 'غير معروف'
+    ) {
+
+        return novel.author.trim();
+
+    }
+
+
+    /*
+     * في حال كانت الرواية قديمة ولا تحتوي
+     * author، نحافظ على النظام القديم.
+     */
+
+    if (!novel._fixedAuthor) {
+
+        let hash = 0;
+
+        const title =
+            novel.title ||
+            'unknown';
+
+
+        for (
+            let i = 0;
+            i < title.length;
+            i++
+        ) {
+
+            hash =
+                (
+                    (
+                        hash << 5
+                    ) -
+                    hash
+                ) +
+                title.charCodeAt(i);
+
+            hash |= 0;
+
         }
+
+
+        const index =
+            Math.abs(hash) %
+            RANDOM_AUTHOR_NAMES.length;
+
+
+        novel._fixedAuthor =
+            RANDOM_AUTHOR_NAMES[index];
+
     }
 
-    function removeNotification(notifId) {
-        let notifs = getNotifications();
-        notifs = notifs.filter(n => n.id !== notifId);
-        saveNotifications(notifs);
-        updateNotifBadge();
+
+    return novel._fixedAuthor;
+
+}
+
+
+/* =========================================================
+   التحقق من مؤلف الرواية
+   ========================================================= */
+
+function isOwnAuthor(authorName) {
+
+    return !!(
+
+        currentUser &&
+
+        currentUser.role ===
+            'author' &&
+
+        currentUser.authorName &&
+
+        authorName &&
+
+        currentUser.authorName
+            .trim()
+            .toLowerCase() ===
+        String(authorName)
+            .trim()
+            .toLowerCase()
+
+    );
+
+}
+
+
+function isOwnNovel(novel) {
+
+    return !!(
+        novel &&
+        isOwnAuthor(
+            getAuthorName(novel)
+        )
+    );
+
+}
+
+
+/* =========================================================
+   المتابعة
+   ========================================================= */
+
+function getFollowing() {
+
+    try {
+
+        let list =
+            JSON.parse(
+                localStorage.getItem(
+                    'following_authors'
+                ) || '[]'
+            );
+
+
+        if (
+            !Array.isArray(list)
+        ) {
+
+            list = [];
+
+        }
+
+
+        /*
+         * تنظيف أي متابعة قديمة لنفس المؤلف.
+         */
+
+        if (
+            currentUser &&
+            currentUser.role ===
+                'author' &&
+            currentUser.authorName
+        ) {
+
+            list =
+                list.filter(
+                    a =>
+                        String(a)
+                            .trim()
+                            .toLowerCase() !==
+                        currentUser.authorName
+                            .trim()
+                            .toLowerCase()
+                );
+
+
+            localStorage.setItem(
+                'following_authors',
+                JSON.stringify(list)
+            );
+
+        }
+
+
+        return list;
+
+    } catch (e) {
+
+        return [];
+
     }
 
-    /* =========================================================
-       تحميل الروايات (تم التعديل لإصلاح مشكلة الحذف)
-       ========================================================= */
-    async function loadNovels() {
-        const container = document.getElementById('container');
-        // لا نمسح المحتوى القديم فوراً لتجنب الوميض، بل نحدثه بعد الجلب
-        
-        try {
-            // الحل الجذري: cache: 'no-store' يجبر المتصفح على جلب بيانات جديدة من السيرفر
-            // ولا يعتمد على النسخة المخزنة التي قد تحتوي على روايات محذوفة
-            const res = await fetch(API_URL, { 
-                method: 'GET', 
-                headers: { "X-Master-Key": MASTER_KEY }, 
-                cache: 'no-store' 
-            });
+}
 
-            if (!res.ok) throw new Error("HTTP " + res.status);
-            const data = await res.json();
-            let allNovels = extractNovels(data);
-            
-            // فلترة أي بيانات تالفة
-            allNovels = allNovels.filter(n => n && typeof n.title === 'string');
 
-            // حفظ في الكاش للتتبع
-            allNovelsCache = allNovels;
+function saveFollowing(list) {
 
-            // فحص المحتوى الجديد للإشعارات وحذف إشعارات المحذوفات
-            checkForNewContent(allNovels);
+    localStorage.setItem(
+        'following_authors',
+        JSON.stringify(
+            list || []
+        )
+    );
 
-            let novels = [...allNovels];
-            if (searchTerm) {
-                const query = searchTerm.toLowerCase().trim();
-                novels = novels.filter(n => String(n.title || '').toLowerCase().includes(query));
+}
+
+
+function isFollowing(authorName) {
+
+    /*
+     * المؤلف لا يتابع نفسه.
+     */
+
+    if (
+        isOwnAuthor(
+            authorName
+        )
+    ) {
+
+        return false;
+
+    }
+
+
+    return getFollowing().some(
+        a =>
+            String(a)
+                .trim()
+                .toLowerCase() ===
+            String(authorName)
+                .trim()
+                .toLowerCase()
+    );
+
+}
+
+
+async function toggleFollow(authorName) {
+
+    if (
+        !currentUser ||
+        isGuest
+    ) {
+
+        alert(
+            'يجب تسجيل الدخول للمتابعة'
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * منع المؤلف من متابعة نفسه.
+     */
+
+    if (
+        isOwnAuthor(
+            authorName
+        )
+    ) {
+
+        alert(
+            'لا يمكنك متابعة نفسك. هذه صفحة أعمالك كمؤلف.'
+        );
+
+        return;
+
+    }
+
+
+    let list =
+        getFollowing();
+
+
+    const normalized =
+        String(authorName)
+            .trim()
+            .toLowerCase();
+
+
+    const existing =
+        list.find(
+            a =>
+                String(a)
+                    .trim()
+                    .toLowerCase() ===
+                normalized
+        );
+
+
+    if (existing) {
+
+        list =
+            list.filter(
+                a =>
+                    String(a)
+                        .trim()
+                        .toLowerCase() !==
+                    normalized
+            );
+
+    } else {
+
+        list.push(
+            String(authorName)
+                .trim()
+        );
+
+    }
+
+
+    saveFollowing(list);
+
+
+    if (currentNovel) {
+
+        renderFollowButton(
+            getAuthorName(
+                currentNovel
+            )
+        );
+
+    }
+
+}
+
+
+function renderFollowButton(
+    authorName
+) {
+
+    const container =
+        document.getElementById(
+            'followAuthorContainer'
+        );
+
+
+    if (!container) return;
+
+
+    /*
+     * لا يظهر زر المتابعة للمؤلف
+     * عندما يفتح عمله هو.
+     */
+
+    if (
+        !currentUser ||
+        isGuest ||
+        isOwnAuthor(authorName)
+    ) {
+
+        container.innerHTML = '';
+
+        return;
+
+    }
+
+
+    const following =
+        isFollowing(
+            authorName
+        );
+
+
+    container.innerHTML = `
+
+        <button
+            class="follow-btn ${following ? 'following' : ''}"
+            onclick="toggleFollow('${escapeHtml(authorName)}')"
+        >
+
+            ${
+                following
+                    ? 'إلغاء المتابعة'
+                    : 'تابع'
             }
 
-            const status = getReadingStatus();
-            if (currentTab === 'recent') novels.sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
-            else if (currentTab === 'last-read') novels.sort((a, b) => Number(status[getNovelKey(b)]?.lastRead || 0) - Number(status[getNovelKey(a)]?.lastRead || 0));
-            else if (currentTab === 'reading') novels = novels.filter(n => status[getNovelKey(n)]?.status === 'reading');
-            else if (currentTab === 'read') novels = novels.filter(n => status[getNovelKey(n)]?.status === 'read');
+        </button>
 
-            container.innerHTML = '';
-            if (novels.length === 0) {
-                container.innerHTML = '<div class="empty-section">لا توجد روايات في هذا القسم</div>';
-                return;
+    `;
+
+}
+
+
+/* =========================================================
+   حالة القراءة
+   ========================================================= */
+
+function getReadingStatus() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                'reading_status'
+            ) || '{}'
+        );
+
+    } catch (e) {
+
+        return {};
+
+    }
+
+}
+
+
+function setReadingStatus(
+    key,
+    status
+) {
+
+    const s =
+        getReadingStatus();
+
+
+    s[key] = {
+
+        status:
+            status,
+
+        lastRead:
+            Date.now()
+
+    };
+
+
+    localStorage.setItem(
+        'reading_status',
+        JSON.stringify(s)
+    );
+
+}
+
+
+/* =========================================================
+   التقييم
+   ========================================================= */
+
+function getRatings() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                'ratings'
+            ) || '{}'
+        );
+
+    } catch (e) {
+
+        return {};
+
+    }
+
+}
+
+
+function setRating(
+    key,
+    val
+) {
+
+    const r =
+        getRatings();
+
+    r[key] =
+        val;
+
+    localStorage.setItem(
+        'ratings',
+        JSON.stringify(r)
+    );
+
+}
+
+
+/* =========================================================
+   الإعجابات
+   ========================================================= */
+
+function getLikes() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                'likes'
+            ) || '{}'
+        );
+
+    } catch (e) {
+
+        return {};
+
+    }
+
+}
+
+
+function setLike(
+    key,
+    val
+) {
+
+    const l =
+        getLikes();
+
+    l[key] =
+        val;
+
+    localStorage.setItem(
+        'likes',
+        JSON.stringify(l)
+    );
+
+}
+
+
+/* =========================================================
+   التعليقات
+   ========================================================= */
+
+function getComments() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                'comments_v3'
+            ) || '{}'
+        );
+
+    } catch (e) {
+
+        return {};
+
+    }
+
+}
+
+
+function addComment(
+    key,
+    text,
+    author,
+    role
+) {
+
+    const c =
+        getComments();
+
+
+    if (!c[key]) {
+
+        c[key] = [];
+
+    }
+
+
+    c[key].push({
+
+        id:
+            Date.now(),
+
+        author:
+            author,
+
+        role:
+            role,
+
+        text:
+            text,
+
+        date:
+            new Date()
+                .toISOString()
+
+    });
+
+
+    localStorage.setItem(
+        'comments_v3',
+        JSON.stringify(c)
+    );
+
+}
+
+
+/* =========================================================
+   حفظ تحديث الرواية
+   ========================================================= */
+
+async function saveNovelUpdate(
+    novel
+) {
+
+    try {
+
+        const res =
+            await fetch(
+                API_URL,
+                {
+                    method: 'GET',
+
+                    headers: {
+                        "X-Master-Key":
+                            MASTER_KEY
+                    },
+
+                    cache:
+                        'no-store'
+                }
+            );
+
+
+        if (!res.ok) return;
+
+
+        const data =
+            await res.json();
+
+
+        let payload =
+            data.record || {};
+
+
+        let allNovels =
+            extractNovels(data);
+
+
+        let index = -1;
+
+
+        if (novel.id) {
+
+            index =
+                allNovels.findIndex(
+                    n =>
+                        String(n.id) ===
+                        String(novel.id)
+                );
+
+        }
+
+
+        if (
+            index === -1 &&
+            novel.novelId
+        ) {
+
+            index =
+                allNovels.findIndex(
+                    n =>
+                        String(n.novelId) ===
+                        String(novel.novelId)
+                );
+
+        }
+
+
+        if (index === -1) {
+
+            index =
+                allNovels.findIndex(
+                    n =>
+                        String(
+                            n.title || ''
+                        ) ===
+                        String(
+                            novel.title || ''
+                        ) &&
+
+                        String(
+                            n.createdAt || ''
+                        ) ===
+                        String(
+                            novel.createdAt || ''
+                        )
+                );
+
+        }
+
+
+        if (index === -1) {
+
+            index =
+                allNovels.findIndex(
+                    n =>
+                        String(
+                            n.title || ''
+                        ) ===
+                        String(
+                            novel.title || ''
+                        )
+                );
+
+        }
+
+
+        if (index !== -1) {
+
+            const existingNovel =
+                allNovels[index];
+
+
+            existingNovel.views =
+                Math.max(
+                    Number(
+                        existingNovel.views ||
+                        0
+                    ),
+                    Number(
+                        novel.views ||
+                        0
+                    )
+                );
+
+
+            existingNovel.likes =
+                Math.max(
+                    Number(
+                        existingNovel.likes ||
+                        0
+                    ),
+                    Number(
+                        novel.likes ||
+                        0
+                    )
+                );
+
+
+            existingNovel.dislikes =
+                Math.max(
+                    Number(
+                        existingNovel.dislikes ||
+                        0
+                    ),
+                    Number(
+                        novel.dislikes ||
+                        0
+                    )
+                );
+
+
+            if (
+                Array.isArray(
+                    novel.readers
+                )
+            ) {
+
+                if (
+                    !Array.isArray(
+                        existingNovel.readers
+                    )
+                ) {
+
+                    existingNovel.readers =
+                        [];
+
+                }
+
+
+                novel.readers.forEach(
+                    reader => {
+
+                        if (
+                            !existingNovel.readers.includes(
+                                reader
+                            )
+                        ) {
+
+                            existingNovel.readers.push(
+                                reader
+                            );
+
+                        }
+
+                    }
+                );
+
             }
 
-            novels.forEach(novel => {
-                const div = document.createElement('div');
-                div.className = 'card';
-                div.onclick = () => openNovel(novel);
 
-                const typeText = novel.continuous ? 'مستمرة 🟢' : 'منتهية 🔴';
-                const views = Number(novel.views || 0);
-                const readers = Array.isArray(novel.readers) ? novel.readers.length : 0;
-                const likes = Number(novel.likes || 0);
-                const chapterTitles = Array.isArray(novel.chapterTitles) ? novel.chapterTitles : [];
-                const authorName = getOrCreateAuthorName(novel);
+            payload.novels =
+                allNovels;
+
+
+            await fetch(
+                BASE_API_URL,
+                {
+                    method: 'PUT',
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "X-Master-Key":
+                            MASTER_KEY
+                    },
+
+                    body:
+                        JSON.stringify(
+                            payload
+                        )
+                }
+            );
+
+        }
+
+    } catch (e) {
+
+        console.error(
+            'saveNovelUpdate:',
+            e
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   تحميل الروايات
+   ========================================================= */
+
+async function loadNovels() {
+
+    const container =
+        document.getElementById(
+            'container'
+        );
+
+
+    try {
+
+        const res =
+            await fetch(
+                API_URL,
+                {
+                    method: 'GET',
+
+                    headers: {
+                        "X-Master-Key":
+                            MASTER_KEY
+                    },
+
+                    cache:
+                        'no-store'
+                }
+            );
+
+
+        if (!res.ok) {
+
+            throw new Error(
+                "HTTP " +
+                res.status
+            );
+
+        }
+
+
+        const data =
+            await res.json();
+
+
+        let allNovels =
+            extractNovels(data)
+                .filter(
+                    n =>
+                        n &&
+                        typeof n.title ===
+                        'string'
+                );
+
+
+        allNovelsCache =
+            allNovels;
+
+
+        checkForNewContent(
+            allNovels
+        );
+
+
+        let novels =
+            [...allNovels];
+
+
+        if (searchTerm) {
+
+            const query =
+                searchTerm
+                    .toLowerCase()
+                    .trim();
+
+
+            novels =
+                novels.filter(
+                    n =>
+                        String(
+                            n.title || ''
+                        )
+                        .toLowerCase()
+                        .includes(query)
+                );
+
+        }
+
+
+        const status =
+            getReadingStatus();
+
+
+        if (
+            currentTab ===
+            'recent'
+        ) {
+
+            novels.sort(
+                (a,b) =>
+                    Number(
+                        b.createdAt ||
+                        0
+                    ) -
+                    Number(
+                        a.createdAt ||
+                        0
+                    )
+            );
+
+        } else if (
+            currentTab ===
+            'last-read'
+        ) {
+
+            novels.sort(
+                (a,b) =>
+                    Number(
+                        status[
+                            getNovelKey(b)
+                        ]?.lastRead ||
+                        0
+                    ) -
+                    Number(
+                        status[
+                            getNovelKey(a)
+                        ]?.lastRead ||
+                        0
+                    )
+            );
+
+        }
+
+
+        container.innerHTML =
+            '';
+
+
+        if (
+            novels.length ===
+            0
+        ) {
+
+            container.innerHTML =
+                '<div class="empty-section">لا توجد روايات في هذا القسم</div>';
+
+            return;
+
+        }
+
+
+        novels.forEach(
+            novel => {
+
+                const div =
+                    document.createElement(
+                        'div'
+                    );
+
+
+                div.className =
+                    'card';
+
+
+                div.onclick =
+                    () =>
+                        openNovel(
+                            novel
+                        );
+
+
+                const typeText =
+                    novel.continuous
+                        ? 'مستمرة'
+                        : 'منتهية';
+
+
+                const views =
+                    Number(
+                        novel.views ||
+                        0
+                    );
+
+
+                const readers =
+                    Array.isArray(
+                        novel.readers
+                    )
+                        ? novel.readers.length
+                        : 0;
+
+
+                const likes =
+                    Number(
+                        novel.likes ||
+                        0
+                    );
+
+
+                const chapterTitles =
+                    Array.isArray(
+                        novel.chapterTitles
+                    )
+                        ? novel.chapterTitles
+                        : [];
+
+
+                const authorName =
+                    getAuthorName(
+                        novel
+                    );
+
 
                 div.innerHTML = `
-                    <div class="title">${escapeHtml(novel.title)}</div>
+
+                    <div class="title">
+                        ${escapeHtml(
+                            novel.title
+                        )}
+                    </div>
+
                     <div class="info">
-                        <span>✍️ ${escapeHtml(authorName)}</span>
-                        <span class="badge">${typeText}</span>
+
+                        <span
+                            class="author-link"
+                            onclick="event.stopPropagation(); openAuthorProfile('${escapeHtml(authorName)}')"
+                        >
+                            ${escapeHtml(
+                                authorName
+                            )}
+                        </span>
+
+                        <span class="badge">
+                            ${typeText}
+                        </span>
+
                     </div>
-                    <div class="info" style="margin-top:5px;"><span>📚 ${chapterTitles.length} فصل</span></div>
+
+                    <div
+                        class="info"
+                        style="margin-top:5px;"
+                    >
+                        <span>
+                            ${chapterTitles.length} فصل
+                        </span>
+                    </div>
+
                     <div class="stats">
-                        <div class="stat-item">👁️ ${views}</div>
-                        <div class="stat-item">👥 ${readers}</div>
-                        <div class="stat-item">👍 ${likes}</div>
+
+                        <div class="stat-item">
+                            مشاهدات:
+                            ${views}
+                        </div>
+
+                        <div class="stat-item">
+                            قراء:
+                            ${readers}
+                        </div>
+
+                        <div class="stat-item">
+                            إعجابات:
+                            ${likes}
+                        </div>
+
                     </div>
+
                 `;
-                container.appendChild(div);
-            });
 
-        } catch (e) {
-            console.error(e);
-            // في حالة الخطأ، نظهر رسالة ولكن لا نمسح القائمة القديمة فوراً إلا إذا كانت فارغة
-            if(container.children.length === 0) {
-                 container.innerHTML = `<div class="error-section">تعذر تحميل الروايات.<br>تأكد من الاتصال بالإنترنت.</div>`;
+
+                container.appendChild(
+                    div
+                );
+
             }
-        }
-    }
+        );
 
-    /* =========================================================
-       فتح الرواية
-       ========================================================= */
-    let currentChapterIndex = 0;
 
-    async function openNovel(novel, startChapter = 0) {
-        currentNovel = novel;
-        currentChapterIndex = startChapter;
-        const novelKey = getNovelKey(novel);
+    } catch (e) {
 
-        novel.views = Number(novel.views || 0) + 1;
-        if (!Array.isArray(novel.readers)) novel.readers = [];
-        if (!novel.readers.includes(getDeviceId())) novel.readers.push(getDeviceId());
-        saveNovelUpdate(novel);
-        setReadingStatus(novelKey, 'reading');
+        console.error(e);
 
-        const authorName = getOrCreateAuthorName(novel);
 
-        document.getElementById('toolbarTitle').innerText = novel.title || 'بدون عنوان';
-        document.getElementById('readerTitle').innerText = novel.title || 'بدون عنوان';
-        document.getElementById('readerAuthor').innerText = authorName;
+        if (
+            container.children
+                .length === 0
+        ) {
 
-        const nav = document.getElementById('chapterNav');
-        nav.innerHTML = '';
-        const chapterTitles = Array.isArray(novel.chapterTitles) ? novel.chapterTitles : [];
+            container.innerHTML = `
 
-        if (chapterTitles.length === 0) {
-            document.getElementById('readerContent').innerHTML = '<div class="empty-section">لا توجد فصول بعد.</div>';
-        } else {
-            chapterTitles.forEach((title, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'chapter-btn';
-                btn.innerText = title || `فصل ${idx + 1}`;
-                btn.onclick = () => loadChapter(idx);
-                if (idx === startChapter) btn.classList.add('active');
-                nav.appendChild(btn);
-            });
-            loadChapter(startChapter);
-        }
+                <div class="error-section">
 
-        resetInteractions(novelKey);
+                    تعذر تحميل الروايات.
 
-        document.getElementById('mainPage').style.display = 'none';
-        document.getElementById('novelReaderPage').style.display = 'block';
-        window.scrollTo(0, 0);
-    }
+                    <br>
 
-    function goBackToHome() {
-        document.getElementById('novelReaderPage').style.display = 'none';
-        document.getElementById('mainPage').style.display = 'block';
+                    تأكد من الاتصال بالإنترنت.
 
-        if (currentNovel) {
-            setReadingStatus(getNovelKey(currentNovel), 'read');
-            currentNovel = null;
-        }
-        loadNovels();
-    }
+                </div>
 
-    function loadChapter(index) {
-        if (!currentNovel) return;
-        currentChapterIndex = index;
-        const buttons = document.querySelectorAll('.chapter-btn');
-        buttons.forEach((btn, i) => {
-            btn.classList.toggle('active', i === index);
-        });
-        const contents = Array.isArray(currentNovel.chapterContents) ? currentNovel.chapterContents : [];
-        const text = contents[index] || "لا يوجد نص لهذا الفصل.";
-        document.getElementById('readerContent').innerText = text;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    /* =========================================================
-       التفاعلات
-       ========================================================= */
-    function resetInteractions(novelKey) {
-        const ratings = getRatings();
-        updateStars(ratings[novelKey] || 0);
-        const likes = getLikes();
-        const userLike = likes[novelKey];
-        document.getElementById('likeBtn').classList.toggle('active', userLike === 'like');
-        document.getElementById('dislikeBtn').classList.toggle('active', userLike === 'dislike');
-        document.getElementById('likeCount').innerText = Number(currentNovel.likes || 0);
-        document.getElementById('dislikeCount').innerText = Number(currentNovel.dislikes || 0);
-        document.getElementById('commentInput').value = '';
-        loadComments(novelKey);
-    }
-
-    function updateStars(rating) {
-        document.querySelectorAll('.star').forEach((star, index) => {
-            star.classList.toggle('active', index < rating);
-        });
-    }
-
-    document.querySelectorAll('.star').forEach(star => {
-        star.addEventListener('click', function () {
-            if (!currentNovel) return;
-            const rating = parseInt(this.dataset.value);
-            setRating(getNovelKey(currentNovel), rating);
-            updateStars(rating);
-        });
-    });
-
-    document.getElementById('likeBtn').addEventListener('click', async function () {
-        if (!currentNovel) return;
-        handleVote('like');
-    });
-    document.getElementById('dislikeBtn').addEventListener('click', async function () {
-        if (!currentNovel) return;
-        handleVote('dislike');
-    });
-
-    async function handleVote(type) {
-        const novelKey = getNovelKey(currentNovel);
-        const likesData = getLikes();
-        const currentVote = likesData[novelKey];
-        if (currentVote === type) return;
-
-        if (currentVote === 'dislike' && type === 'like') currentNovel.dislikes = Math.max(0, Number(currentNovel.dislikes || 0) - 1);
-        else if (currentVote === 'like' && type === 'dislike') currentNovel.likes = Math.max(0, Number(currentNovel.likes || 0) - 1);
-
-        setLike(novelKey, type);
-        if (type === 'like') currentNovel.likes = Number(currentNovel.likes || 0) + 1;
-        else currentNovel.dislikes = Number(currentNovel.dislikes || 0) + 1;
-
-        document.getElementById('likeBtn').classList.toggle('active', type === 'like');
-        document.getElementById('dislikeBtn').classList.toggle('active', type === 'dislike');
-        document.getElementById('likeCount').innerText = currentNovel.likes;
-        document.getElementById('dislikeCount').innerText = currentNovel.dislikes;
-        await saveNovelUpdate(currentNovel);
-    }
-
-    function submitComment() {
-        if (!currentNovel || !currentUser) return;
-        const input = document.getElementById('commentInput');
-        const text = input.value.trim();
-        if (!text) return;
-
-        addComment(getNovelKey(currentNovel), text, currentUser.name, currentUser.role);
-        input.value = '';
-        loadComments(getNovelKey(currentNovel));
-    }
-
-    function loadComments(novelKey) {
-        const comments = getComments();
-        const list = document.getElementById('commentsList');
-        list.innerHTML = '';
-        const novelComments = comments[novelKey] || [];
-        [...novelComments].reverse().forEach(c => {
-            const div = document.createElement('div');
-            div.className = 'comment-item';
-            div.innerHTML = `
-                <div class="comment-author">${escapeHtml(c.author)} ${c.role ? '(' + c.role + ')' : ''}</div>
-                <div class="comment-text">${escapeHtml(c.text)}</div>
-                <div class="comment-date">${new Date(c.date).toLocaleDateString('ar-SA')}</div>
             `;
-            list.appendChild(div);
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   فتح الرواية
+   ========================================================= */
+
+function openNovel(
+    novel,
+    startChapter = 0
+) {
+
+    currentNovel =
+        novel;
+
+
+    currentChapterIndex =
+        startChapter;
+
+
+    const novelKey =
+        getNovelKey(
+            novel
+        );
+
+
+    /*
+     * المؤلف لا يسجل نفسه قارئاً
+     * ولا يزيد مشاهدات روايته من حسابه.
+     */
+
+    if (
+        !isGuest &&
+        currentUser &&
+        !isOwnNovel(novel)
+    ) {
+
+        novel.views =
+            Number(
+                novel.views ||
+                0
+            ) + 1;
+
+
+        if (
+            !Array.isArray(
+                novel.readers
+            )
+        ) {
+
+            novel.readers =
+                [];
+
+        }
+
+
+        if (
+            !novel.readers.includes(
+                getDeviceId()
+            )
+        ) {
+
+            novel.readers.push(
+                getDeviceId()
+            );
+
+        }
+
+
+        saveNovelUpdate(
+            novel
+        );
+
+
+        setReadingStatus(
+            novelKey,
+            'reading'
+        );
+
+    }
+
+
+    const authorName =
+        getAuthorName(
+            novel
+        );
+
+
+    document.getElementById(
+        'toolbarTitle'
+    ).innerText =
+        novel.title ||
+        'بدون عنوان';
+
+
+    document.getElementById(
+        'readerTitle'
+    ).innerText =
+        novel.title ||
+        'بدون عنوان';
+
+
+    const authorEl =
+        document.getElementById(
+            'readerAuthor'
+        );
+
+
+    authorEl.innerText =
+        authorName;
+
+
+    authorEl.onclick =
+        () =>
+            openAuthorProfile(
+                authorName
+            );
+
+
+    renderFollowButton(
+        authorName
+    );
+
+
+    document.getElementById(
+        'guestWarning'
+    ).style.display =
+        isGuest
+            ? 'block'
+            : 'none';
+
+
+    document.getElementById(
+        'interactionSection'
+    ).style.display =
+        isGuest
+            ? 'none'
+            : 'block';
+
+
+    document.getElementById(
+        'commentsSection'
+    ).style.display =
+        isGuest
+            ? 'none'
+            : 'block';
+
+
+    const nav =
+        document.getElementById(
+            'chapterNav'
+        );
+
+
+    nav.innerHTML =
+        '';
+
+
+    const chapterTitles =
+        Array.isArray(
+            novel.chapterTitles
+        )
+            ? novel.chapterTitles
+            : [];
+
+
+    if (
+        chapterTitles.length ===
+        0
+    ) {
+
+        document.getElementById(
+            'readerContent'
+        ).innerHTML =
+            '<div class="empty-section">لا توجد فصول بعد.</div>';
+
+    } else {
+
+        chapterTitles.forEach(
+            (
+                title,
+                idx
+            ) => {
+
+                const btn =
+                    document.createElement(
+                        'button'
+                    );
+
+
+                btn.className =
+                    'chapter-btn';
+
+
+                btn.innerText =
+                    title ||
+                    `فصل ${idx + 1}`;
+
+
+                if (
+                    isGuest &&
+                    idx > 0
+                ) {
+
+                    btn.classList.add(
+                        'locked'
+                    );
+
+
+                    btn.onclick =
+                        () =>
+                            alert(
+                                'يجب تسجيل الدخول لقراءة باقي الفصول'
+                            );
+
+                } else {
+
+                    btn.onclick =
+                        () =>
+                            loadChapter(
+                                idx
+                            );
+
+                }
+
+
+                if (
+                    idx ===
+                    startChapter
+                ) {
+
+                    btn.classList.add(
+                        'active'
+                    );
+
+                }
+
+
+                nav.appendChild(
+                    btn
+                );
+
+            }
+        );
+
+
+        loadChapter(
+            isGuest
+                ? 0
+                : startChapter
+        );
+
+    }
+
+
+    if (!isGuest) {
+
+        resetInteractions(
+            novelKey
+        );
+
+    }
+
+
+    document.getElementById(
+        'mainPage'
+    ).style.display =
+        'none';
+
+
+    document.getElementById(
+        'novelReaderPage'
+    ).style.display =
+        'block';
+
+
+    document.getElementById(
+        'profilePage'
+    ).style.display =
+        'none';
+
+
+    document.getElementById(
+        'authorProfilePage'
+    ).style.display =
+        'none';
+
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+
+    history.replaceState(
+        null,
+        '',
+        `#novel=${encodeURIComponent(
+            getNovelKey(novel)
+        )}&chapter=${currentChapterIndex}`
+    );
+
+}
+
+
+/* =========================================================
+   العودة للرئيسية
+   ========================================================= */
+
+function goBackToHome() {
+
+    document.getElementById(
+        'novelReaderPage'
+    ).style.display =
+        'none';
+
+
+    document.getElementById(
+        'profilePage'
+    ).style.display =
+        'none';
+
+
+    document.getElementById(
+        'authorProfilePage'
+    ).style.display =
+        'none';
+
+
+    document.getElementById(
+        'mainPage'
+    ).style.display =
+        'block';
+
+
+    /*
+     * المؤلف لا تُسجّل روايته
+     * في آخر رواية قرأتها.
+     */
+
+    if (
+        currentNovel &&
+        !isGuest &&
+        !isOwnNovel(
+            currentNovel
+        )
+    ) {
+
+        setReadingStatus(
+            getNovelKey(
+                currentNovel
+            ),
+            'read'
+        );
+
+        currentNovel =
+            null;
+
+    } else if (
+        currentNovel
+    ) {
+
+        currentNovel =
+            null;
+
+    }
+
+
+    history.replaceState(
+        null,
+        '',
+        location.pathname
+    );
+
+
+    loadNovels();
+
+}
+
+
+/* =========================================================
+   تحميل فصل
+   ========================================================= */
+
+function loadChapter(index) {
+
+    if (!currentNovel) return;
+
+
+    if (
+        isGuest &&
+        index > 0
+    ) {
+
+        alert(
+            'يجب تسجيل الدخول لقراءة باقي الفصول'
+        );
+
+        return;
+
+    }
+
+
+    currentChapterIndex =
+        index;
+
+
+    document
+        .querySelectorAll(
+            '.chapter-btn'
+        )
+        .forEach(
+            (btn, i) =>
+                btn.classList.toggle(
+                    'active',
+                    i === index
+                )
+        );
+
+
+    const contents =
+        Array.isArray(
+            currentNovel.chapterContents
+        )
+            ? currentNovel.chapterContents
+            : [];
+
+
+    document.getElementById(
+        'readerContent'
+    ).innerText =
+        contents[index] ||
+        "لا يوجد نص لهذا الفصل.";
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+
+
+    history.replaceState(
+        null,
+        '',
+        `#novel=${encodeURIComponent(
+            getNovelKey(
+                currentNovel
+            )
+        )}&chapter=${index}`
+    );
+
+}
+
+
+/* =========================================================
+   مشاركة الفصل
+   ========================================================= */
+
+function shareChapter() {
+
+    if (!currentNovel)
+        return;
+
+
+    const url =
+        `${location.origin}${location.pathname}` +
+        `#novel=${encodeURIComponent(
+            getNovelKey(
+                currentNovel
+            )
+        )}` +
+        `&chapter=${currentChapterIndex}`;
+
+
+    if (
+        navigator.share
+    ) {
+
+        navigator.share({
+
+            title:
+                currentNovel.title,
+
+            url:
+                url
+
         });
+
+    } else {
+
+        navigator.clipboard
+            .writeText(
+                url
+            )
+            .then(
+                () =>
+                    alert(
+                        'تم نسخ رابط الفصل'
+                    )
+            );
+
     }
 
-    function getReadingStatus() { try { return JSON.parse(localStorage.getItem('reading_status') || '{}'); } catch (e) { return {}; } }
-    function setReadingStatus(key, status) {
-        const s = getReadingStatus(); s[key] = { status, lastRead: Date.now() };
-        localStorage.setItem('reading_status', JSON.stringify(s));
+}
+
+
+/* =========================================================
+   ملفي الشخصي
+   ========================================================= */
+
+function openMyProfile() {
+
+    if (
+        !currentUser ||
+        isGuest
+    ) {
+
+        alert(
+            'يجب تسجيل الدخول'
+        );
+
+        return;
+
     }
-    function getRatings() { try { return JSON.parse(localStorage.getItem('ratings') || '{}'); } catch (e) { return {}; } }
-    function setRating(key, val) { const r = getRatings(); r[key] = val; localStorage.setItem('ratings', JSON.stringify(r)); }
-    function getLikes() { try { return JSON.parse(localStorage.getItem('likes') || '{}'); } catch (e) { return {}; } }
-    function setLike(key, val) { const l = getLikes(); l[key] = val; localStorage.setItem('likes', JSON.stringify(l)); }
-    function getComments() { try { return JSON.parse(localStorage.getItem('comments_v3') || '{}'); } catch (e) { return {}; } }
-    function addComment(key, text, author, role) {
-        const c = getComments();
-        if (!c[key]) c[key] = [];
-        c[key].push({ id: Date.now(), author: author, role: role, text: text, date: new Date().toISOString() });
-        localStorage.setItem('comments_v3', JSON.stringify(c));
-    }
 
-    /* =========================================================
-       حفظ تحديث الرواية - مع دمج الفصول
-       ========================================================= */
-    async function saveNovelUpdate(novel) {
-        try {
-            const res = await fetch(API_URL, { method: 'GET', headers: { "X-Master-Key": MASTER_KEY }, cache: 'no-store' });
-            if (!res.ok) return;
-            const data = await res.json();
 
-            let payload = data.record || {};
-            let allNovels = extractNovels(data);
+    const content =
+        document.getElementById(
+            'myProfileContent'
+        );
 
-            let index = -1;
 
-            if (novel.id) {
-                index = allNovels.findIndex(n => String(n.id) === String(novel.id));
+    const following =
+        getFollowing();
+
+
+    /*
+     * ==========================================
+     * المؤلف
+     * ==========================================
+     */
+
+    if (
+        currentUser.role ===
+        'author'
+    ) {
+
+        const authorName =
+            currentUser.authorName ||
+            currentUser.name;
+
+
+        /*
+         * جميع روايات هذا المؤلف.
+         */
+
+        const myNovels =
+            allNovelsCache.filter(
+                n =>
+                    getAuthorName(n)
+                        .trim()
+                        .toLowerCase() ===
+                    authorName
+                        .trim()
+                        .toLowerCase()
+            );
+
+
+        let totalLikes = 0;
+
+        let totalViews = 0;
+
+
+        myNovels.forEach(
+            n => {
+
+                totalLikes +=
+                    Number(
+                        n.likes ||
+                        0
+                    );
+
+                totalViews +=
+                    Number(
+                        n.views ||
+                        0
+                    );
+
             }
-            if (index === -1 && novel.novelId) {
-                index = allNovels.findIndex(n => String(n.novelId) === String(novel.novelId));
-            }
-            if (index === -1 && novel.deviceId) {
-                index = allNovels.findIndex(n =>
-                    String(n.title || '') === String(novel.title || '') &&
-                    String(n.deviceId || '') === String(novel.deviceId || '')
-                );
-            }
-            if (index === -1) {
-                index = allNovels.findIndex(n =>
-                    String(n.title || '') === String(novel.title || '') &&
-                    String(n.createdAt || '') === String(novel.createdAt || '')
-                );
-            }
-            if (index === -1) {
-                index = allNovels.findIndex(n => String(n.title || '') === String(novel.title || ''));
-            }
+        );
 
-            if (index !== -1) {
-                const existingNovel = allNovels[index];
-                const existingChapters = Array.isArray(existingNovel.chapterTitles) ? existingNovel.chapterTitles.length : 0;
-                const newChapters = Array.isArray(novel.chapterTitles) ? novel.chapterTitles.length : 0;
 
-                if (newChapters > existingChapters) {
-                    if (!Array.isArray(existingNovel.chapterTitles)) existingNovel.chapterTitles = [];
-                    if (!Array.isArray(existingNovel.chapterContents)) existingNovel.chapterContents = [];
+        /*
+         * لا يوجد "آخر رواية قرأتها"
+         * للمؤلف هنا.
+         */
 
-                    for (let i = existingChapters; i < newChapters; i++) {
-                        existingNovel.chapterTitles.push(novel.chapterTitles[i]);
-                        if (novel.chapterContents && novel.chapterContents[i]) {
-                            existingNovel.chapterContents.push(novel.chapterContents[i]);
-                        }
-                    }
+        content.innerHTML = `
+
+            <div class="profile-header">
+
+                <div class="profile-name">
+
+                    مرحباً بك،
+                    ${escapeHtml(
+                        authorName
+                    )}
+
+                </div>
+
+                <div class="profile-role">
+                    مؤلف
+                </div>
+
+                <div
+                    style="margin-top:10px;color:#666;"
+                >
+
+                    هذه صفحتك الخاصة كمؤلف.
+
+                </div>
+
+
+                <div class="profile-stats">
+
+                    <div class="profile-stat">
+
+                        <div class="profile-stat-num">
+
+                            ${myNovels.length}
+
+                        </div>
+
+                        <div class="profile-stat-label">
+
+                            أعمالي المنشورة
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-stat">
+
+                        <div class="profile-stat-num">
+
+                            ${totalLikes}
+
+                        </div>
+
+                        <div class="profile-stat-label">
+
+                            إعجابات
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-stat">
+
+                        <div class="profile-stat-num">
+
+                            ${totalViews}
+
+                        </div>
+
+                        <div class="profile-stat-label">
+
+                            مشاهدات
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-actions">
+
+                    <button
+                        class="logout-btn"
+                        onclick="logout()"
+                    >
+                        تسجيل خروج
+                    </button>
+
+                    <button
+                        class="delete-account-btn"
+                        onclick="deleteAccount()"
+                    >
+                        حذف الحساب
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="activity-list">
+
+                <h3>
+                    أعمالي المنشورة
+                </h3>
+
+
+                ${
+                    myNovels.length === 0
+
+                        ?
+
+                        '<div style="color:#999;padding:10px;">لا توجد أعمال منشورة مرتبطة بهذا الحساب حالياً.</div>'
+
+                        :
+
+                        myNovels
+                            .map(
+                                n => `
+
+                                <div
+                                    class="activity-item"
+                                    style="cursor:pointer;"
+                                    onclick='openNovel(${JSON.stringify(n).replace(/'/g, "&#39;")})'
+                                >
+
+                                    <div>
+
+                                        <strong>
+                                            ${escapeHtml(
+                                                n.title
+                                            )}
+                                        </strong>
+
+                                        <div
+                                            style="font-size:0.85em;color:#666;margin-top:4px;"
+                                        >
+
+                                            ${
+                                                Array.isArray(
+                                                    n.chapterTitles
+                                                )
+                                                    ? n.chapterTitles.length
+                                                    : 0
+                                            }
+
+                                            فصل
+
+                                            •
+
+                                            إعجابات:
+                                            ${n.likes || 0}
+
+                                            •
+
+                                            مشاهدات:
+                                            ${n.views || 0}
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            `
+                            )
+                            .join('')
+
                 }
 
-                existingNovel.views = Math.max(Number(existingNovel.views || 0), Number(novel.views || 0));
-                existingNovel.likes = Math.max(Number(existingNovel.likes || 0), Number(novel.likes || 0));
-                existingNovel.dislikes = Math.max(Number(existingNovel.dislikes || 0), Number(novel.dislikes || 0));
+            </div>
 
-                if (Array.isArray(novel.readers)) {
-                    if (!Array.isArray(existingNovel.readers)) existingNovel.readers = [];
-                    novel.readers.forEach(r => {
-                        if (!existingNovel.readers.includes(r)) {
-                            existingNovel.readers.push(r);
-                        }
-                    });
+
+            <div class="followers-list">
+
+                <h3>
+
+                    المؤلفون الذين أتابعهم
+                    (${following.length})
+
+                </h3>
+
+
+                ${
+                    following.length === 0
+
+                        ?
+
+                        '<div style="color:#999;padding:10px;">لا تتابع مؤلفين آخرين بعد.</div>'
+
+                        :
+
+                        following
+                            .map(
+                                a => `
+
+                                <div class="follower-item">
+
+                                    <span
+                                        class="author-link"
+                                        onclick="openAuthorProfile('${escapeHtml(a)}')"
+                                    >
+                                        ${escapeHtml(a)}
+                                    </span>
+
+                                    <button
+                                        class="follow-btn following"
+                                        onclick="toggleFollow('${escapeHtml(a)}')"
+                                    >
+                                        إلغاء المتابعة
+                                    </button>
+
+                                </div>
+
+                            `
+                            )
+                            .join('')
+
                 }
 
-                if (novel.author) existingNovel.author = novel.author;
-                if (novel.continuous !== undefined) existingNovel.continuous = novel.continuous;
+            </div>
 
-                allNovels[index] = existingNovel;
-            } else {
-                allNovels.push(novel);
-            }
-
-            payload.novels = allNovels;
-
-            await fetch(BASE_API_URL, {
-                method: 'PUT',
-                headers: { "Content-Type": "application/json", "X-Master-Key": MASTER_KEY },
-                body: JSON.stringify(payload)
-            });
-        } catch (e) { console.error("Save error", e); }
-    }
-
-    /* =========================================================
-       الدعم الفني
-       ========================================================= */
-    async function openSupportModal() {
-        if (!currentUser) {
-            alert('يرجى تسجيل الدخول أولاً');
-            return;
-        }
-        document.getElementById('supportModal').style.display = 'flex';
-        await loadChatMessages();
-        markRepliesAsSeen();
-    }
-
-    function closeSupportModal() {
-        document.getElementById('supportModal').style.display = 'none';
-        markRepliesAsSeen();
-    }
-
-    async function loadChatMessages() {
-        const chatBox = document.getElementById('chatMessages');
-        chatBox.innerHTML = '<div class="empty-chat">جاري التحميل...</div>';
-
-        try {
-            const res = await fetch(API_URL, { method: 'GET', headers: { "X-Master-Key": MASTER_KEY }, cache: 'no-store' });
-            const data = await res.json();
-            let messages = [];
-
-            if (data.record && Array.isArray(data.record.messages)) {
-                messages = data.record.messages;
-            }
-
-            const myMessages = messages.filter(m => m.deviceId === currentUser.deviceId);
-            chatBox.innerHTML = '';
-
-            if (myMessages.length === 0) {
-                chatBox.innerHTML = '<div class="empty-chat">ابدأ المحادثة بإرسال رسالة للإدارة...</div>';
-                return;
-            }
-
-            myMessages.forEach(m => {
-                addBubbleToChat('user', currentUser.name, m.message, m.date);
-                if (m.reply) addBubbleToChat('admin', 'الإدارة', m.reply, m.replyDate);
-                if (Array.isArray(m.userReplies)) {
-                    m.userReplies.forEach(ur => addBubbleToChat('user', currentUser.name, ur.text, ur.date));
-                }
-                if (Array.isArray(m.adminReplies)) {
-                    m.adminReplies.forEach(ar => addBubbleToChat('admin', 'الإدارة', ar.text, ar.date));
-                }
-            });
-
-            chatBox.scrollTop = chatBox.scrollHeight;
-        } catch (e) {
-            chatBox.innerHTML = '<div class="empty-chat" style="color:red;">تعذر تحميل المحادثة</div>';
-        }
-    }
-
-    function addBubbleToChat(type, senderName, text, date) {
-        const chatBox = document.getElementById('chatMessages');
-        const bubble = document.createElement('div');
-        bubble.className = `chat-bubble ${type}`;
-        const timeStr = date ? new Date(date).toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }) : '';
-        const dateStr = date ? new Date(date).toLocaleDateString('ar-SA') : '';
-        bubble.innerHTML = `
-            <span class="sender-name">${escapeHtml(senderName)}</span>
-            <div>${escapeHtml(text)}</div>
-            <span class="bubble-time">${dateStr} ${timeStr}</span>
         `;
-        chatBox.appendChild(bubble);
+
     }
 
-    async function sendChatMessage() {
-        const input = document.getElementById('chatInput');
-        const text = input.value.trim();
-        if (!text || !currentUser) return;
 
-        input.value = '';
-        input.disabled = true;
+    /*
+     * ==========================================
+     * القارئ
+     * ==========================================
+     */
 
-        try {
-            const res = await fetch(API_URL, { method: 'GET', headers: { "X-Master-Key": MASTER_KEY }, cache: 'no-store' });
-            const data = await res.json();
-            let payload = data.record || {};
+    else {
 
-            if (!payload.messages) payload.messages = [];
-            if (Array.isArray(payload)) payload = { novels: payload, messages: [] };
+        const status =
+            getReadingStatus();
 
-            let existingConv = null;
-            for (let i = payload.messages.length - 1; i >= 0; i--) {
-                if (payload.messages[i].deviceId === currentUser.deviceId) {
-                    existingConv = payload.messages[i];
-                    break;
-                }
+
+        let lastReadTitle =
+            'لا يوجد';
+
+
+        let lastReadTime =
+            0;
+
+
+        for (
+            const key in status
+        ) {
+
+            if (
+                status[key].lastRead >
+                lastReadTime
+            ) {
+
+                lastReadTime =
+                    status[key].lastRead;
+
+
+                const novel =
+                    allNovelsCache.find(
+                        n =>
+                            getNovelKey(n) ===
+                            key
+                    );
+
+
+                lastReadTitle =
+                    novel
+                        ? novel.title
+                        : key;
+
             }
 
-            if (existingConv) {
-                if (!Array.isArray(existingConv.userReplies)) existingConv.userReplies = [];
-                existingConv.userReplies.push({ text: text, date: new Date().toISOString() });
-                existingConv.status = 'user_replied';
-            } else {
-                payload.messages.push({
-                    id: Date.now(),
-                    from: currentUser.name,
-                    role: currentUser.role,
-                    deviceId: currentUser.deviceId,
-                    message: text,
-                    date: new Date().toISOString(),
-                    status: 'new',
-                    reply: null,
-                    replyDate: null,
-                    userReplies: [],
-                    adminReplies: []
-                });
-            }
-
-            const saveRes = await fetch(BASE_API_URL, {
-                method: 'PUT',
-                headers: { "Content-Type": "application/json", "X-Master-Key": MASTER_KEY },
-                body: JSON.stringify(payload)
-            });
-
-            if (saveRes.ok) await loadChatMessages();
-            else alert('حدث خطأ أثناء الإرسال');
-        } catch (error) {
-            alert('تعذر الاتصال بالخادم');
-        } finally {
-            input.disabled = false;
-            input.focus();
         }
-    }
 
-    async function checkNewReplies() {
-        if (!currentUser) return;
-        try {
-            const res = await fetch(API_URL, { method: 'GET', headers: { "X-Master-Key": MASTER_KEY }, cache: 'no-store' });
-            const data = await res.json();
-            let messages = [];
-            if (data.record && Array.isArray(data.record.messages)) messages = data.record.messages;
 
-            const myMessages = messages.filter(m => m.deviceId === currentUser.deviceId);
-            let newRepliesCount = 0;
-            myMessages.forEach(m => {
-                if (m.reply && m.replyDate && (!lastSeenReplyId || new Date(m.replyDate) > new Date(lastSeenReplyId))) newRepliesCount++;
-                if (Array.isArray(m.adminReplies)) {
-                    m.adminReplies.forEach(ar => {
-                        if (!lastSeenReplyId || new Date(ar.date) > new Date(lastSeenReplyId)) newRepliesCount++;
-                    });
+        content.innerHTML = `
+
+            <div class="profile-header">
+
+                <div class="profile-name">
+
+                    ${escapeHtml(
+                        currentUser.name
+                    )}
+
+                </div>
+
+                <div class="profile-role">
+
+                    قارئ
+
+                </div>
+
+
+                <div class="profile-stats">
+
+                    <div class="profile-stat">
+
+                        <div class="profile-stat-num">
+
+                            ${following.length}
+
+                        </div>
+
+                        <div class="profile-stat-label">
+
+                            يتابع
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-actions">
+
+                    <button
+                        class="logout-btn"
+                        onclick="logout()"
+                    >
+                        تسجيل خروج
+                    </button>
+
+                    <button
+                        class="delete-account-btn"
+                        onclick="deleteAccount()"
+                    >
+                        حذف الحساب
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="activity-list">
+
+                <h3>
+                    آخر نشاط
+                </h3>
+
+                <div class="activity-item">
+
+                    <span>
+                        آخر رواية قرأتها
+                    </span>
+
+                    <strong>
+                        ${escapeHtml(
+                            lastReadTitle
+                        )}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="followers-list">
+
+                <h3>
+
+                    المتابَعون
+                    (${following.length})
+
+                </h3>
+
+
+                ${
+                    following.length === 0
+
+                        ?
+
+                        '<div style="color:#999;padding:10px;">لا تتابع أحداً بعد</div>'
+
+                        :
+
+                        following
+                            .map(
+                                a => `
+
+                                <div class="follower-item">
+
+                                    <span
+                                        class="author-link"
+                                        onclick="openAuthorProfile('${escapeHtml(a)}')"
+                                    >
+                                        ${escapeHtml(a)}
+                                    </span>
+
+                                    <button
+                                        class="follow-btn following"
+                                        onclick="toggleFollow('${escapeHtml(a)}')"
+                                    >
+                                        إلغاء المتابعة
+                                    </button>
+
+                                </div>
+
+                            `
+                            )
+                            .join('')
+
                 }
+
+            </div>
+
+        `;
+
+    }
+
+
+    document.getElementById(
+        'mainPage'
+    ).style.display =
+        'none';
+
+
+    document.getElementById(
+        'novelReaderPage'
+    ).style.display =
+        'none';
+
+
+    document.getElementById(
+        'authorProfilePage'
+    ).style.display =
+        'none';
+
+
+    document.getElementById(
+        'profilePage'
+    ).style.display =
+        'block';
+
+}
+
+
+/* =========================================================
+   ملف المؤلف العام
+   ========================================================= */
+
+function openAuthorProfile(
+    authorName
+) {
+
+    if (isGuest) {
+
+        alert(
+            'يجب تسجيل الدخول لعرض ملفات المؤلفين'
+        );
+
+        return;
+
+    }
+
+
+    const content =
+        document.getElementById(
+            'authorProfileContent'
+        );
+
+
+    const authorNovels =
+        allNovelsCache.filter(
+            n =>
+                getAuthorName(n) ===
+                authorName
+        );
+
+
+    const following =
+        isFollowing(
+            authorName
+        );
+
+
+    let totalLikes =
+        0;
+
+
+    let totalViews =
+        0;
+
+
+    authorNovels.forEach(
+        n => {
+
+            totalLikes +=
+                Number(
+                    n.likes ||
+                    0
+                );
+
+
+            totalViews +=
+                Number(
+                    n.views ||
+                    0
+                );
+
+        }
+    );
+
+
+    content.innerHTML = `
+
+        <div class="profile-header">
+
+            <div class="profile-name">
+
+                ${escapeHtml(
+                    authorName
+                )}
+
+            </div>
+
+
+            <div class="profile-role">
+
+                مؤلف
+
+            </div>
+
+
+            ${
+                isOwnAuthor(
+                    authorName
+                )
+
+                    ?
+
+                    `
+
+                        <div
+                            style="margin-top:12px;color:#666;"
+                        >
+
+                            هذه صفحتك كمؤلف —
+                            لا يمكنك متابعة نفسك.
+
+                        </div>
+
+                    `
+
+                    :
+
+                    `
+
+                        <div
+                            style="margin-top:12px;"
+                        >
+
+                            <button
+                                class="follow-btn ${following ? 'following' : ''}"
+                                onclick="toggleFollow('${escapeHtml(authorName)}'); setTimeout(() => openAuthorProfile('${escapeHtml(authorName)}'), 100);"
+                            >
+
+                                ${
+                                    following
+                                        ? 'إلغاء المتابعة'
+                                        : 'تابع'
+                                }
+
+                            </button>
+
+                        </div>
+
+                    `
+            }
+
+
+            <div class="profile-stats">
+
+                <div class="profile-stat">
+
+                    <div class="profile-stat-num">
+
+                        ${authorNovels.length}
+
+                    </div>
+
+                    <div class="profile-stat-label">
+
+                        روايات
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-stat">
+
+                    <div class="profile-stat-num">
+
+                        ${totalLikes}
+
+                    </div>
+
+                    <div class="profile-stat-label">
+
+                        إعجابات
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-stat">
+
+                    <div class="profile-stat-num">
+
+                        ${totalViews}
+
+                    </div>
+
+                    <div class="profile-stat-label">
+
+                        مشاهدات
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="activity-list">
+
+            <h3>
+                روايات المؤلف
+            </h3>
+
+
+            ${
+                authorNovels.length === 0
+
+                    ?
+
+                    '<div style="color:#999;">لا توجد روايات</div>'
+
+                    :
+
+                    authorNovels
+                        .map(
+                            n => `
+
+                            <div
+                                class="activity-item"
+                                style="cursor:pointer;"
+                                onclick='openNovel(${JSON.stringify(n).replace(/'/g, "&#39;")})'
+                            >
+
+                                <div>
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            n.title
+                                        )}
+                                    </strong>
+
+                                    <div
+                                        style="font-size:0.85em;color:#666;margin-top:4px;"
+                                    >
+
+                                        ${
+                                            Array.isArray(
+                                                n.chapterTitles
+                                            )
+                                                ? n.chapterTitles.length
+                                                : 0
+                                        }
+
+                                        فصل
+
+                                        •
+
+                                        إعجابات:
+                                        ${n.likes || 0}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        `
+                        )
+                        .join('')
+
+            }
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        'mainPage'
+    ).style.display =
+        'none';
+
+
+    document.getElementById(
+        'novelReaderPage'
+    ).style.display =
+        'none';
+
+
+    document.getElementById(
+        'profilePage'
+    ).style.display =
+        'none';
+
+
+    document.getElementById(
+        'authorProfilePage'
+    ).style.display =
+        'block';
+
+}
+
+
+/* =========================================================
+   التفاعلات
+   ========================================================= */
+
+function resetInteractions(
+    novelKey
+) {
+
+    const ratings =
+        getRatings();
+
+
+    updateStars(
+        ratings[
+            novelKey
+        ] || 0
+    );
+
+
+    const likes =
+        getLikes();
+
+
+    const userLike =
+        likes[
+            novelKey
+        ];
+
+
+    document.getElementById(
+        'likeBtn'
+    ).classList.toggle(
+        'active',
+        userLike ===
+            'like'
+    );
+
+
+    document.getElementById(
+        'dislikeBtn'
+    ).classList.toggle(
+        'active',
+        userLike ===
+            'dislike'
+    );
+
+
+    document.getElementById(
+        'likeCount'
+    ).innerText =
+        Number(
+            currentNovel.likes ||
+            0
+        );
+
+
+    document.getElementById(
+        'dislikeCount'
+    ).innerText =
+        Number(
+            currentNovel.dislikes ||
+            0
+        );
+
+
+    document.getElementById(
+        'commentInput'
+    ).value =
+        '';
+
+
+    loadComments(
+        novelKey
+    );
+
+}
+
+
+function updateStars(
+    rating
+) {
+
+    document
+        .querySelectorAll(
+            '.star'
+        )
+        .forEach(
+            (
+                star,
+                index
+            ) => {
+
+                star.classList.toggle(
+                    'active',
+                    index < rating
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   نظام النجوم
+   ========================================================= */
+
+document
+    .querySelectorAll(
+        '.star'
+    )
+    .forEach(
+        star => {
+
+            star.addEventListener(
+                'click',
+                function() {
+
+                    if (
+                        !currentNovel ||
+                        isGuest
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const rating =
+                        parseInt(
+                            this.dataset.value
+                        );
+
+
+                    setRating(
+                        getNovelKey(
+                            currentNovel
+                        ),
+                        rating
+                    );
+
+
+                    updateStars(
+                        rating
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   الإعجاب
+   ========================================================= */
+
+document
+    .getElementById(
+        'likeBtn'
+    )
+    .addEventListener(
+        'click',
+        function() {
+
+            if (
+                !currentNovel ||
+                isGuest
+            ) {
+
+                return;
+
+            }
+
+            handleVote(
+                'like'
+            );
+
+        }
+    );
+
+
+document
+    .getElementById(
+        'dislikeBtn'
+    )
+    .addEventListener(
+        'click',
+        function() {
+
+            if (
+                !currentNovel ||
+                isGuest
+            ) {
+
+                return;
+
+            }
+
+            handleVote(
+                'dislike'
+            );
+
+        }
+    );
+
+
+async function handleVote(
+    type
+) {
+
+    const novelKey =
+        getNovelKey(
+            currentNovel
+        );
+
+
+    const likesData =
+        getLikes();
+
+
+    const currentVote =
+        likesData[
+            novelKey
+        ];
+
+
+    if (
+        currentVote ===
+        type
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        currentVote ===
+            'dislike' &&
+        type ===
+            'like'
+    ) {
+
+        currentNovel.dislikes =
+            Math.max(
+                0,
+                Number(
+                    currentNovel.dislikes ||
+                    0
+                ) - 1
+            );
+
+    }
+
+
+    else if (
+        currentVote ===
+            'like' &&
+        type ===
+            'dislike'
+    ) {
+
+        currentNovel.likes =
+            Math.max(
+                0,
+                Number(
+                    currentNovel.likes ||
+                    0
+                ) - 1
+            );
+
+    }
+
+
+    if (
+        type ===
+        'like'
+    ) {
+
+        currentNovel.likes =
+            Number(
+                currentNovel.likes ||
+                0
+            ) + 1;
+
+    } else {
+
+        currentNovel.dislikes =
+            Number(
+                currentNovel.dislikes ||
+                0
+            ) + 1;
+
+    }
+
+
+    likesData[
+        novelKey
+    ] =
+        type;
+
+
+    localStorage.setItem(
+        'likes',
+        JSON.stringify(
+            likesData
+        )
+    );
+
+
+    document.getElementById(
+        'likeBtn'
+    ).classList.toggle(
+        'active',
+        type ===
+            'like'
+    );
+
+
+    document.getElementById(
+        'dislikeBtn'
+    ).classList.toggle(
+        'active',
+        type ===
+            'dislike'
+    );
+
+
+    document.getElementById(
+        'likeCount'
+    ).innerText =
+        Number(
+            currentNovel.likes ||
+            0
+        );
+
+
+    document.getElementById(
+        'dislikeCount'
+    ).innerText =
+        Number(
+            currentNovel.dislikes ||
+            0
+        );
+
+
+    await saveNovelUpdate(
+        currentNovel
+    );
+
+}
+
+
+/* =========================================================
+   التعليقات
+   ========================================================= */
+
+function loadComments(
+    novelKey
+) {
+
+    const comments =
+        getComments()[
+            novelKey
+        ] || [];
+
+
+    const list =
+        document.getElementById(
+            'commentsList'
+        );
+
+
+    if (
+        comments.length === 0
+    ) {
+
+        list.innerHTML =
+            '<div style="color:#999;padding:10px;">لا توجد تعليقات بعد.</div>';
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        comments
+            .map(
+                c => `
+
+                <div class="comment-item">
+
+                    <div class="comment-author">
+
+                        ${escapeHtml(
+                            c.author
+                        )}
+
+                    </div>
+
+                    <div class="comment-text">
+
+                        ${escapeHtml(
+                            c.text
+                        )}
+
+                    </div>
+
+                    <div class="comment-date">
+
+                        ${new Date(
+                            c.date
+                        ).toLocaleString(
+                            'ar-SA'
+                        )}
+
+                    </div>
+
+                </div>
+
+            `
+            )
+            .join('');
+
+}
+
+
+async function submitComment() {
+
+    if (
+        !currentUser ||
+        isGuest ||
+        !currentNovel
+    ) {
+
+        alert(
+            'يجب تسجيل الدخول لإضافة تعليق'
+        );
+
+        return;
+
+    }
+
+
+    const input =
+        document.getElementById(
+            'commentInput'
+        );
+
+
+    const text =
+        input.value.trim();
+
+
+    if (!text) {
+
+        return;
+
+    }
+
+
+    const key =
+        getNovelKey(
+            currentNovel
+        );
+
+
+    addComment(
+        key,
+        text,
+        currentUser.name,
+        currentUser.role
+    );
+
+
+    input.value =
+        '';
+
+
+    loadComments(
+        key
+    );
+
+
+    /*
+     * إشعار المؤلف عند تعليق قارئ.
+     */
+
+    notifyAuthorAboutInteraction(
+        currentNovel,
+        'comment',
+        currentUser.name
+    );
+
+}
+
+
+/* =========================================================
+   إشعارات الروايات
+   ========================================================= */
+
+function getSeenNovels() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                'seen_novels'
+            ) || '{}'
+        );
+
+    } catch (e) {
+
+        return {};
+
+    }
+
+}
+
+
+function saveSeenNovels(
+    seen
+) {
+
+    localStorage.setItem(
+        'seen_novels',
+        JSON.stringify(
+            seen
+        )
+    );
+
+}
+
+
+function getNotifications() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                'notifications'
+            ) || '[]'
+        );
+
+    } catch (e) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveNotifications(
+    notifs
+) {
+
+    localStorage.setItem(
+        'notifications',
+        JSON.stringify(
+            notifs
+        )
+    );
+
+}
+
+
+function checkForNewContent(
+    novels
+) {
+
+    if (
+        !currentUser &&
+        !isGuest
+    ) {
+
+        return;
+
+    }
+
+
+    const seen =
+        getSeenNovels();
+
+
+    const notifs =
+        getNotifications();
+
+
+    const following =
+        getFollowing();
+
+
+    let hasNew =
+        false;
+
+
+    novels.forEach(
+        novel => {
+
+            const key =
+                getNovelKey(
+                    novel
+                );
+
+
+            const chapterCount =
+                Array.isArray(
+                    novel.chapterTitles
+                )
+                    ? novel.chapterTitles.length
+                    : 0;
+
+
+            const lastSeenChapter =
+                seen[key]?.chapters ||
+                0;
+
+
+            const author =
+                getAuthorName(
+                    novel
+                );
+
+
+            const isFollowed =
+                following.includes(
+                    author
+                );
+
+
+            if (!seen[key]) {
+
+                if (
+                    isFollowed ||
+                    following.length === 0
+                ) {
+
+                    /*
+                     * المؤلف لا يحتاج
+                     * إشعار روايته لنفسه.
+                     */
+
+                    if (
+                        !isOwnAuthor(
+                            author
+                        )
+                    ) {
+
+                        notifs.push({
+
+                            id:
+                                Date.now() +
+                                Math.random(),
+
+                            type:
+                                'new-novel',
+
+                            novelKey:
+                                key,
+
+                            novelTitle:
+                                novel.title,
+
+                            author:
+                                author,
+
+                            continuous:
+                                novel.continuous,
+
+                            chapterIndex:
+                                0,
+
+                            date:
+                                new Date()
+                                    .toISOString()
+
+                        });
+
+
+                        hasNew =
+                            true;
+
+                    }
+
+                }
+
+
+                seen[key] = {
+
+                    chapters:
+                        chapterCount,
+
+                    time:
+                        Date.now()
+
+                };
+
+
+            } else if (
+                chapterCount >
+                    lastSeenChapter &&
+                isFollowed
+            ) {
+
+                for (
+                    let i =
+                        lastSeenChapter;
+                    i <
+                        chapterCount;
+                    i++
+                ) {
+
+                    notifs.push({
+
+                        id:
+                            Date.now() +
+                            Math.random() +
+                            i,
+
+                        type:
+                            'new-chapter',
+
+                        novelKey:
+                            key,
+
+                        novelTitle:
+                            novel.title,
+
+                        author:
+                            author,
+
+                        chapterIndex:
+                            i,
+
+                        chapterName:
+                            novel.chapterTitles[
+                                i
+                            ] ||
+                            `فصل ${i + 1}`,
+
+                        date:
+                            new Date()
+                                .toISOString()
+
+                    });
+
+                }
+
+
+                seen[key] = {
+
+                    chapters:
+                        chapterCount,
+
+                    time:
+                        Date.now()
+
+                };
+
+
+                hasNew =
+                    true;
+
+            }
+
+        }
+    );
+
+
+    const currentKeys =
+        new Set(
+            novels.map(
+                n =>
+                    getNovelKey(n)
+            )
+        );
+
+
+    const filteredNotifs =
+        notifs.filter(
+            n =>
+                currentKeys.has(
+                    n.novelKey
+                ) ||
+                n.type ===
+                    'like-comment'
+        );
+
+
+    if (
+        hasNew ||
+        filteredNotifs.length !==
+            notifs.length
+    ) {
+
+        saveSeenNovels(
+            seen
+        );
+
+        saveNotifications(
+            filteredNotifs
+        );
+
+        updateNotifBadge();
+
+    }
+
+}
+
+
+/* =========================================================
+   إشعار المؤلف
+   ========================================================= */
+
+function notifyAuthorAboutInteraction(
+    novel,
+    type,
+    fromUser
+) {
+
+    if (!currentUser)
+        return;
+
+
+    const authorName =
+        getAuthorName(
+            novel
+        );
+
+
+    if (
+        currentUser.role !==
+            'author' ||
+        !currentUser.authorName
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        currentUser.authorName
+            .toLowerCase() !==
+        authorName
+            .toLowerCase()
+    ) {
+
+        return;
+
+    }
+
+
+    const notifs =
+        getNotifications();
+
+
+    notifs.push({
+
+        id:
+            Date.now() +
+            Math.random(),
+
+        type:
+            'like-comment',
+
+        novelKey:
+            getNovelKey(
+                novel
+            ),
+
+        novelTitle:
+            novel.title,
+
+        author:
+            authorName,
+
+        interactionType:
+            type,
+
+        fromUser:
+            fromUser,
+
+        date:
+            new Date()
+                .toISOString()
+
+    });
+
+
+    saveNotifications(
+        notifs
+    );
+
+
+    updateNotifBadge();
+
+}
+
+
+/* =========================================================
+   عداد التنبيهات
+   ========================================================= */
+
+function updateNotifBadge() {
+
+    const notifs =
+        getNotifications();
+
+
+    const badge =
+        document.getElementById(
+            'notifBadge'
+        );
+
+
+    if (
+        notifs.length > 0
+    ) {
+
+        badge.innerText =
+            notifs.length > 99
+                ? '99+'
+                : notifs.length;
+
+
+        badge.classList.add(
+            'show'
+        );
+
+    } else {
+
+        badge.classList.remove(
+            'show'
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   فتح التنبيهات
+   ========================================================= */
+
+function openNotifPanel() {
+
+    document.getElementById(
+        'notifPanel'
+    ).classList.add(
+        'open'
+    );
+
+
+    document.getElementById(
+        'notifOverlay'
+    ).classList.add(
+        'show'
+    );
+
+
+    renderNotifications();
+
+}
+
+
+function closeNotifPanel() {
+
+    document.getElementById(
+        'notifPanel'
+    ).classList.remove(
+        'open'
+    );
+
+
+    document.getElementById(
+        'notifOverlay'
+    ).classList.remove(
+        'show'
+    );
+
+}
+
+
+/* =========================================================
+   عرض التنبيهات
+   ========================================================= */
+
+function renderNotifications() {
+
+    const notifs =
+        getNotifications();
+
+
+    const list =
+        document.getElementById(
+            'notifList'
+        );
+
+
+    if (
+        notifs.length ===
+        0
+    ) {
+
+        list.innerHTML =
+            '<div class="notif-empty">لا توجد تنبيهات جديدة</div>';
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        '';
+
+
+    [...notifs]
+        .reverse()
+        .forEach(
+            notif => {
+
+                const item =
+                    document.createElement(
+                        'div'
+                    );
+
+
+                item.className =
+                    `notif-item ${notif.type}`;
+
+
+                item.onclick =
+                    () =>
+                        goToNotif(
+                            notif
+                        );
+
+
+                let typeLabel =
+                    '';
+
+
+                let details =
+                    '';
+
+
+                if (
+                    notif.type ===
+                    'new-novel'
+                ) {
+
+                    typeLabel =
+                        'رواية جديدة';
+
+
+                    details =
+                        `رواية جديدة: <b>${escapeHtml(notif.novelTitle)}</b><br>بقلم: ${escapeHtml(notif.author)}`;
+
+                }
+
+
+                else if (
+                    notif.type ===
+                    'new-chapter'
+                ) {
+
+                    typeLabel =
+                        'فصل جديد';
+
+
+                    details =
+                        `فصل جديد في: <b>${escapeHtml(notif.novelTitle)}</b><br>الفصل: ${escapeHtml(notif.chapterName)}<br>بقلم: ${escapeHtml(notif.author)}`;
+
+                }
+
+
+                else if (
+                    notif.type ===
+                    'like-comment'
+                ) {
+
+                    typeLabel =
+                        notif.interactionType ===
+                        'like'
+                            ? 'إعجاب جديد'
+                            : 'تعليق جديد';
+
+
+                    details =
+                        `${
+                            notif.interactionType ===
+                            'like'
+                                ? 'أعجب'
+                                : 'علق'
+                        } <b>${escapeHtml(notif.fromUser)}</b> على روايتك: <b>${escapeHtml(notif.novelTitle)}</b>`;
+
+                }
+
+
+                item.innerHTML = `
+
+                    <span
+                        class="notif-type ${notif.type}"
+                    >
+                        ${typeLabel}
+                    </span>
+
+                    <div class="notif-details">
+
+                        ${details}
+
+                    </div>
+
+                    <div class="notif-date">
+
+                        ${new Date(
+                            notif.date
+                        ).toLocaleString(
+                            'ar-SA'
+                        )}
+
+                    </div>
+
+                `;
+
+
+                list.appendChild(
+                    item
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   الانتقال من التنبيه
+   ========================================================= */
+
+async function goToNotif(
+    notif
+) {
+
+    closeNotifPanel();
+
+
+    let novel =
+        allNovelsCache.find(
+            n =>
+                getNovelKey(n) ===
+                notif.novelKey
+        );
+
+
+    if (!novel) {
+
+        try {
+
+            const res =
+                await fetch(
+                    API_URL,
+                    {
+                        method: 'GET',
+
+                        headers: {
+                            "X-Master-Key":
+                                MASTER_KEY
+                        },
+
+                        cache:
+                            'no-store'
+                    }
+                );
+
+
+            const data =
+                await res.json();
+
+
+            novel =
+                extractNovels(
+                    data
+                ).find(
+                    n =>
+                        getNovelKey(n) ===
+                        notif.novelKey
+                );
+
+
+        } catch (e) {
+
+            console.error(e);
+
+        }
+
+    }
+
+
+    if (!novel) {
+
+        alert(
+            'لم تعد الرواية موجودة'
+        );
+
+        return;
+
+    }
+
+
+    openNovel(
+        novel,
+        notif.chapterIndex ||
+        0
+    );
+
+
+    removeNotification(
+        notif.id
+    );
+
+}
+
+
+function removeNotification(
+    notifId
+) {
+
+    let notifs =
+        getNotifications();
+
+
+    notifs =
+        notifs.filter(
+            n =>
+                n.id !==
+                notifId
+        );
+
+
+    saveNotifications(
+        notifs
+    );
+
+
+    updateNotifBadge();
+
+}
+
+
+/* =========================================================
+   الدعم الفني
+   ========================================================= */
+
+function openSupportModal() {
+
+    if (!currentUser) {
+
+        alert(
+            'يجب تسجيل الدخول لاستخدام الدعم'
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        'supportModal'
+    ).style.display =
+        'flex';
+
+
+    loadChatMessages();
+
+}
+
+
+function closeSupportModal() {
+
+    document.getElementById(
+        'supportModal'
+    ).style.display =
+        'none';
+
+}
+
+
+async function loadChatMessages() {
+
+    if (!currentUser)
+        return;
+
+
+    const chatBox =
+        document.getElementById(
+            'chatMessages'
+        );
+
+
+    try {
+
+        const res =
+            await fetch(
+                API_URL,
+                {
+                    method: 'GET',
+
+                    headers: {
+                        "X-Master-Key":
+                            MASTER_KEY
+                    },
+
+                    cache:
+                        'no-store'
+                }
+            );
+
+
+        const data =
+            await res.json();
+
+
+        const payload =
+            data.record ||
+            {};
+
+
+        const messages =
+            Array.isArray(
+                payload.messages
+            )
+                ? payload.messages
+                : [];
+
+
+        const myMessages =
+            messages.filter(
+                m =>
+                    m.deviceId ===
+                    currentUser.deviceId
+            );
+
+
+        if (
+            myMessages.length ===
+            0
+        ) {
+
+            chatBox.innerHTML =
+                '<div class="empty-chat">ابدأ المحادثة بإرسال رسالة للإدارة...</div>';
+
+            return;
+
+        }
+
+
+        chatBox.innerHTML =
+            '';
+
+
+        myMessages.forEach(
+            m => {
+
+                addBubbleToChat(
+                    'user',
+                    currentUser.name,
+                    m.message,
+                    m.date
+                );
+
+
+                if (m.reply) {
+
+                    addBubbleToChat(
+                        'admin',
+                        'الإدارة',
+                        m.reply,
+                        m.replyDate
+                    );
+
+                }
+
+
+                if (
+                    Array.isArray(
+                        m.userReplies
+                    )
+                ) {
+
+                    m.userReplies.forEach(
+                        ur =>
+                            addBubbleToChat(
+                                'user',
+                                currentUser.name,
+                                ur.text,
+                                ur.date
+                            )
+                    );
+
+                }
+
+
+                if (
+                    Array.isArray(
+                        m.adminReplies
+                    )
+                ) {
+
+                    m.adminReplies.forEach(
+                        ar =>
+                            addBubbleToChat(
+                                'admin',
+                                'الإدارة',
+                                ar.text,
+                                ar.date
+                            )
+                    );
+
+                }
+
+            }
+        );
+
+
+        chatBox.scrollTop =
+            chatBox.scrollHeight;
+
+
+    } catch (e) {
+
+        chatBox.innerHTML =
+            '<div class="empty-chat" style="color:red;">تعذر تحميل المحادثة</div>';
+
+    }
+
+}
+
+
+function addBubbleToChat(
+    type,
+    senderName,
+    text,
+    date
+) {
+
+    const chatBox =
+        document.getElementById(
+            'chatMessages'
+        );
+
+
+    const bubble =
+        document.createElement(
+            'div'
+        );
+
+
+    bubble.className =
+        `chat-bubble ${type}`;
+
+
+    const timeStr =
+        date
+            ? new Date(
+                date
+            ).toLocaleTimeString(
+                'ar-SA',
+                {
+                    hour:
+                        '2-digit',
+
+                    minute:
+                        '2-digit'
+                }
+            )
+            : '';
+
+
+    const dateStr =
+        date
+            ? new Date(
+                date
+            ).toLocaleDateString(
+                'ar-SA'
+            )
+            : '';
+
+
+    bubble.innerHTML = `
+
+        <span class="sender-name">
+
+            ${escapeHtml(
+                senderName
+            )}
+
+        </span>
+
+        <div>
+
+            ${escapeHtml(
+                text
+            )}
+
+        </div>
+
+        <span class="bubble-time">
+
+            ${dateStr}
+            ${timeStr}
+
+        </span>
+
+    `;
+
+
+    chatBox.appendChild(
+        bubble
+    );
+
+}
+
+
+async function sendChatMessage() {
+
+    const input =
+        document.getElementById(
+            'chatInput'
+        );
+
+
+    const text =
+        input.value.trim();
+
+
+    if (
+        !text ||
+        !currentUser
+    ) {
+
+        return;
+
+    }
+
+
+    input.value =
+        '';
+
+
+    input.disabled =
+        true;
+
+
+    try {
+
+        const res =
+            await fetch(
+                API_URL,
+                {
+                    method: 'GET',
+
+                    headers: {
+                        "X-Master-Key":
+                            MASTER_KEY
+                    },
+
+                    cache:
+                        'no-store'
+                }
+            );
+
+
+        const data =
+            await res.json();
+
+
+        let payload =
+            data.record ||
+            {};
+
+
+        if (
+            !payload.messages
+        ) {
+
+            payload.messages =
+                [];
+
+        }
+
+
+        if (
+            Array.isArray(
+                payload
+            )
+        ) {
+
+            payload = {
+
+                novels:
+                    payload,
+
+                messages:
+                    []
+
+            };
+
+        }
+
+
+        let existingConv =
+            null;
+
+
+        for (
+            let i =
+                payload.messages.length - 1;
+            i >= 0;
+            i--
+        ) {
+
+            if (
+                payload.messages[i]
+                    .deviceId ===
+                currentUser.deviceId
+            ) {
+
+                existingConv =
+                    payload.messages[i];
+
+                break;
+
+            }
+
+        }
+
+
+        if (existingConv) {
+
+            if (
+                !Array.isArray(
+                    existingConv.userReplies
+                )
+            ) {
+
+                existingConv.userReplies =
+                    [];
+
+            }
+
+
+            existingConv.userReplies.push({
+
+                text:
+                    text,
+
+                date:
+                    new Date()
+                        .toISOString()
+
             });
-        } catch (e) { console.error(e); }
+
+
+            existingConv.status =
+                'user_replied';
+
+
+        } else {
+
+            payload.messages.push({
+
+                id:
+                    Date.now(),
+
+                from:
+                    currentUser.name,
+
+                role:
+                    currentUser.role,
+
+                deviceId:
+                    currentUser.deviceId,
+
+                message:
+                    text,
+
+                date:
+                    new Date()
+                        .toISOString(),
+
+                status:
+                    'new',
+
+                reply:
+                    null,
+
+                replyDate:
+                    null,
+
+                userReplies:
+                    [],
+
+                adminReplies:
+                    []
+
+            });
+
+        }
+
+
+        const saveRes =
+            await fetch(
+                BASE_API_URL,
+                {
+                    method:
+                        'PUT',
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "X-Master-Key":
+                            MASTER_KEY
+                    },
+
+                    body:
+                        JSON.stringify(
+                            payload
+                        )
+                }
+            );
+
+
+        if (
+            saveRes.ok
+        ) {
+
+            await loadChatMessages();
+
+        } else {
+
+            alert(
+                'حدث خطأ أثناء الإرسال'
+            );
+
+        }
+
+    } catch (error) {
+
+        alert(
+            'تعذر الاتصال بالخادم'
+        );
+
+    } finally {
+
+        input.disabled =
+            false;
+
+        input.focus();
+
     }
 
-    function markRepliesAsSeen() {
-        if (!currentUser) return;
-        lastSeenReplyId = new Date().toISOString();
-        localStorage.setItem('last_seen_reply_' + currentUser.deviceId, lastSeenReplyId);
-    }
+}
 
-    /* =========================================================
-       تشغيل الموقع
-       ========================================================= */
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            currentTab = this.dataset.tab;
-            const titles = { 'recent': 'روايات مضافة حديثاً', 'reading': 'جاري قراءتها', 'read': 'تمت قراءتها', 'last-read': 'مؤخراً' };
-            document.getElementById('sectionTitle').innerText = titles[currentTab];
+
+/* =========================================================
+   ردود الدعم
+   ========================================================= */
+
+async function checkNewReplies() {
+
+    if (!currentUser)
+        return;
+
+}
+
+
+function markRepliesAsSeen() {
+
+    if (!currentUser)
+        return;
+
+
+    lastSeenReplyId =
+        new Date()
+            .toISOString();
+
+
+    localStorage.setItem(
+        'last_seen_reply_' +
+        currentUser.deviceId,
+        lastSeenReplyId
+    );
+
+}
+
+
+/* =========================================================
+   تشغيل الموقع
+   ========================================================= */
+
+document
+    .querySelectorAll(
+        '.tab-btn'
+    )
+    .forEach(
+        btn => {
+
+            btn.addEventListener(
+                'click',
+                function() {
+
+                    document
+                        .querySelectorAll(
+                            '.tab-btn'
+                        )
+                        .forEach(
+                            b =>
+                                b.classList.remove(
+                                    'active'
+                                )
+                        );
+
+
+                    this.classList.add(
+                        'active'
+                    );
+
+
+                    currentTab =
+                        this.dataset.tab;
+
+
+                    const titles = {
+
+                        'recent':
+                            'روايات مضافة حديثاً',
+
+                        'last-read':
+                            'مؤخراً'
+
+                    };
+
+
+                    document.getElementById(
+                        'sectionTitle'
+                    ).innerText =
+                        titles[
+                            currentTab
+                        ];
+
+
+                    loadNovels();
+
+                }
+            );
+
+        }
+    );
+
+
+document
+    .getElementById(
+        'searchBox'
+    )
+    .addEventListener(
+        'input',
+        function() {
+
+            searchTerm =
+                this.value;
+
+
             loadNovels();
-        });
-    });
 
-    document.getElementById('searchBox').addEventListener('input', function () {
-        searchTerm = this.value;
-        loadNovels();
-    });
+        }
+    );
 
-    document.getElementById('supportModal').addEventListener('click', function (e) {
-        if (e.target === this) closeSupportModal();
-    });
 
-    checkUserLogin();
-    setInterval(loadNovels, 30000);
-    setInterval(checkNewReplies, 30000);
+document
+    .getElementById(
+        'supportModal'
+    )
+    .addEventListener(
+        'click',
+        function(e) {
+
+            if (
+                e.target ===
+                this
+            ) {
+
+                closeSupportModal();
+
+            }
+
+        }
+    );
+
+
+window.addEventListener(
+    'load',
+    async () => {
+
+        checkUserLogin();
+
+
+        const hash =
+            location.hash;
+
+
+        if (
+            hash.includes(
+                'novel='
+            )
+        ) {
+
+            const params =
+                new URLSearchParams(
+                    hash.substring(1)
+                );
+
+
+            const novelKey =
+                params.get(
+                    'novel'
+                );
+
+
+            const chapter =
+                parseInt(
+                    params.get(
+                        'chapter'
+                    ) || '0'
+                );
+
+
+            setTimeout(
+                async () => {
+
+                    if (
+                        allNovelsCache.length ===
+                        0
+                    ) {
+
+                        await loadNovels();
+
+                    }
+
+
+                    const novel =
+                        allNovelsCache.find(
+                            n =>
+                                getNovelKey(n) ===
+                                novelKey
+                        );
+
+
+                    if (novel) {
+
+                        openNovel(
+                            novel,
+                            chapter
+                        );
+
+                    }
+
+                },
+                1500
+            );
+
+        }
+
+    }
+);
+
+
+setInterval(
+    loadNovels,
+    30000
+);
+
+
+setInterval(
+    checkNewReplies,
+    30000
+);
+
 </script>
+
 </body>
 </html>
