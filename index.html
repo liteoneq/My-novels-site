@@ -430,11 +430,11 @@
        الوسيط هو من يتعامل مع JSONBin ويحتوي على المفتاح السري
        الكود هنا لا يحتوي على أي مفاتيح!
        ========================================================= */
-    const PROXY_URL = "ضع_رابط_الوسيط_هنا"; // مثال: "https://mysite.com/proxy.php"
+    const PROXY_URL = "https://stellar-donut-5c1405.netlify.app/api";
 
     // روابط الوسيط
-    const API_GET = `${PROXY_URL}?action=latest`;
-    const API_PUT = `${PROXY_URL}?action=update`;
+    const API_GET = `${PROXY_URL}/get`;
+    const API_PUT = `${PROXY_URL}/save`;
 
     let currentNovel = null;
     let currentTab = 'recent';
