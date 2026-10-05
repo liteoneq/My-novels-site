@@ -859,14 +859,31 @@
         return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
+    // ========== تصحيح منطق جلب اسم المؤلف ==========
     function getAuthorName(novel) {
-        // الأولوية لاسم المؤلف الحقيقي المسجل في الرواية
+        const novelKey = getNovelKey(novel);
+        
+        // 1. التحقق أولاً: هل هناك مستخدم (مؤلف) ادعى ملكية هذه الرواية؟
+        // هذا يتجاوز الاسم المخزن في الرواية إذا كان خاطئاً (مثل "كاتب مجهول")
+        const claimingUser = allUsersCache.find(u => 
+            u.role === 'author' && 
+            Array.isArray(u.authorOf) && 
+            u.authorOf.includes(novelKey)
+        );
+
+        if (claimingUser) {
+            return claimingUser.username;
+        }
+
+        // 2. إذا لم يكن هناك ادعاء رسمي، نستخدم الاسم المخزن في الرواية (إذا كان صالحاً)
         if (novel.author && novel.author.trim() && novel.author !== 'كاتب مجهول') {
             return novel.author.trim();
         }
-        // محاولة العثور على مستخدم مرتبط
-        const authorUser = allUsersCache.find(u => u.role === 'author' && (u.authorOf || []).includes(getNovelKey(novel)));
-        if (authorUser) return authorUser.username;
+
+        // 3. محاولة أخيرة: البحث عن أي مؤلف مرتبط بهذه الرواية بطريقة أخرى
+        const linkedAuthor = allUsersCache.find(u => u.role === 'author' && (u.authorOf || []).includes(novelKey));
+        if (linkedAuthor) return linkedAuthor.username;
+
         return 'كاتب مجهول';
     }
 
@@ -1459,7 +1476,9 @@
             const key = getNovelKey(novel);
             const chapterCount = Array.isArray(novel.chapterTitles) ? novel.chapterTitles.length : 0;
             const lastSeenChapter = seen[key]?.chapters || 0;
-            const authorName = getAuthorName(novel); // الاسم الصحيح
+            
+            // استخدام الدالة المصححة للحصول على اسم المؤلف الحقيقي
+            const authorName = getAuthorName(novel); 
             const isFollowingAuthor = myFollowing.includes(authorName);
 
             if (!seen[key]) {
@@ -1468,7 +1487,7 @@
                     type: 'new-novel',
                     novelKey: key,
                     novelTitle: novel.title,
-                    author: authorName, // تصحيح الاسم
+                    author: authorName, // استخدام الاسم الصحيح هنا
                     continuous: novel.continuous,
                     chapterIndex: 0,
                     date: new Date().toISOString(),
@@ -1483,7 +1502,7 @@
                         type: 'new-chapter',
                         novelKey: key,
                         novelTitle: novel.title,
-                        author: authorName, // تصحيح الاسم
+                        author: authorName, // استخدام الاسم الصحيح هنا
                         chapterIndex: i,
                         chapterName: novel.chapterTitles[i] || `فصل ${i + 1}`,
                         date: new Date().toISOString(),
