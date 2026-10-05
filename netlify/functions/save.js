@@ -15,13 +15,33 @@ export default async (request, context) => {
 
   const body = await request.text();
 
+  let parsed;
+  try {
+    parsed = JSON.parse(body);
+  } catch (e) {
+    return new Response(JSON.stringify({ error: "Invalid JSON" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
+  if (Array.isArray(parsed)) {
+    parsed = { novels: parsed, users: [], messages: [] };
+  } else if (typeof parsed === "object" && parsed !== null) {
+    if (!Array.isArray(parsed.novels)) parsed.novels = [];
+    if (!Array.isArray(parsed.users)) parsed.users = [];
+    if (!Array.isArray(parsed.messages)) parsed.messages = [];
+  } else {
+    parsed = { novels: [], users: [], messages: [] };
+  }
+
   const r = await fetch("https://api.jsonbin.io/v3/b/" + binId, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       "X-Master-Key": key
     },
-    body: body
+    body: JSON.stringify(parsed)
   });
 
   const data = await r.json();
