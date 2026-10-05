@@ -1,15 +1,27 @@
 export default async (request, context) => {
-  return new Response(JSON.stringify({
-    hasBinId: !!process.env.BIN_ID,
-    hasMasterKey: !!process.env.MASTER_KEY,
-    binIdValue: process.env.BIN_ID ? process.env.BIN_ID.substring(0, 5) + "..." : null,
-    nodeEnv: process.env.NODE_ENV || "none",
-    allKeys: Object.keys(process.env).filter(k => 
-      k.includes("BIN") || k.includes("MASTER") || k.includes("KEY")
-    )
-  }), {
+  const binId = process.env.BIN_ID;
+  const key = process.env.MASTER_KEY;
+
+  if (!binId || !key) {
+    return new Response(JSON.stringify({ error: "Missing env vars" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+
+  const r = await fetch("https://api.jsonbin.io/v3/b/" + binId + "/latest", {
+    headers: { "X-Master-Key": key },
+    cache: "no-store"
+  });
+
+  const data = await r.json();
+
+  return new Response(JSON.stringify(data), {
     status: 200,
-    headers: { "Content-Type": "application/json" }
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    }
   });
 };
 
