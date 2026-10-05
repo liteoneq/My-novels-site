@@ -439,6 +439,21 @@ async function loadMessages() {
         const res = await fetch(API_GET, { cache: 'no-store' });
         
         const data = await res.json();
+
+        // تحويل البنية القديمة (مصفوفة) إلى كائن
+        if (data.record && Array.isArray(data.record)) {
+            data.record = {
+                novels: data.record,
+                users: [],
+                messages: []
+            };
+        }
+        if (data.record) {
+            if (!Array.isArray(data.record.novels)) data.record.novels = [];
+            if (!Array.isArray(data.record.users)) data.record.users = [];
+            if (!Array.isArray(data.record.messages)) data.record.messages = [];
+        }
+
         let messages = [];
         
         if(data.record && Array.isArray(data.record.messages)) {
@@ -616,6 +631,21 @@ async function sendReply(msgId) {
         // 1. جلب البيانات الحالية (تم التعديل)
         const res = await fetch(API_GET, { cache: 'no-store' });
         const data = await res.json();
+
+        // تحويل البنية القديمة (مصفوفة) إلى كائن
+        if (data.record && Array.isArray(data.record)) {
+            data.record = {
+                novels: data.record,
+                users: [],
+                messages: []
+            };
+        }
+        if (data.record) {
+            if (!Array.isArray(data.record.novels)) data.record.novels = [];
+            if (!Array.isArray(data.record.users)) data.record.users = [];
+            if (!Array.isArray(data.record.messages)) data.record.messages = [];
+        }
+
         let payload = data.record || {};
         
         if(!payload.messages) payload.messages = [];
@@ -690,6 +720,20 @@ async function loadNovels() {
         const res = await fetch(API_GET, { cache: "no-store" });
         if (!res.ok) throw new Error("HTTP Error");
         const data = await res.json();
+
+        // تحويل البنية القديمة (مصفوفة) إلى كائن
+        if (data.record && Array.isArray(data.record)) {
+            data.record = {
+                novels: data.record,
+                users: [],
+                messages: []
+            };
+        }
+        if (data.record) {
+            if (!Array.isArray(data.record.novels)) data.record.novels = [];
+            if (!Array.isArray(data.record.users)) data.record.users = [];
+            if (!Array.isArray(data.record.messages)) data.record.messages = [];
+        }
         
         let record = data.record;
         if(record && Array.isArray(record.novels)) allNovels = record.novels;
@@ -798,16 +842,30 @@ async function saveData() {
         const res = await fetch(API_GET, { cache: "no-store" });
         if (!res.ok) throw new Error("GET failed " + res.status);
         const data = await res.json();
-        let record = data.record;
 
-        // استخراج الرسائل الموجودة
-        let messages = [];
-        if (record && Array.isArray(record.messages)) {
-            messages = record.messages;
+        // تحويل البنية القديمة (مصفوفة) إلى كائن
+        if (data.record && Array.isArray(data.record)) {
+            data.record = {
+                novels: data.record,
+                users: [],
+                messages: []
+            };
         }
+        if (data.record) {
+            if (!Array.isArray(data.record.novels)) data.record.novels = [];
+            if (!Array.isArray(data.record.users)) data.record.users = [];
+            if (!Array.isArray(data.record.messages)) data.record.messages = [];
+        }
+
+        let record = data.record || {};
+
+        // استخراج كل البيانات الموجودة قبل الكتابة
+        let messages = Array.isArray(record.messages) ? record.messages : [];
+        let users = Array.isArray(record.users) ? record.users : [];
 
         const payload = {
             novels: allNovels,
+            users: users,
             messages: messages
         };
 
