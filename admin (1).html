@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>إدارة الروايات والدعم</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body { margin: 0; font-family: Tahoma, Arial, sans-serif; background: #f1f3f6; color: #222; }
+
+header { background: #111827; color: white; padding: 20px; text-align: center; }
+header h1 { margin: 0 0 8px; font-size: 25px; }
+header p { margin: 0; color: #cbd5e1; font-size: 14px; }
+
+.container { max-width: 1100px; margin: 25px auto; padding: 0 15px; }
+
+/* Tabs Navigation */
+.admin-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
+.tab-btn { padding: 12px 25px; background: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.3s; }
+.tab-btn.active { background: #2563eb; color: white; }
+
+/* Sections */
+.section-content { display: none; }
+.section-content.active { display: block; }
+
+/* Connection Box */
+.connection-box { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 3px 15px rgba(0,0,0,.08); margin-bottom: 20px; }
+.key-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.key-row input { flex: 1; min-width: 220px; padding: 13px; border: 1px solid #d1d5db; border-radius: 9px; direction: ltr; }
+
+button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; font-family: inherit; font-size: 14px; }
+.connect-btn { background: #2563eb; color: white; }
+.disconnect-btn { background: #64748b; color: white; }
+.status { margin-top: 12px; padding: 10px; border-radius: 8px; display: none; font-size: 14px; }
+.status.success { display: block; background: #dcfce7; color: #166534; }
+.status.error { display: block; background: #fee2e2; color: #991b1b; }
+.status.loading { display: block; background: #e0f2fe; color: #075985; }
+
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+.stat { background: white; border-radius: 14px; padding: 18px; text-align: center; box-shadow: 0 3px 15px rgba(0,0,0,.06); }
+.stat-number { font-size: 30px; font-weight: bold; margin-bottom: 5px; }
+.stat-title { color: #64748b; font-size: 14px; }
+
+/* إحصائيات المستخدمين */
+.users-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.user-stat {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 3px 15px rgba(0,0,0,.06);
+    border-top: 4px solid;
+}
+
+.user-stat.authors { border-color: #8b5cf6; }
+.user-stat.readers { border-color: #10b981; }
+.user-stat.guests { border-color: #f59e0b; }
+.user-stat.total { border-color: #2563eb; }
+
+.user-stat .stat-icon { font-size: 2em; margin-bottom: 8px; }
+.user-stat .stat-number { font-size: 28px; color: #111827; }
+.user-stat .stat-title { color: #64748b; font-size: 13px; margin-top: 5px; }
+
+/* Novels List */
+.novels { display: grid; gap: 15px; }
+.novel { background: white; border-radius: 14px; padding: 18px; box-shadow: 0 3px 15px rgba(0,0,0,.07); }
+.novel-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; }
+.badge { padding: 5px 10px; border-radius: 20px; font-size: 12px; }
+.badge.visible { background: #dcfce7; color: #166534; }
+.badge.hidden { background: #fee2e2; color: #991b1b; }
+.novel-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
+.details-btn { background: #e0f2fe; color: #075985; }
+.delete-btn { background: #fee2e2; color: #991b1b; }
+
+/* Messages Styles - تصميم الدردشة */
+.message-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 15px rgba(0,0,0,.07);
+    border-right: 5px solid #2563eb;
+}
+
+.message-card.has-user-reply {
+    border-right-color: #f59e0b;
+}
+
+.message-card.replied {
+    border-right-color: #10b981;
+}
+
+.msg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.msg-sender-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.msg-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.msg-sender-name {
+    font-weight: bold;
+    color: #111827;
+    font-size: 1.1em;
+}
+
+.msg-sender-role {
+    font-size: 0.8em;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+.msg-date {
+    font-size: 0.85em;
+    color: #9ca3af;
+}
+
+.msg-status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: bold;
+}
+
+.msg-status-badge.new { background: #dbeafe; color: #1e40af; }
+.msg-status-badge.replied { background: #dcfce7; color: #166534; }
+.msg-status-badge.user-replied { background: #fef3c7; color: #92400e; }
+
+/* فقاعات الدردشة */
+.chat-conversation {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.chat-bubble {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.chat-bubble.user {
+    background: #e0f2fe;
+    color: #075985;
+    margin-left: auto;
+    margin-right: 0;
+    border-bottom-left-radius: 4px;
+}
+
+.chat-bubble.admin {
+    background: white;
+    color: #111827;
+    border: 1px solid #e5e7eb;
+    margin-right: auto;
+    margin-left: 0;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-bubble .sender-label {
+    font-size: 0.75em;
+    font-weight: bold;
+    margin-bottom: 3px;
+    display: block;
+}
+
+.chat-bubble.user .sender-label { color: #1e40af; }
+.chat-bubble.admin .sender-label { color: #166534; }
+
+.chat-bubble .bubble-time {
+    font-size: 0.7em;
+    opacity: 0.7;
+    margin-top: 5px;
+    display: block;
+    text-align: left;
+}
+
+/* منطقة الرد */
+.reply-area {
+    background: #f9fafb;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+.reply-area h4 {
+    margin: 0 0 10px 0;
+    color: #111827;
+    font-size: 0.95em;
+}
+
+.reply-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    min-height: 80px;
+    font-family: inherit;
+    font-size: 0.9em;
+    resize: vertical;
+}
+
+.reply-send-btn {
+    background: #10b981;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.95em;
+    transition: 0.3s;
+}
+
+.reply-send-btn:hover {
+    background: #059669;
+}
+
+.reply-send-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+}
+
+.empty-msg { text-align: center; padding: 40px; color: #6b7280; background: white; border-radius: 12px; }
+
+/* Modal */
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.65); display: none; justify-content: center; align-items: center; padding: 20px; z-index: 1000; }
+.modal.show { display: flex; }
+.modal-box { background: white; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; border-radius: 16px; padding: 22px; }
+.chapter { border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+.chapter-title { background: #f8fafc; padding: 12px; font-weight: bold; }
+.chapter-content { padding: 15px; white-space: pre-wrap; }
+
+@media (max-width: 700px) {
+    .stats { grid-template-columns: 1fr; }
+    .users-stats { grid-template-columns: repeat(2, 1fr); }
+    .novel-header { flex-direction: column; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>لوحة الإدارة الشاملة</h1>
+    <p>إدارة الروايات ورسائل الدعم الفني</p>
+</header>
+
+<div class="container">
+
+    <!-- تبويبات التنقل -->
+    <div class="admin-tabs">
+        <button class="tab-btn active" onclick="switchTab('novels')">📚 إدارة الروايات</button>
+        <button class="tab-btn" onclick="switchTab('messages')">💬 رسائل الدعم (<span id="msgCountBadge">0</span>)</button>
+    </div>
+
+    <!-- ================= قسم الروايات ================= -->
+    <div id="novelsSection" class="section-content active">
+        
+        <!-- الاتصال (تم التعديل) -->
+        <div class="connection-box" id="connectionBox">
+            <h2>✓ متصل بقاعدة البيانات</h2>
+            <div class="key-row">
+                <button class="connect-btn" onclick="loadNovels()">🔄 تحديث</button>
+            </div>
+            <div id="status" class="status"></div>
+        </div>
+
+        <!-- الإحصائيات -->
+        <div class="stats">
+            <div class="stat"><div class="stat-number" id="totalCount">0</div><div class="stat-title">إجمالي الروايات</div></div>
+            <div class="stat"><div class="stat-number" id="visibleCount">0</div><div class="stat-title">الروايات الظاهرة</div></div>
+            <div class="stat"><div class="stat-number" id="hiddenCount">0</div><div class="stat-title">الروايات المخفية</div></div>
+        </div>
+
+        <!-- أدوات البحث -->
+        <div class="tools" style="background:white; padding:15px; border-radius:14px; margin-bottom:20px; display:flex; gap:10px; flex-wrap:wrap;">
+            <input type="text" id="searchInput" placeholder="ابحث عن رواية..." oninput="renderNovels()" style="flex:1; padding:11px; border:1px solid #d1d5db; border-radius:8px;">
+            <select id="filterSelect" onchange="renderNovels()" style="padding:11px; border:1px solid #d1d5db; border-radius:8px;">
+                <option value="all">جميع الروايات</option>
+                <option value="visible">الظاهرة فقط</option>
+                <option value="hidden">المخفية فقط</option>
+            </select>
+            <button class="details-btn" onclick="loadNovels()">تحديث القائمة</button>
+        </div>
+
+        <!-- قائمة الروايات -->
+        <div id="novels" class="novels">
+            <div class="empty">جاري تحميل البيانات...</div>
+        </div>
+    </div>
+
+    <!-- ================= قسم الرسائل ================= -->
+    <div id="messagesSection" class="section-content">
+        
+        <!-- إحصائيات المستخدمين -->
+        <div class="users-stats">
+            <div class="user-stat authors">
+                <div class="stat-icon">✍️</div>
+                <div class="stat-number" id="authorsCount">0</div>
+                <div class="stat-title">المؤلفين</div>
+            </div>
+            <div class="user-stat readers">
+                <div class="stat-icon">👤</div>
+                <div class="stat-number" id="readersCount">0</div>
+                <div class="stat-title">القراء</div>
+            </div>
+            <div class="user-stat guests">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number" id="guestsCount">0</div>
+                <div class="stat-title">الزوار</div>
+            </div>
+            <div class="user-stat total">
+                <div class="stat-icon">📊</div>
+                <div class="stat-number" id="totalUsersCount">0</div>
+                <div class="stat-title">إجمالي المستخدمين</div>
+            </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2>صندوق الوارد</h2>
+            <button class="details-btn" onclick="loadMessages()">🔄 تحديث الرسائل</button>
+        </div>
+        
+        <div id="messagesList">
+            <div class="empty-msg">لا توجد رسائل جديدة.</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal تفاصيل الرواية -->
+<div id="detailsModal" class="modal">
+    <div class="modal-box">
+        <h2 id="detailsTitle">تفاصيل الرواية</h2>
+        <div id="detailsContent"></div>
+        <div style="margin-top:20px; text-align:left;">
+            <button class="disconnect-btn" onclick="closeDetails()">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+/* =========================================================
+   إعدادات عامة (تم التعديل لاستخدام Proxy)
+========================================================= */
+// رابط الـProxy (Netlify Functions)
+const PROXY_URL = "https://stellar-donut-5c1405.netlify.app/api";
+const API_GET = `${PROXY_URL}/get`;
+const API_PUT = `${PROXY_URL}/save`;
+
+let allNovels = [];
+let allMessages = [];
+
+/* =========================================================
+   إدارة التبويبات (Tabs)
+========================================================= */
+function switchTab(tabName) {
+    document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    
+    if (tabName === 'novels') {
+        document.getElementById('novelsSection').classList.add('active');
+        document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+    } else {
+        document.getElementById('messagesSection').classList.add('active');
+        document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+        loadMessages();
+    }
+}
+
+/* =========================================================
+   دالة الاتصال (تم التعديل)
+========================================================= */
+async function connectDatabase() {
+    // لم نعد نحتاج مفتاح — الاتصال تلقائي عبر Proxy
+    await loadNovels();
+}
+
+// استدعاء أولي عند التحميل
+window.onload = function() {
+    connectDatabase();
+};
+
+/* =========================================================
+   إدارة الرسائل - عرض الدردشة
+========================================================= */
+async function loadMessages() {
+    const list = document.getElementById('messagesList');
+    const badge = document.getElementById('msgCountBadge');
+    
+    // تم حذف شرط التحقق من MASTER_KEY
+
+    list.innerHTML = '<div class="empty-msg">جاري التحميل...</div>';
+
+    try {
+        // تم تعديل الرابط لإزالة المفاتيح
+        const res = await fetch(API_GET, { cache: 'no-store' });
+        
+        const data = await res.json();
+        let messages = [];
+        
+        if(data.record && Array.isArray(data.record.messages)) {
+            messages = data.record.messages;
+        }
+
+        allMessages = messages;
+        badge.innerText = messages.length;
+
+        // حساب الإحصائيات
+        calculateUserStats(messages);
+
+        list.innerHTML = '';
+
+        if (messages.length === 0) {
+            list.innerHTML = '<div class="empty-msg">لا توجد رسائل حتى الآن.</div>';
+            return;
+        }
+
+        // عرض الرسائل (الأحدث أولاً)
+        [...messages].reverse().forEach((msg) => {
+            const card = createMessageCard(msg);
+            list.appendChild(card);
+        });
+
+    } catch (e) {
+        list.innerHTML = '<div class="empty-msg" style="color:red">فشل تحميل الرسائل. تأكد من اتصال السيرفر.</div>';
+        console.error(e);
+    }
+}
+
+// حساب إحصائيات المستخدمين
+function calculateUserStats(messages) {
+    const authors = new Set();
+    const readers = new Set();
+    const guests = new Set();
+    const allUsers = new Set();
+
+    messages.forEach(m => {
+        const userId = m.deviceId || m.from;
+        if (!userId) return;
+
+        allUsers.add(userId);
+
+        // تحديد نوع المستخدم
+        if (m.role === 'author') {
+            authors.add(userId);
+        } else if (m.role === 'reader') {
+            readers.add(userId);
+        } else {
+            // زائر (غير مسجل أو لا يوجد role)
+            guests.add(userId);
+        }
+    });
+
+    document.getElementById('authorsCount').innerText = authors.size;
+    document.getElementById('readersCount').innerText = readers.size;
+    document.getElementById('guestsCount').innerText = guests.size;
+    document.getElementById('totalUsersCount').innerText = allUsers.size;
+}
+
+// إنشاء بطاقة رسالة (محادثة كاملة)
+function createMessageCard(msg) {
+    const card = document.createElement('div');
+    card.className = 'message-card';
+
+    // تحديد الحالة
+    const hasUserReply = Array.isArray(msg.userReplies) && msg.userReplies.length > 0;
+    const hasAdminReply = msg.reply || (Array.isArray(msg.adminReplies) && msg.adminReplies.length > 0);
+
+    if (hasUserReply && !hasAdminReply) {
+        card.classList.add('has-user-reply');
+    } else if (hasAdminReply) {
+        card.classList.add('replied');
+    }
+
+    // اسم المرسل (الاسم الفعلي وليس role)
+    const senderName = msg.from || 'مستخدم مجهول';
+    const senderInitial = senderName.charAt(0).toUpperCase();
+
+    // شارة الحالة
+    let statusBadge = '';
+    if (hasUserReply && !hasAdminReply) {
+        statusBadge = '<span class="msg-status-badge user-replied">⚠️ رد جديد من المستخدم</span>';
+    } else if (hasAdminReply) {
+        statusBadge = '<span class="msg-status-badge replied">✓ تم الرد</span>';
+    } else {
+        statusBadge = '<span class="msg-status-badge new">● جديد</span>';
+    }
+
+    // بناء فقاعات المحادثة
+    let chatHTML = '<div class="chat-conversation">';
+    
+    // الرسالة الأولى من المستخدم
+    chatHTML += createBubble('user', senderName, msg.message, msg.date);
+    
+    // الرد الرئيسي من الإدارة
+    if (msg.reply) {
+        chatHTML += createBubble('admin', 'الإدارة', msg.reply, msg.replyDate);
+    }
+
+    // الردود الإضافية من المستخدم
+    if (Array.isArray(msg.userReplies)) {
+        msg.userReplies.forEach(ur => {
+            chatHTML += createBubble('user', senderName, ur.text, ur.date);
+        });
+    }
+
+    // الردود الإضافية من الإدارة
+    if (Array.isArray(msg.adminReplies)) {
+        msg.adminReplies.forEach(ar => {
+            chatHTML += createBubble('admin', 'الإدارة', ar.text, ar.date);
+        });
+    }
+
+    chatHTML += '</div>';
+
+    card.innerHTML = `
+        <div class="msg-header">
+            <div class="msg-sender-info">
+                <div class="msg-avatar">${escapeHTML(senderInitial)}</div>
+                <div>
+                    <div class="msg-sender-name">${escapeHTML(senderName)}</div>
+                    <div class="msg-sender-role">${msg.role === 'author' ? '✍️ مؤلف' : msg.role === 'reader' ? '👤 قارئ' : '👥 زائر'}</div>
+                </div>
+            </div>
+            <div style="text-align: left;">
+                <div class="msg-date">${new Date(msg.date).toLocaleString('ar-SA')}</div>
+                ${statusBadge}
+            </div>
+        </div>
+
+        ${chatHTML}
+
+        <div class="reply-area">
+            <h4>💬 الرد على ${escapeHTML(senderName)}:</h4>
+            <textarea class="reply-input" id="replyText_${msg.id}" placeholder="اكتب ردك هنا..."></textarea>
+            <button class="reply-send-btn" id="sendBtn_${msg.id}" onclick="sendReply('${msg.id}')">
+                إرسال الرد ➤
+            </button>
+        </div>
+    `;
+
+    return card;
+}
+
+// إنشاء فقاعة دردشة
+function createBubble(type, senderName, text, date) {
+    const timeStr = date ? new Date(date).toLocaleTimeString('ar-SA', {hour: '2-digit', minute: '2-digit'}) : '';
+    const dateStr = date ? new Date(date).toLocaleDateString('ar-SA') : '';
+
+    return `
+        <div class="chat-bubble ${type}">
+            <span class="sender-label">${escapeHTML(senderName)}</span>
+            <div>${escapeHTML(text)}</div>
+            <span class="bubble-time">${dateStr} ${timeStr}</span>
+        </div>
+    `;
+}
+
+// إرسال الرد
+async function sendReply(msgId) {
+    const replyText = document.getElementById(`replyText_${msgId}`).value.trim();
+    if(!replyText) {
+        alert('اكتب الرد أولاً');
+        return;
+    }
+
+    const sendBtn = document.getElementById(`sendBtn_${msgId}`);
+    const originalText = sendBtn.innerHTML;
+    sendBtn.innerHTML = 'جاري الإرسال...';
+    sendBtn.disabled = true;
+
+    try {
+        // 1. جلب البيانات الحالية (تم التعديل)
+        const res = await fetch(API_GET, { cache: 'no-store' });
+        const data = await res.json();
+        let payload = data.record || {};
+        
+        if(!payload.messages) payload.messages = [];
+        if(Array.isArray(payload)) {
+            payload = { novels: payload, messages: [] };
+        }
+
+        // 2. البحث عن الرسالة بالـ ID
+        const msgIndex = payload.messages.findIndex(m => String(m.id) === String(msgId));
+        
+        if(msgIndex === -1) {
+            alert('لم يتم العثور على الرسالة');
+            sendBtn.innerHTML = originalText;
+            sendBtn.disabled = false;
+            return;
+        }
+
+        const message = payload.messages[msgIndex];
+
+        // 3. إضافة الرد
+        // إذا كان الرد الرئيسي فارغاً، نضعه فيه
+        if (!message.reply) {
+            message.reply = replyText;
+            message.replyDate = new Date().toISOString();
+            message.status = 'replied';
+        } else {
+            // وإلا نضيفه إلى adminReplies
+            if (!Array.isArray(message.adminReplies)) {
+                message.adminReplies = [];
+            }
+            message.adminReplies.push({
+                text: replyText,
+                date: new Date().toISOString()
+            });
+        }
+
+        // 4. حفظ التحديث (تم التعديل)
+        const saveRes = await fetch(API_PUT, {
+            method: 'PUT',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (saveRes.ok) {
+            alert('✓ تم إرسال الرد بنجاح!');
+            document.getElementById(`replyText_${msgId}`).value = '';
+            await loadMessages(); // تحديث القائمة
+        } else {
+            alert('فشل إرسال الرد');
+        }
+
+    } catch (e) {
+        alert('فشل إرسال الرد. تأكد من الاتصال.');
+        console.error(e);
+    } finally {
+        sendBtn.innerHTML = originalText;
+        sendBtn.disabled = false;
+    }
+}
+
+/* =========================================================
+   دوال الروايات (Novels Functions)
+========================================================= */
+// تم حذف دالة disconnectDatabase
+
+async function loadNovels() {
+    // تم حذف شرط MASTER_KEY
+    setStatus("جاري التحميل...", "loading");
+    
+    try {
+        // تم تعديل الرابط
+        const res = await fetch(API_GET, { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP Error");
+        const data = await res.json();
+        
+        let record = data.record;
+        if(record && Array.isArray(record.novels)) allNovels = record.novels;
+        else if(Array.isArray(record)) allNovels = record;
+        else allNovels = [];
+
+        updateStats();
+        renderNovels();
+        setStatus("تم التحميل بنجاح.", "success");
+    } catch (e) {
+        setStatus("فشل الاتصال.", "error");
+        console.error(e);
+    }
+}
+
+function renderNovels() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const filter = document.getElementById("filterSelect").value;
+    const container = document.getElementById("novels");
+    
+    let filtered = allNovels.filter(n => {
+        const title = (n.title || "").toLowerCase();
+        const isVisible = n.visible !== false;
+        
+        let matchSearch = title.includes(search);
+        let matchFilter = true;
+        if(filter === 'visible') matchFilter = isVisible;
+        if(filter === 'hidden') matchFilter = !isVisible;
+        
+        return matchSearch && matchFilter;
+    });
+
+    container.innerHTML = '';
+    if(filtered.length === 0) {
+        container.innerHTML = '<div class="empty">لا توجد نتائج.</div>';
+        return;
+    }
+
+    filtered.forEach(novel => {
+        const idx = allNovels.indexOf(novel);
+        const visible = novel.visible !== false;
+        
+        const div = document.createElement('div');
+        div.className = 'novel';
+        div.innerHTML = `
+            <div class="novel-header">
+                <div>
+                    <div style="font-weight:bold; font-size:1.1em;">${escapeHTML(novel.title)}</div>
+                    <div style="color:#666; font-size:0.9em; margin-top:5px;">
+                        الفصول: ${Array.isArray(novel.chapterTitles)?novel.chapterTitles.length:0} | 
+                        الحالة: ${novel.continuous ? 'مستمرة' : 'منتهية'}
+                    </div>
+                </div>
+                <span class="badge ${visible?'visible':'hidden'}">${visible?'ظاهرة':'مخفية'}</span>
+            </div>
+            <div class="novel-actions">
+                <button class="details-btn" onclick="showDetails(${idx})">عرض</button>
+                <button class="${visible?'delete-btn':'details-btn'}" style="background:${visible?'#fef3c7':'#dcfce7'}; color:${visible?'#92400e':'#166534'}" 
+                    onclick="setVisibility(${idx}, ${!visible})">
+                    ${visible?'إخفاء':'إظهار'}
+                </button>
+                <button class="delete-btn" onclick="confirmDelete(${idx})">حذف</button>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+async function setVisibility(idx, status) {
+    if(idx < 0 || idx >= allNovels.length) return;
+    const prev = allNovels[idx].visible;
+    allNovels[idx].visible = status;
+    renderNovels();
+    updateStats();
+    const ok = await saveData();
+    if (!ok) {
+        allNovels[idx].visible = prev;
+        renderNovels();
+        updateStats();
+    }
+}
+
+async function confirmDelete(idx) {
+    if(idx < 0 || idx >= allNovels.length) return;
+    const title = allNovels[idx].title || "رواية";
+    if(!confirm("هل أنت متأكد من حذف: " + title + " ؟\nلن يمكن التراجع بعد الحفظ.")) return;
+
+    const removed = allNovels.splice(idx, 1)[0];
+    renderNovels();
+    updateStats();
+
+    const ok = await saveData();
+    if (!ok) {
+        // فشل الحفظ — أعد الرواية للقائمة المحلية
+        allNovels.splice(idx, 0, removed);
+        renderNovels();
+        updateStats();
+        setStatus("فشل حذف الرواية على السيرفر. لم يُحفظ التغيير.", "error");
+    }
+}
+
+async function saveData() {
+    setStatus("جاري الحفظ...", "loading");
+    try {
+        // جلب أحدث نسخة
+        const res = await fetch(API_GET, { cache: "no-store" });
+        if (!res.ok) throw new Error("GET failed " + res.status);
+        const data = await res.json();
+        let record = data.record;
+
+        // استخراج الرسائل الموجودة
+        let messages = [];
+        if (record && Array.isArray(record.messages)) {
+            messages = record.messages;
+        }
+
+        const payload = {
+            novels: allNovels,
+            messages: messages
+        };
+
+        const saveRes = await fetch(API_PUT, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (!saveRes.ok) {
+            const errText = await saveRes.text().catch(() => "");
+            console.error("PUT failed", saveRes.status, errText);
+            setStatus("فشل الحفظ على السيرفر (" + saveRes.status + ").", "error");
+            return false;
+        }
+
+        setStatus("تم الحفظ بنجاح.", "success");
+        await loadNovels();
+        return true;
+    } catch(e) {
+        console.error(e);
+        setStatus("فشل الحفظ.", "error");
+        return false;
+    }
+}
+
+function updateStats() {
+    document.getElementById("totalCount").innerText = allNovels.length;
+    document.getElementById("visibleCount").innerText = allNovels.filter(n => n.visible !== false).length;
+    document.getElementById("hiddenCount").innerText = allNovels.filter(n => n.visible === false).length;
+}
+
+function showDetails(idx) {
+    const novel = allNovels[idx];
+    document.getElementById("detailsTitle").innerText = novel.title;
+    const contents = novel.chapterContents || [];
+    const titles = novel.chapterTitles || [];
+    
+    let html = '';
+    titles.forEach((t, i) => {
+        html += `<div class="chapter"><div class="chapter-title">${escapeHTML(t)}</div><div class="chapter-content">${escapeHTML(contents[i]||'')}</div></div>`;
+    });
+    document.getElementById("detailsContent").innerHTML = html || 'لا توجد فصول.';
+    document.getElementById("detailsModal").classList.add("show");
+}
+
+function closeDetails() { document.getElementById("detailsModal").classList.remove("show"); }
+function setStatus(msg, type) { const el = document.getElementById("status"); el.className = "status "+type; el.innerText = msg; el.style.display = "block"; }
+function escapeHTML(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+</script>
+</body>
+</html>
