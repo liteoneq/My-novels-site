@@ -45,7 +45,7 @@ button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; fon
 .stat-number { font-size: 30px; font-weight: bold; margin-bottom: 5px; }
 .stat-title { color: #64748b; font-size: 14px; }
 
-/* إحصائيات المستخدمين */
+/* إحصائيات المستخدمين العامة */
 .users-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -271,10 +271,81 @@ button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; fon
 .chapter-title { background: #f8fafc; padding: 12px; font-weight: bold; }
 .chapter-content { padding: 15px; white-space: pre-wrap; }
 
+/* Users Section Styles */
+.users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.user-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-top: 4px solid transparent;
+    transition: transform 0.2s;
+}
+
+.user-card:hover {
+    transform: translateY(-3px);
+}
+
+.user-card.reader {
+    border-color: #3b82f6; /* أزرق */
+}
+
+.user-card.author {
+    border-color: #8b5cf6; /* بنفسجي */
+}
+
+.user-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+    color: #111827;
+}
+
+.user-info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    color: #4b5563;
+}
+
+.user-novels-list {
+    margin: 10px 0;
+    padding-right: 15px;
+    font-size: 0.85em;
+    color: #6b7280;
+}
+
+.reset-pass-btn {
+    width: 100%;
+    margin-top: 10px;
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.reset-pass-btn:hover {
+    background: #e5e7eb;
+}
+
+.section-title {
+    margin: 30px 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e5e7eb;
+    font-size: 1.3em;
+    color: #111827;
+}
+
 @media (max-width: 700px) {
     .stats { grid-template-columns: 1fr; }
     .users-stats { grid-template-columns: repeat(2, 1fr); }
     .novel-header { flex-direction: column; }
+    .users-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -292,6 +363,7 @@ button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; fon
     <div class="admin-tabs">
         <button class="tab-btn active" onclick="switchTab('novels')">📚 إدارة الروايات</button>
         <button class="tab-btn" onclick="switchTab('messages')">💬 رسائل الدعم (<span id="msgCountBadge">0</span>)</button>
+        <button class="tab-btn" onclick="switchTab('users')">👥 المستخدمون</button>
     </div>
 
     <!-- ================= قسم الروايات ================= -->
@@ -367,6 +439,17 @@ button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; fon
         </div>
     </div>
 
+    <!-- ================= قسم المستخدمين (جديد) ================= -->
+    <div id="usersSection" class="section-content">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2>إدارة المستخدمين</h2>
+            <button class="details-btn" onclick="loadUsers()">🔄 تحديث القائمة</button>
+        </div>
+        <div id="usersContainer">
+            <div class="empty-msg">جاري التحميل...</div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Modal تفاصيل الرواية -->
@@ -383,15 +466,28 @@ button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; fon
 <script>
 
 /* =========================================================
-   إعدادات عامة (تم التعديل لاستخدام Proxy)
+   إعدادات عامة (تم تعديل الرابط)
 ========================================================= */
-// رابط الـProxy (Netlify Functions)
-const PROXY_URL = "https://stellar-donut-5c1405.netlify.app/api";
+// رابط الـProxy الجديد
+const PROXY_URL = "https://transcendent-swan-fdc065.netlify.app/api";
 const API_GET = `${PROXY_URL}/get`;
 const API_PUT = `${PROXY_URL}/save`;
 
 let allNovels = [];
 let allMessages = [];
+
+/* =========================================================
+   دالة مساعدة لتشفير كلمة المرور
+========================================================= */
+function hashPassword(password) {
+    let hash = 0;
+    for (let i = 0; i < password.length; i++) {
+        const char = password.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash |= 0;
+    }
+    return 'h_' + Math.abs(hash).toString(36) + '_' + password.length;
+}
 
 /* =========================================================
    إدارة التبويبات (Tabs)
@@ -403,10 +499,14 @@ function switchTab(tabName) {
     if (tabName === 'novels') {
         document.getElementById('novelsSection').classList.add('active');
         document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
-    } else {
+    } else if (tabName === 'messages') {
         document.getElementById('messagesSection').classList.add('active');
         document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
         loadMessages();
+    } else if (tabName === 'users') {
+        document.getElementById('usersSection').classList.add('active');
+        document.querySelector('.tab-btn:nth-child(3)').classList.add('active');
+        loadUsers();
     }
 }
 
@@ -424,40 +524,200 @@ window.onload = function() {
 };
 
 /* =========================================================
+   إدارة المستخدمين (جديد)
+========================================================= */
+async function loadUsers() {
+    const container = document.getElementById('usersContainer');
+    container.innerHTML = '<div class="empty-msg">جاري تحميل بيانات المستخدمين...</div>';
+
+    try {
+        const res = await fetch(API_GET, { cache: 'no-store' });
+        const data = await res.json();
+        let record = data.record;
+
+        // إصلاح البنية القديمة (مصفوفة → كائن)
+        if (record && Array.isArray(record)) {
+            record = {
+                novels: record,
+                users: [],
+                messages: []
+            };
+        }
+        if (record) {
+            if (!Array.isArray(record.novels)) record.novels = [];
+            if (!Array.isArray(record.users)) record.users = [];
+            if (!Array.isArray(record.messages)) record.messages = [];
+        }
+
+        const users = record.users || [];
+        const novels = record.novels || [];
+
+        if (users.length === 0) {
+            container.innerHTML = '<div class="empty-msg">لا يوجد مستخدمون مسجلون.</div>';
+            return;
+        }
+
+        // فصل القراء والمؤلفين
+        const readers = users.filter(u => u.role === 'reader');
+        const authors = users.filter(u => u.role === 'author');
+
+        let html = '';
+
+        // عرض المؤلفين
+        html += `<h3 class="section-title">✍️ المؤلفون (${authors.length})</h3>`;
+        html += `<div class="users-grid">`;
+        authors.forEach(user => {
+            // إيجاد روايات المؤلف
+            const userNovels = novels.filter(n => n.author === user.username);
+            const totalViews = userNovels.reduce((sum, n) => sum + (n.views || 0), 0);
+            const totalLikes = userNovels.reduce((sum, n) => sum + (n.likes || 0), 0);
+            
+            // حساب الأيام منذ التسجيل
+            const joinDate = new Date(user.joinedAt);
+            const daysSince = Math.floor((new Date() - joinDate) / (1000 * 60 * 60 * 24));
+
+            html += `
+                <div class="user-card author">
+                    <h3>${escapeHTML(user.username)}</h3>
+                    <div class="user-info-row"><span>تاريخ التسجيل:</span> <span>${daysSince} يوم</span></div>
+                    <div class="user-info-row"><span>المتابعون:</span> <span>${(user.followers || []).length}</span></div>
+                    <div class="user-info-row"><span>إجمالي المشاهدات:</span> <span>${totalViews}</span></div>
+                    <div class="user-info-row"><span>إجمالي الإعجابات:</span> <span>${totalLikes}</span></div>
+                    
+                    ${userNovels.length > 0 ? 
+                        `<div style="margin-top:10px; font-size:0.9em; color:#6b7280;"><strong>الروايات:</strong>
+                         <ul class="user-novels-list">${userNovels.map(n => `<li>${escapeHTML(n.title)}</li>`).join('')}</ul>
+                         </div>` : ''}
+                    
+                    <button class="reset-pass-btn" onclick="resetUserPassword('${user.username}', '${user.id || user.username}')">🔑 إعادة تعيين كلمة المرور</button>
+                </div>
+            `;
+        });
+        html += `</div>`;
+
+        // عرض القراء
+        html += `<h3 class="section-title">📖 القراء (${readers.length})</h3>`;
+        html += `<div class="users-grid">`;
+        readers.forEach(user => {
+            const joinDate = new Date(user.joinedAt);
+            const daysSince = Math.floor((new Date() - joinDate) / (1000 * 60 * 60 * 24));
+
+            html += `
+                <div class="user-card reader">
+                    <h3>${escapeHTML(user.username)}</h3>
+                    <div class="user-info-row"><span>تاريخ التسجيل:</span> <span>${daysSince} يوم</span></div>
+                    <div class="user-info-row"><span>المتابعون:</span> <span>${(user.followers || []).length}</span></div>
+                    <div class="user-info-row"><span>يتابع:</span> <span>${(user.following || []).length}</span></div>
+                    
+                    <button class="reset-pass-btn" onclick="resetUserPassword('${user.username}', '${user.id || user.username}')">🔑 إعادة تعيين كلمة المرور</button>
+                </div>
+            `;
+        });
+        html += `</div>`;
+
+        container.innerHTML = html;
+
+    } catch (e) {
+        container.innerHTML = '<div class="empty-msg" style="color:red">فشل تحميل المستخدمين.</div>';
+        console.error(e);
+    }
+}
+
+async function resetUserPassword(username, userId) {
+    const newPassword = prompt(`أدخل كلمة المرور الجديدة للمستخدم ${username}:`);
+    
+    if (newPassword === null) return; // إلغاء
+    
+    if (newPassword.length < 4) {
+        alert("❌ كلمة المرور قصيرة جداً (يجب أن تكون 4 أحرف على الأقل).");
+        return;
+    }
+
+    const hashed = hashPassword(newPassword);
+
+    try {
+        // جلب البيانات الحالية
+        const res = await fetch(API_GET, { cache: 'no-store' });
+        const data = await res.json();
+        let record = data.record;
+
+        // إصلاح البنية
+        if (record && Array.isArray(record)) {
+            record = { novels: record, users: [], messages: [] };
+        }
+        if (record) {
+            if (!Array.isArray(record.users)) record.users = [];
+            if (!Array.isArray(record.novels)) record.novels = [];
+            if (!Array.isArray(record.messages)) record.messages = [];
+        }
+
+        // البحث عن المستخدم وتحديثه
+        const userIndex = record.users.findIndex(u => (u.id === userId) || (u.username === username));
+        
+        if (userIndex !== -1) {
+            record.users[userIndex].password = hashed;
+            
+            // حفظ التغييرات
+            const payload = {
+                novels: record.novels,
+                users: record.users,
+                messages: record.messages
+            };
+
+            const saveRes = await fetch(API_PUT, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            if (saveRes.ok) {
+                alert(`✅ تم تعيين كلمة المرور الجديدة:\n\n${newPassword}\n\nانسخها وأرسلها للمستخدم.`);
+            } else {
+                alert("❌ فشل حفظ التغييرات على السيرفر.");
+            }
+        } else {
+            alert("❌ لم يتم العثور على المستخدم.");
+        }
+
+    } catch (e) {
+        alert("❌ حدث خطأ أثناء الاتصال.");
+        console.error(e);
+    }
+}
+
+/* =========================================================
    إدارة الرسائل - عرض الدردشة
 ========================================================= */
 async function loadMessages() {
     const list = document.getElementById('messagesList');
     const badge = document.getElementById('msgCountBadge');
     
-    // تم حذف شرط التحقق من MASTER_KEY
-
     list.innerHTML = '<div class="empty-msg">جاري التحميل...</div>';
 
     try {
-        // تم تعديل الرابط لإزالة المفاتيح
         const res = await fetch(API_GET, { cache: 'no-store' });
         
         const data = await res.json();
+        let record = data.record;
 
-        // تحويل البنية القديمة (مصفوفة) إلى كائن
-        if (data.record && Array.isArray(data.record)) {
-            data.record = {
-                novels: data.record,
+        // إصلاح البنية القديمة (مصفوفة → كائن)
+        if (record && Array.isArray(record)) {
+            record = {
+                novels: record,
                 users: [],
                 messages: []
             };
         }
-        if (data.record) {
-            if (!Array.isArray(data.record.novels)) data.record.novels = [];
-            if (!Array.isArray(data.record.users)) data.record.users = [];
-            if (!Array.isArray(data.record.messages)) data.record.messages = [];
+        if (record) {
+            if (!Array.isArray(record.novels)) record.novels = [];
+            if (!Array.isArray(record.users)) record.users = [];
+            if (!Array.isArray(record.messages)) record.messages = [];
         }
 
         let messages = [];
         
-        if(data.record && Array.isArray(data.record.messages)) {
-            messages = data.record.messages;
+        if(record && Array.isArray(record.messages)) {
+            messages = record.messages;
         }
 
         allMessages = messages;
@@ -631,22 +891,23 @@ async function sendReply(msgId) {
         // 1. جلب البيانات الحالية (تم التعديل)
         const res = await fetch(API_GET, { cache: 'no-store' });
         const data = await res.json();
+        let record = data.record;
 
-        // تحويل البنية القديمة (مصفوفة) إلى كائن
-        if (data.record && Array.isArray(data.record)) {
-            data.record = {
-                novels: data.record,
+        // إصلاح البنية القديمة (مصفوفة → كائن)
+        if (record && Array.isArray(record)) {
+            record = {
+                novels: record,
                 users: [],
                 messages: []
             };
         }
-        if (data.record) {
-            if (!Array.isArray(data.record.novels)) data.record.novels = [];
-            if (!Array.isArray(data.record.users)) data.record.users = [];
-            if (!Array.isArray(data.record.messages)) data.record.messages = [];
+        if (record) {
+            if (!Array.isArray(record.novels)) record.novels = [];
+            if (!Array.isArray(record.users)) record.users = [];
+            if (!Array.isArray(record.messages)) record.messages = [];
         }
 
-        let payload = data.record || {};
+        let payload = record || {};
         
         if(!payload.messages) payload.messages = [];
         if(Array.isArray(payload)) {
@@ -720,22 +981,22 @@ async function loadNovels() {
         const res = await fetch(API_GET, { cache: "no-store" });
         if (!res.ok) throw new Error("HTTP Error");
         const data = await res.json();
+        let record = data.record;
 
-        // تحويل البنية القديمة (مصفوفة) إلى كائن
-        if (data.record && Array.isArray(data.record)) {
-            data.record = {
-                novels: data.record,
+        // إصلاح البنية القديمة (مصفوفة → كائن)
+        if (record && Array.isArray(record)) {
+            record = {
+                novels: record,
                 users: [],
                 messages: []
             };
         }
-        if (data.record) {
-            if (!Array.isArray(data.record.novels)) data.record.novels = [];
-            if (!Array.isArray(data.record.users)) data.record.users = [];
-            if (!Array.isArray(data.record.messages)) data.record.messages = [];
+        if (record) {
+            if (!Array.isArray(record.novels)) record.novels = [];
+            if (!Array.isArray(record.users)) record.users = [];
+            if (!Array.isArray(record.messages)) record.messages = [];
         }
         
-        let record = data.record;
         if(record && Array.isArray(record.novels)) allNovels = record.novels;
         else if(Array.isArray(record)) allNovels = record;
         else allNovels = [];
@@ -842,22 +1103,21 @@ async function saveData() {
         const res = await fetch(API_GET, { cache: "no-store" });
         if (!res.ok) throw new Error("GET failed " + res.status);
         const data = await res.json();
+        let record = data.record;
 
-        // تحويل البنية القديمة (مصفوفة) إلى كائن
-        if (data.record && Array.isArray(data.record)) {
-            data.record = {
-                novels: data.record,
+        // إصلاح البنية القديمة (مصفوفة → كائن)
+        if (record && Array.isArray(record)) {
+            record = {
+                novels: record,
                 users: [],
                 messages: []
             };
         }
-        if (data.record) {
-            if (!Array.isArray(data.record.novels)) data.record.novels = [];
-            if (!Array.isArray(data.record.users)) data.record.users = [];
-            if (!Array.isArray(data.record.messages)) data.record.messages = [];
+        if (record) {
+            if (!Array.isArray(record.novels)) record.novels = [];
+            if (!Array.isArray(record.users)) record.users = [];
+            if (!Array.isArray(record.messages)) record.messages = [];
         }
-
-        let record = data.record || {};
 
         // استخراج كل البيانات الموجودة قبل الكتابة
         let messages = Array.isArray(record.messages) ? record.messages : [];
