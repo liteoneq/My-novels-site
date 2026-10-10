@@ -26,13 +26,14 @@ export default async (request, context) => {
   }
 
   if (Array.isArray(parsed)) {
-    parsed = { novels: parsed, users: [], messages: [] };
+    parsed = { novels: parsed, users: [], messages: [], community: [] };
   } else if (typeof parsed === "object" && parsed !== null) {
     if (!Array.isArray(parsed.novels)) parsed.novels = [];
     if (!Array.isArray(parsed.users)) parsed.users = [];
     if (!Array.isArray(parsed.messages)) parsed.messages = [];
+    if (!Array.isArray(parsed.community)) parsed.community = [];
   } else {
-    parsed = { novels: [], users: [], messages: [] };
+    parsed = { novels: [], users: [], messages: [], community: [] };
   }
 
   const r = await fetch("https://api.jsonbin.io/v3/b/" + binId, {
