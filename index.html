@@ -488,7 +488,8 @@
             raw.record = {
                 novels: raw.record,
                 users: [],
-                messages: []
+                messages: [],
+                community: []
             };
         }
 
@@ -496,6 +497,7 @@
             if (!Array.isArray(raw.record.novels)) raw.record.novels = [];
             if (!Array.isArray(raw.record.users)) raw.record.users = [];
             if (!Array.isArray(raw.record.messages)) raw.record.messages = [];
+            if (!Array.isArray(raw.record.community)) raw.record.community = [];
         }
 
         return raw;
@@ -503,6 +505,11 @@
 
     async function apiPut(payload) {
         try {
+            if (!Array.isArray(payload.novels)) payload.novels = [];
+            if (!Array.isArray(payload.users)) payload.users = [];
+            if (!Array.isArray(payload.messages)) payload.messages = [];
+            if (!Array.isArray(payload.community)) payload.community = [];
+
             const res = await fetch(API_PUT, {
                 method: 'PUT',
                 headers: { "Content-Type": "application/json" },
@@ -744,6 +751,10 @@
     function getAuthorName(novel) {
         if (novel.author && novel.author.trim() !== '' && novel.author !== 'كاتب مجهول') {
             return novel.author;
+        }
+        if (novel.authorId) {
+            const u = allUsersCache.find(x => x.authorId === novel.authorId);
+            if (u) return u.username;
         }
         if (novel._fixedAuthor && novel._fixedAuthor.trim() !== '') {
             return novel._fixedAuthor;
@@ -1307,6 +1318,8 @@
                     if (!Array.isArray(existing.readers)) existing.readers = [];
                     novel.readers.forEach(r => { if (!existing.readers.includes(r)) existing.readers.push(r); });
                 }
+                if (novel.novelId) existing.novelId = novel.novelId;
+                if (novel.authorId) existing.authorId = novel.authorId;
                 if (novel.author) existing.author = novel.author;
                 if (novel._fixedAuthor) existing._fixedAuthor = novel._fixedAuthor;
                 allNovels[index] = existing;
