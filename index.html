@@ -94,9 +94,18 @@
         .back-link-btn { background: transparent; border: none; color: #757575; cursor: pointer; font-size: 0.95em; font-family: inherit; }
         .back-link-btn:hover { color: var(--primary-color); }
         .reader-body { max-width: 800px; margin: 0 auto; padding: 30px 20px; }
-        .reader-header-info { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #eee; }
-        .reader-main-title { font-size: 1.5em; font-weight: 700; color: #1A1A1A; margin-bottom: 8px; }
-        .reader-author-name { color: #757575; font-size: 1em; margin-bottom: 15px; }
+        .reader-header-info { text-align: center; margin-bottom: 20px; padding-bottom: 0; border-bottom: none; }
+        .reader-author-line {
+            font-size: 0.85em;
+            color: #757575;
+            text-align: center;
+            padding: 8px 0 14px 0;
+        }
+        .reader-author-line .author-link {
+            color: #1565C0;
+            font-weight: 500;
+            cursor: pointer;
+        }
 
         .follow-btn { padding: 8px 20px; background: #FFFFFF; color: #1565C0; border: 2px solid #1565C0; border-radius: 8px; cursor: pointer; font-size: 0.95em; font-weight: bold; transition: 0.3s; margin-top: 10px; }
         .follow-btn.following { background: #1565C0; color: white; border: 2px solid #1565C0; }
@@ -198,7 +207,6 @@
 
         @media (max-width: 600px) {
             .container { grid-template-columns: 1fr; }
-            .reader-main-title { font-size: 1.3em; }
             .notif-panel { max-width: 100%; }
             .profile-stats { gap: 15px; }
         }
@@ -266,8 +274,7 @@
 
     <div class="reader-body">
         <div class="reader-header-info">
-            <div class="reader-main-title" id="readerTitle"></div>
-            <div class="reader-author-name">
+            <div class="reader-author-line">
                 بقلم: <span class="author-link" id="readerAuthor" onclick="openAuthorProfile()"></span>
             </div>
         </div>
@@ -555,7 +562,6 @@
         currentChapterIndex = startChapter;
         const authorName = getAuthorName(novel);
         document.getElementById('toolbarTitle').innerText = novel.title;
-        document.getElementById('readerTitle').innerText = novel.title;
         document.getElementById('readerAuthor').innerText = authorName;
 
         const nav = document.getElementById('chapterNav');
