@@ -508,6 +508,7 @@
     const PROXY_URL = "https://transcendent-swan-fdc065.netlify.app/api";
     const API_GET = `${PROXY_URL}/get`;
     const API_PUT = `${PROXY_URL}/save`;
+    const API_PULSE = "https://transcendent-swan-fdc065.netlify.app/api/pulse";
 
     let currentNovel = null;
     let currentTab = 'recent';
@@ -556,6 +557,19 @@
             if (!res.ok) throw new Error("HTTP " + res.status);
             return res;
         } catch (e) { console.error("Put Error:", e); throw e; }
+    }
+
+    async function sendPulse() {
+        if (!urlAid) return;
+        try {
+            await fetch(API_PULSE, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ authorId: urlAid })
+            });
+        } catch (e) {
+            console.error("Pulse failed:", e);
+        }
     }
 
     function updateUserMenu() {
@@ -1269,8 +1283,16 @@
     }
 
     loadAllData();
+    sendPulse();
     setInterval(loadAllData, 30000);
+    setInterval(sendPulse, 180000);
     setTimeout(handleDirectLinks, 1500);
+
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            sendPulse();
+        }
+    });
 </script>
 </body>
 </html>
