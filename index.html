@@ -25,10 +25,35 @@
             --silver-bg: #FFFFFF;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); min-height: 100vh; padding-bottom: 70px; }
+        body { font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); min-height: 100vh; }
 
-        .top-navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: #FFFFFF; border-bottom: 1px solid #E0E0E0; margin-bottom: 20px; }
-        .top-navbar-title { font-size: 1.1em; font-weight: bold; color: var(--primary-color); }
+        .top-bar {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: #FFFFFF;
+            border-bottom: 1px solid #E0E0E0;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .top-bar-btn {
+            padding: 8px 14px;
+            background: #ECEFF1;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            color: #37474F;
+            font-family: inherit;
+            font-size: 0.85em;
+            cursor: pointer;
+            position: relative;
+            white-space: nowrap;
+        }
+        .top-bar-btn:hover {
+            background: #E0E0E0;
+        }
+        .top-bar-spacer {
+            flex: 1;
+        }
 
         .search-container { max-width: 600px; margin: 0 auto 20px; padding: 0 20px; position: relative; }
         .search-wrapper { position: relative; display: flex; align-items: center; }
@@ -61,40 +86,7 @@
         .share-btn { position: absolute; top: 15px; left: 15px; background: #ECEFF1; border: 1px solid #E0E0E0; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 0.85em; transition: 0.3s; color: #37474F; display: flex; align-items: center; justify-content: center; }
         .share-btn:hover { background: #E0E0E0; }
 
-        .bottom-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 56px;
-            background: #FFFFFF;
-            border-top: 1px solid #E0E0E0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 500;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
-        }
-        .bottom-bar-btn {
-            flex: 1;
-            padding: 10px;
-            background: transparent;
-            border: none;
-            color: #37474F;
-            font-family: inherit;
-            font-size: 0.9em;
-            cursor: pointer;
-            position: relative;
-            text-align: center;
-        }
-        .bottom-bar-btn:hover {
-            background: #F5F5F5;
-        }
-        .bottom-bar-btn.active {
-            color: #1565C0;
-            font-weight: bold;
-        }
-        .notif-badge { background: #C62828; color: white; border-radius: 50%; min-width: 18px; height: 18px; font-size: 0.65em; display: none; align-items: center; justify-content: center; font-weight: bold; padding: 0 4px; position: absolute; top: 8px; right: 25%; }
+        .notif-badge { background: #C62828; color: white; border-radius: 50%; min-width: 18px; height: 18px; font-size: 0.65em; display: none; align-items: center; justify-content: center; font-weight: bold; padding: 0 4px; position: absolute; top: 2px; right: 2px; }
         .notif-badge.show { display: flex; }
 
         #novelReaderPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FFFFFF; z-index: 2000; overflow-y: auto; }
@@ -235,8 +227,14 @@
 </script>
 
 <div id="mainPage">
-    <div class="top-navbar">
-        <div class="top-navbar-title">رواياتي</div>
+    <div class="top-bar">
+        <button class="top-bar-btn" onclick="openMyProfile()">ملفي</button>
+        <div class="top-bar-spacer"></div>
+        <button class="top-bar-btn" onclick="openNotifPanel()">
+            التنبيهات
+            <span class="notif-badge" id="notifBadge">0</span>
+        </button>
+        <button class="top-bar-btn" onclick="openSupportModal()">الدعم</button>
     </div>
 
     <div class="search-container">
@@ -259,15 +257,6 @@
     </div>
 </div>
 
-<div class="bottom-bar">
-    <button class="bottom-bar-btn" onclick="openMyProfile()">ملفي</button>
-    <button class="bottom-bar-btn" onclick="openSupportModal()">الدعم</button>
-    <button class="bottom-bar-btn" onclick="openNotifPanel()">
-        التنبيهات
-        <span class="notif-badge" id="notifBadge">0</span>
-    </button>
-</div>
-
 <div id="novelReaderPage">
     <div class="reader-top-bar">
         <button class="back-link-btn" onclick="goBackToHome()">← رجوع</button>
@@ -281,7 +270,6 @@
             <div class="reader-author-name">
                 بقلم: <span class="author-link" id="readerAuthor" onclick="openAuthorProfile()"></span>
             </div>
-            <button class="follow-btn" id="followBtn" onclick="toggleFollow()">تابع</button>
         </div>
 
         <div class="chapter-nav" id="chapterNav"></div>
@@ -569,7 +557,6 @@
         document.getElementById('toolbarTitle').innerText = novel.title;
         document.getElementById('readerTitle').innerText = novel.title;
         document.getElementById('readerAuthor').innerText = authorName;
-        updateFollowButton(authorName);
 
         const nav = document.getElementById('chapterNav');
         nav.innerHTML = '';
@@ -620,15 +607,6 @@
         loadNovels();
     }
 
-    function updateFollowButton(authorName) {
-        const btn = document.getElementById('followBtn');
-        if (!currentUser || currentUser.name === authorName) { btn.style.display = 'none'; return; }
-        btn.style.display = 'inline-block';
-        const isFollowing = currentUser.following && currentUser.following.includes(authorName);
-        btn.className = isFollowing ? 'follow-btn following' : 'follow-btn';
-        btn.innerText = isFollowing ? 'متابع' : 'تابع';
-    }
-
     async function toggleFollow() {
         if (!currentUser) return;
         const authorName = getAuthorName(currentNovel);
@@ -659,7 +637,6 @@
             }
             await apiPut(payload);
             currentUser.following = me.following;
-            updateFollowButton(authorName);
             await loadUsers();
         } catch (e) { console.error(e); }
     }
@@ -745,8 +722,35 @@
 
     async function toggleProfileFollow() {
         if (!viewingProfile) return;
-        const novel = allNovelsCache.find(n => getAuthorName(n) === viewingProfile);
-        if (novel) { currentNovel = novel; await toggleFollow(); }
+        const authorName = viewingProfile;
+        try {
+            const data = await apiGet();
+            let payload = data.record || {};
+            if (!payload.users) payload.users = [];
+            const meIndex = payload.users.findIndex(u => u.username === currentUser.name);
+            const authorIndex = payload.users.findIndex(u => u.username === authorName);
+            if (meIndex === -1 || authorIndex === -1) return;
+
+            const me = payload.users[meIndex];
+            const author = payload.users[authorIndex];
+            if (!me.following) me.following = [];
+            if (!author.followers) author.followers = [];
+
+            const isFollowing = me.following.includes(authorName);
+            if (isFollowing) {
+                me.following = me.following.filter(u => u !== authorName);
+                author.followers = author.followers.filter(u => u !== currentUser.name);
+            } else {
+                me.following.push(authorName);
+                author.followers.push(currentUser.name);
+                if (!payload.notifications) payload.notifications = [];
+                payload.notifications.push({ id: Date.now(), type: 'new-follower', toUser: authorName, fromUser: currentUser.name, date: new Date().toISOString(), read: false });
+            }
+            await apiPut(payload);
+            currentUser.following = me.following;
+            await loadUsers();
+            openProfileByUsername(authorName);
+        } catch (e) { console.error(e); }
     }
 
     function openAuthorProfile() { openProfileByUsername(getAuthorName(currentNovel)); }
@@ -1054,7 +1058,7 @@
                 addBubble('user', currentUser.name, m.message, m.date);
                 if (m.reply) addBubble('admin', 'الإدارة', m.reply, m.replyDate);
                 if (Array.isArray(m.userReplies)) m.userReplies.forEach(ur => addBubble('user', currentUser.name, ur.text, ur.date));
-                if (Array.isArray(m.adminReplies)) m.adminReplies.forEach(ar => addBubble('admin', 'الإدارة', ar.text, ar.date));
+                if (Array.isArray(m.adminReplies)) m.adminReplies.forEach(ar => addBubble('admin', 'الإدارة', ar.text, ar.replyDate));
             });
             chatBox.scrollTop = chatBox.scrollHeight;
         } catch (e) { chatBox.innerHTML = '<div class="empty-chat">تعذر التحميل</div>'; }
