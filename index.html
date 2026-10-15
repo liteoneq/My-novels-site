@@ -38,13 +38,6 @@
 
         .user-menu-btn { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 0.85em; display: flex; align-items: center; gap: 6px; }
 
-        .user-dropdown { position: absolute; top: 70px; right: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); min-width: 200px; display: none; z-index: 200; overflow: hidden; }
-        .user-dropdown.show { display: block; }
-        .user-dropdown-item { padding: 12px 16px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #eee; color: var(--text-main); font-size: 0.9em; }
-        .user-dropdown-item:hover { background: #f5f5f5; }
-        .user-dropdown-item:last-child { border-bottom: none; }
-        .user-dropdown-item.danger { color: var(--dislike-color); }
-
         .search-container { max-width: 600px; margin: -20px auto 20px; padding: 0 20px; position: relative; }
         .search-wrapper { position: relative; display: flex; align-items: center; }
         .search-box { width: 100%; padding: 14px 45px 14px 20px; border: none; border-radius: 30px; font-size: 1em; box-shadow: 0 4px 12px rgba(0,0,0,0.1); outline: none; }
@@ -118,29 +111,6 @@
         .comment-text { font-size: 0.95em; color: var(--text-main); line-height: 1.6; }
         .comment-date { font-size: 0.75em; color: var(--text-secondary); margin-top: 5px; }
 
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 3000; justify-content: center; align-items: center; }
-        .modal-box { background: white; padding: 40px; border-radius: 20px; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; position: relative; }
-        .modal-box h2 { color: var(--primary-color); margin-bottom: 10px; }
-        .modal-box p { color: #666; margin-bottom: 20px; font-size: 0.9em; }
-        
-        .modal-input { width: 100%; padding: 12px 15px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; font-size: 1em; outline: none; }
-        .modal-input:focus { border-color: var(--primary-color); }
-
-        .input-group { position: relative; width: 100%; margin: 8px 0; }
-        .input-group .modal-input { padding-left: 45px; }
-        .toggle-password { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; font-size: 1.2em; user-select: none; z-index: 2; }
-
-        .role-selector { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
-        .role-option { cursor: pointer; padding: 12px 25px; border: 2px solid #eee; border-radius: 12px; transition: 0.3s; font-weight: 600; }
-        .role-option.selected { border-color: var(--primary-color); background: #e8f5e9; color: var(--primary-color); }
-
-        .modal-submit { width: 100%; padding: 14px; background: var(--primary-color); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: 0.3s; margin-top: 10px; }
-        .modal-submit:hover { background: var(--primary-light); }
-        .modal-link { color: var(--follow-color); cursor: pointer; text-decoration: underline; margin-top: 15px; display: inline-block; }
-
-        .error-msg { color: var(--dislike-color); font-size: 0.85em; margin-top: 5px; display: none; }
-        .required-mark { color: var(--dislike-color); font-weight: bold; }
-
         #profilePage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 2000; overflow-y: auto; }
         .profile-header { background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%); color: white; padding: 40px 20px; text-align: center; }
         .profile-avatar { width: 100px; height: 100px; border-radius: 50%; background: white; color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 2.5em; font-weight: bold; margin: 0 auto 15px; }
@@ -173,10 +143,6 @@
         
         .notif-item { background: white; border: 1px solid #bbb; border-radius: 12px; padding: 15px; margin-bottom: 12px; cursor: pointer; transition: 0.3s; border-right: 4px solid var(--notif-color); box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
         .notif-item:hover { background: #f0f0f0; }
-        .notif-item.new-novel { border-right-color: #4caf50; }
-        .notif-item.new-chapter { border-right-color: #2196f3; }
-        .notif-item.new-follower { border-right-color: #9c27b0; }
-        .notif-item.interaction { border-right-color: #ff9800; background: #fff8e1; }
 
         .notif-type { font-size: 0.75em; font-weight: bold; padding: 3px 8px; border-radius: 10px; display: inline-block; margin-bottom: 8px; color: white; }
         .notif-type.new-novel { background: #4caf50; }
@@ -205,6 +171,8 @@
         .chat-send-btn { padding: 10px 20px; background: var(--primary-color); color: white; border: none; border-radius: 25px; cursor: pointer; }
         .empty-chat { text-align: center; color: #999; padding: 40px 20px; }
 
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 3000; justify-content: center; align-items: center; }
+
         .empty-section { text-align: center; color: var(--text-secondary); padding: 40px 0; grid-column: 1 / -1; }
         .error-section { text-align: center; color: #c62828; background: #ffebee; padding: 20px; border-radius: 12px; grid-column: 1 / -1; }
         .loading-section { text-align: center; color: var(--text-secondary); padding: 40px 0; grid-column: 1 / -1; }
@@ -224,6 +192,25 @@
 
 <body>
 
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlAid = urlParams.get('aid');
+    const urlUname = urlParams.get('u');
+
+    if (!urlAid) {
+        document.body.innerHTML = 
+            '<div style="display:flex;align-items:center;' +
+            'justify-content:center;height:100vh;' +
+            'font-family:Tahoma,sans-serif;text-align:center;padding:20px;">' +
+            '<div>' +
+            '<h1 style="color:#2E7D32;font-size:2em;">رواياتي</h1>' +
+            '<p style="color:#666;margin-top:20px;font-size:1.1em;">' +
+            'هذا الموقع يعمل فقط من داخل التطبيق.</p>' +
+            '</div></div>';
+        throw new Error('Not in app');
+    }
+</script>
+
 <div id="mainPage">
     <header>
         <h1>رواياتي</h1>
@@ -237,14 +224,9 @@
                 🎧 <span class="btn-text">الدعم</span>
             </button>
         </div>
-        <button class="user-menu-btn" id="userMenuBtn" onclick="toggleUserMenu()">
-            👤 <span id="userMenuName">تسجيل الدخول</span>
+        <button class="user-menu-btn" id="userMenuBtn" onclick="openMyProfile()">
+            👤 <span id="userMenuName">ملفي</span>
         </button>
-        <div class="user-dropdown" id="userDropdown">
-            <div class="user-dropdown-item" onclick="openMyProfile()">📋 ملفي الشخصي</div>
-            <div class="user-dropdown-item" onclick="showFollowing()">👥 المتابَعون</div>
-            <div class="user-dropdown-item danger" onclick="logout()">🚪 تسجيل الخروج</div>
-        </div>
     </header>
 
     <div class="search-container">
@@ -365,75 +347,6 @@
     </div>
 </div>
 
-<div id="registerModal" class="modal-overlay">
-    <div class="modal-box">
-        <h2>إنشاء حساب جديد 📝</h2>
-        <p>انضم إلى مجتمع رواياتي</p>
-        <input type="text" id="regUsername" class="modal-input" placeholder="الاسم المستعار">
-        <div class="error-msg" id="regUsernameError"></div>
-        
-        <div class="input-group">
-            <input type="password" id="regPassword" class="modal-input" placeholder="كلمة المرور">
-            <span class="toggle-password" onclick="togglePass('regPassword')">👁️</span>
-        </div>
-        
-        <div class="input-group">
-            <input type="password" id="regPassword2" class="modal-input" placeholder="تأكيد كلمة المرور">
-            <span class="toggle-password" onclick="togglePass('regPassword2')">👁️</span>
-        </div>
-        <div class="error-msg" id="regPasswordError"></div>
-        
-        <div class="role-selector">
-            <div class="role-option selected" onclick="selectRegRole('reader')" id="regRoleReader">📖 قارئ</div>
-            <div class="role-option" onclick="selectRegRole('author')" id="regRoleAuthor">✍️ مؤلف</div>
-        </div>
-
-        <div id="authorVerifySection" style="display:none; text-align:right; margin:15px 0; background:#f9f9f9; padding:15px; border-radius:10px;">
-            <label style="font-size:0.9em; color:#666; display:block; margin-bottom:8px;">
-                <span class="required-mark">*</span> اسم الرواية التي نشرتها (إجباري):
-            </label>
-            <input type="text" id="regNovelTitle" class="modal-input" placeholder="اسم الرواية">
-            <div class="error-msg" id="regNovelError"></div>
-            <p style="font-size:0.8em; color:#999; margin-top:8px;">سيتم التحقق من وجودها في قاعدة البيانات</p>
-        </div>
-
-        <label style="display:flex; align-items:center; gap:8px; margin:15px 0; font-size:0.9em; cursor:pointer;">
-            <input type="checkbox" id="regNotifConsent" checked>
-            أوافق على تلقي إشعارات الموقع
-        </label>
-
-        <button class="modal-submit" onclick="completeRegister()">إنشاء الحساب</button>
-        <div class="modal-link" onclick="showLoginModal()">لدي حساب بالفعل؟ تسجيل الدخول</div>
-    </div>
-</div>
-
-<div id="loginModal" class="modal-overlay">
-    <div class="modal-box">
-        <h2>تسجيل الدخول 👋</h2>
-        <p>أهلاً بعودتك!</p>
-        
-        <div class="input-group">
-            <input type="text" id="loginUsername" class="modal-input" placeholder="الاسم المستعار">
-        </div>
-        
-        <div class="input-group">
-            <input type="password" id="loginPassword" class="modal-input" placeholder="كلمة المرور">
-            <span class="toggle-password" onclick="togglePass('loginPassword')">👁️</span>
-        </div>
-        
-        <div class="error-msg" id="loginError"></div>
-        
-        <label style="display:flex; align-items:center; gap:8px; margin:10px 0; font-size:0.9em; cursor:pointer;">
-            <input type="checkbox" id="rememberMe" checked>
-            <span>تذكرني (حفظ بيانات الدخول)</span>
-        </label>
-
-        <button class="modal-submit" onclick="completeLogin()">دخول</button>
-        <div class="modal-link" onclick="showRegisterModal()">ليس لديك حساب؟ سجل الآن</div>
-        <div class="modal-link" onclick="continueAsGuest()" style="color:#999;">تصفح كزائر</div>
-    </div>
-</div>
-
 <div id="supportModal" class="modal-overlay">
     <div class="support-modal-content">
         <button class="close-btn" onclick="closeSupportModal()">✕ إغلاق</button>
@@ -459,25 +372,9 @@
     let currentTab = 'recent';
     let searchTerm = '';
     let currentUser = null;
-    let regRole = 'reader';
     let allNovelsCache = [];
     let allUsersCache = [];
     let viewingProfile = null;
-
-    function hashPassword(password) {
-        let hash = 0;
-        for (let i = 0; i < password.length; i++) {
-            const char = password.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash |= 0;
-        }
-        return 'h_' + Math.abs(hash).toString(36) + '_' + password.length;
-    }
-
-    function togglePass(id) {
-        const input = document.getElementById(id);
-        input.type = input.type === "password" ? "text" : "password";
-    }
 
     async function apiGet() {
         const res = await fetch(API_GET, { cache: 'no-store' });
@@ -520,219 +417,10 @@
         } catch (e) { console.error("Put Error:", e); throw e; }
     }
 
-    function checkUserLogin() {
-        let storedUser = localStorage.getItem('novel_site_user_v2');
-        if (!storedUser) {
-            storedUser = sessionStorage.getItem('novel_site_user_v2');
-        }
-        if (!storedUser) {
-            showLoginModal();
-        } else {
-            currentUser = JSON.parse(storedUser);
-            updateUserMenu();
-            loadAllData();
-        }
-    }
-
     function updateUserMenu() {
         const nameEl = document.getElementById('userMenuName');
+        if (!nameEl) return;
         if (currentUser) nameEl.innerText = currentUser.name;
-        else nameEl.innerText = 'تسجيل الدخول';
-    }
-
-    function toggleUserMenu() {
-        document.getElementById('userDropdown').classList.toggle('show');
-    }
-
-    document.addEventListener('click', function(e) {
-        const menu = document.getElementById('userDropdown');
-        const btn = document.getElementById('userMenuBtn');
-        if (!menu.contains(e.target) && !btn.contains(e.target)) {
-            menu.classList.remove('show');
-        }
-    });
-
-    function showLoginModal() {
-        document.getElementById('registerModal').style.display = 'none';
-        document.getElementById('loginModal').style.display = 'flex';
-    }
-
-    function showRegisterModal() {
-        document.getElementById('loginModal').style.display = 'none';
-        document.getElementById('registerModal').style.display = 'flex';
-    }
-
-    function selectRegRole(role) {
-        regRole = role;
-        document.querySelectorAll('#registerModal .role-option').forEach(el => el.classList.remove('selected'));
-        if (role === 'reader') document.getElementById('regRoleReader').classList.add('selected');
-        else document.getElementById('regRoleAuthor').classList.add('selected');
-        document.getElementById('authorVerifySection').style.display = role === 'author' ? 'block' : 'none';
-    }
-
-    async function completeRegister() {
-        const username = document.getElementById('regUsername').value.trim();
-        const password = document.getElementById('regPassword').value;
-        const password2 = document.getElementById('regPassword2').value;
-        const notifConsent = document.getElementById('regNotifConsent').checked;
-        const novelTitle = document.getElementById('regNovelTitle').value.trim();
-
-        if (!username || username.length < 3) { showError('regUsernameError', 'الاسم يجب أن يكون 3 أحرف على الأقل'); return; }
-        if (!password || password.length < 4) { showError('regPasswordError', 'كلمة المرور قصيرة'); return; }
-        if (password !== password2) { showError('regPasswordError', 'كلمتا المرور غير متطابقتين'); return; }
-        if (regRole === 'author' && !novelTitle) { showError('regNovelError', 'يجب كتابة اسم الرواية'); return; }
-
-        try {
-            const data = await apiGet();
-            let payload = data.record || {};
-            if (!payload.novels) payload.novels = [];
-            if (!payload.users) payload.users = [];
-            if (!payload.messages) payload.messages = [];
-
-            const existingUser = payload.users.find(u => u.username.toLowerCase() === username.toLowerCase());
-            if (existingUser) { showError('regUsernameError', 'هذا الاسم مستخدم بالفعل'); return; }
-
-            let claimedNovel = null;
-
-            if (regRole === 'author') {
-                claimedNovel = payload.novels.find(n => 
-                    String(n.title).trim().toLowerCase() === novelTitle.trim().toLowerCase()
-                );
-                
-                if (!claimedNovel) {
-                    showError('regNovelError', 'لم نعثر على رواية بهذا الاسم في قاعدة البيانات.');
-                    return;
-                }
-                
-                const otherAuthor = payload.users.find(u => 
-                    u.role === 'author' && 
-                    u.username !== username &&
-                    Array.isArray(u.authorOf) &&
-                    u.authorOf.includes(claimedNovel.id || claimedNovel.title)
-                );
-                if (otherAuthor) {
-                    showError('regNovelError', 'هذه الرواية مسجلة لمؤلف آخر.');
-                    return;
-                }
-                
-                claimedNovel.author = username;
-            }
-
-            const newUser = {
-                username: username,
-                password: hashPassword(password),
-                role: regRole,
-                deviceId: getDeviceId(),
-                joinedAt: Date.now(),
-                following: [],
-                followers: [],
-                notifications: notifConsent,
-                authorOf: claimedNovel ? [claimedNovel.id || claimedNovel.title] : []
-            };
-
-            payload.users.push(newUser);
-            await apiPut(payload);
-
-            currentUser = {
-                name: username,
-                role: regRole,
-                deviceId: newUser.deviceId,
-                joinedAt: newUser.joinedAt,
-                following: [],
-                followers: []
-            };
-            
-            localStorage.setItem('novel_site_user_v2', JSON.stringify(currentUser));
-
-            if (notifConsent && 'Notification' in window) Notification.requestPermission();
-
-            document.getElementById('registerModal').style.display = 'none';
-            updateUserMenu();
-            loadAllData();
-            alert('✅ تم إنشاء الحساب بنجاح!');
-
-        } catch (e) { console.error(e); alert('حدث خطأ أثناء التسجيل'); }
-    }
-
-    async function completeLogin() {
-        const username = document.getElementById('loginUsername').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        const remember = document.getElementById('rememberMe').checked;
-
-        if (!username || !password) { showError('loginError', 'يرجى ملء جميع الحقول'); return; }
-
-        try {
-            const data = await apiGet();
-            let payload = data.record || {};
-            if (!payload.users) payload.users = [];
-
-            const hashedInput = hashPassword(password);
-            const user = payload.users.find(u => 
-                u.username.toLowerCase() === username.toLowerCase() && 
-                u.password === hashedInput
-            );
-
-            if (!user) { showError('loginError', 'اسم المستخدم أو كلمة المرور غير صحيحة'); return; }
-
-            currentUser = {
-                name: user.username,
-                role: user.role,
-                deviceId: user.deviceId,
-                joinedAt: user.joinedAt,
-                following: user.following || [],
-                followers: user.followers || []
-            };
-
-            if (remember) {
-                localStorage.setItem('novel_site_user_v2', JSON.stringify(currentUser));
-            } else {
-                sessionStorage.setItem('novel_site_user_v2', JSON.stringify(currentUser));
-            }
-
-            document.getElementById('loginModal').style.display = 'none';
-            updateUserMenu();
-            loadAllData();
-
-        } catch (e) { console.error(e); showError('loginError', 'حدث خطأ في الاتصال'); }
-    }
-
-    function continueAsGuest() {
-        currentUser = { name: 'زائر', role: 'guest', deviceId: getDeviceId(), isGuest: true };
-        sessionStorage.setItem('novel_site_user_v2', JSON.stringify(currentUser));
-        document.getElementById('loginModal').style.display = 'none';
-        updateUserMenu();
-        loadAllData();
-    }
-
-    function logout() {
-        if (!confirm('هل تريد تسجيل الخروج؟')) return;
-        localStorage.removeItem('novel_site_user_v2');
-        sessionStorage.removeItem('novel_site_user_v2');
-        currentUser = null;
-        document.getElementById('userDropdown').classList.remove('show');
-        showLoginModal();
-    }
-
-    function showError(elementId, message) {
-        const el = document.getElementById(elementId);
-        el.innerText = message;
-        el.style.display = 'block';
-        setTimeout(() => el.style.display = 'none', 5000);
-    }
-
-    function getDeviceId() {
-        let id = localStorage.getItem('my_device_id');
-        if (!id) {
-            id = 'web_' + Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
-            localStorage.setItem('my_device_id', id);
-        }
-        return id;
-    }
-
-    function getNovelKey(novel) {
-        if (novel && novel.id) return String(novel.id);
-        if (novel && novel.novelId) return String(novel.novelId);
-        return String((novel?.title || 'novel') + '_' + (novel?.createdAt || '0'));
     }
 
     function extractNovels(data) {
@@ -756,11 +444,6 @@
             const u = allUsersCache.find(x => x.authorId === novel.authorId);
             if (u) return u.username;
         }
-        if (novel._fixedAuthor && novel._fixedAuthor.trim() !== '') {
-            return novel._fixedAuthor;
-        }
-        const authorUser = allUsersCache.find(u => u.deviceId === novel.deviceId && u.role === 'author');
-        if (authorUser) return authorUser.username;
         return 'كاتب مجهول';
     }
 
@@ -774,6 +457,29 @@
         try {
             const data = await apiGet();
             allUsersCache = data.record?.users || [];
+            
+            const u = allUsersCache.find(x => x.authorId === urlAid);
+            if (u) {
+                currentUser = {
+                    name: u.username,
+                    authorId: u.authorId,
+                    isAuthor: (u.authorOf && u.authorOf.length > 0),
+                    authorOf: u.authorOf || [],
+                    following: u.following || [],
+                    followers: u.followers || []
+                };
+            } else {
+                currentUser = {
+                    name: urlUname || 'مستخدم',
+                    authorId: urlAid,
+                    isAuthor: false,
+                    authorOf: [],
+                    following: [],
+                    followers: []
+                };
+            }
+            
+            updateUserMenu();
         } catch (e) { console.error(e); }
     }
 
@@ -834,7 +540,7 @@
     }
 
     function shareNovel(novelKey, chapterIndex) {
-        const url = `${window.location.origin}${window.location.pathname}?novel=${encodeURIComponent(novelKey)}&chapter=${chapterIndex}`;
+        const url = `${window.location.origin}${window.location.pathname}?novel=${encodeURIComponent(novelKey)}&chapter=${chapterIndex}&aid=${encodeURIComponent(urlAid)}&u=${encodeURIComponent(urlUname || '')}`;
         if (navigator.share) navigator.share({ title: 'رواية من موقع رواياتي', text: 'اقرأ هذه الرواية!', url: url });
         else navigator.clipboard.writeText(url).then(() => alert('✅ تم نسخ الرابط!'));
     }
@@ -860,32 +566,21 @@
                 const btn = document.createElement('button');
                 btn.className = 'chapter-btn';
                 btn.innerText = title || `فصل ${idx + 1}`;
-                if (currentUser?.isGuest && idx > 0) {
-                    btn.classList.add('locked');
-                    btn.onclick = () => { alert('⚠️ سجل دخولك لقراءة الفصول الكاملة'); showLoginModal(); };
-                } else {
-                    btn.onclick = () => loadChapter(idx);
-                }
+                btn.onclick = () => loadChapter(idx);
                 if (idx === startChapter) btn.classList.add('active');
                 nav.appendChild(btn);
             });
             loadChapter(startChapter);
         }
 
-        if (!currentUser?.isGuest) {
-            const novelKey = getNovelKey(novel);
-            novel.views = Number(novel.views || 0) + 1;
-            if (!Array.isArray(novel.readers)) novel.readers = [];
-            if (!novel.readers.includes(getDeviceId())) novel.readers.push(getDeviceId());
-            saveNovelUpdate(novel);
-            setReadingStatus(novelKey, 'reading');
-            resetInteractions(novelKey);
-        } else {
-            document.getElementById('likeCount').innerText = Number(novel.likes || 0);
-            document.getElementById('dislikeCount').innerText = Number(novel.dislikes || 0);
-            document.getElementById('commentInput').disabled = true;
-            document.querySelector('.submit-comment-btn').disabled = true;
-        }
+        if (!currentUser) return;
+        const novelKey = getNovelKey(novel);
+        novel.views = Number(novel.views || 0) + 1;
+        if (!Array.isArray(novel.readers)) novel.readers = [];
+        if (!novel.readers.includes(currentUser.authorId)) novel.readers.push(currentUser.authorId);
+        saveNovelUpdate(novel);
+        setReadingStatus(novelKey, 'reading');
+        resetInteractions(novelKey);
 
         document.getElementById('mainPage').style.display = 'none';
         document.getElementById('novelReaderPage').style.display = 'block';
@@ -904,14 +599,14 @@
     function goBackToHome() {
         document.getElementById('novelReaderPage').style.display = 'none';
         document.getElementById('mainPage').style.display = 'block';
-        if (currentNovel && !currentUser?.isGuest) setReadingStatus(getNovelKey(currentNovel), 'read');
+        if (currentNovel && currentUser) setReadingStatus(getNovelKey(currentNovel), 'read');
         currentNovel = null;
         loadNovels();
     }
 
     function updateFollowButton(authorName) {
         const btn = document.getElementById('followBtn');
-        if (!currentUser || currentUser.isGuest || currentUser.name === authorName) { btn.style.display = 'none'; return; }
+        if (!currentUser || currentUser.name === authorName) { btn.style.display = 'none'; return; }
         btn.style.display = 'inline-block';
         const isFollowing = currentUser.following && currentUser.following.includes(authorName);
         btn.className = isFollowing ? 'follow-btn following' : 'follow-btn';
@@ -919,7 +614,7 @@
     }
 
     async function toggleFollow() {
-        if (!currentUser || currentUser.isGuest) { alert('سجل دخولك أولاً'); showLoginModal(); return; }
+        if (!currentUser) return;
         const authorName = getAuthorName(currentNovel);
         if (currentUser.name === authorName) return;
 
@@ -948,15 +643,13 @@
             }
             await apiPut(payload);
             currentUser.following = me.following;
-            localStorage.setItem('novel_site_user_v2', JSON.stringify(currentUser));
             updateFollowButton(authorName);
             await loadUsers();
         } catch (e) { console.error(e); }
     }
 
     function openMyProfile() {
-        document.getElementById('userDropdown').classList.remove('show');
-        if (!currentUser || currentUser.isGuest) return;
+        if (!currentUser || !currentUser.authorId) return;
         openProfileByUsername(currentUser.name);
     }
 
@@ -967,7 +660,7 @@
         if (!user) {
             const authorNovels = allNovelsCache.filter(n => getAuthorName(n) === username);
             if (authorNovels.length === 0) { alert('غير موجود'); return; }
-            displayProfile({ username, role: 'author', followers: [], following: [] }, authorNovels);
+            displayProfile({ username, authorOf: [], followers: [], following: [] }, authorNovels);
             return;
         }
         displayProfile(user, allNovelsCache.filter(n => getAuthorName(n) === username));
@@ -976,13 +669,16 @@
     function displayProfile(user, novels) {
         document.getElementById('profileAvatar').innerText = user.username.charAt(0).toUpperCase();
         document.getElementById('profileName').innerText = user.username;
-        document.getElementById('profileRole').innerText = user.role === 'author' ? '✍️ مؤلف' : '📖 قارئ';
+        
+        const isAuthor = (user.authorOf && user.authorOf.length > 0);
+        document.getElementById('profileRole').innerText = isAuthor ? '✍️ مؤلف' : '📖 قارئ';
+
         document.getElementById('profileFollowers').innerText = (user.followers || []).length;
         document.getElementById('profileFollowing').innerText = (user.following || []).length;
         document.getElementById('profileNovels').innerText = novels.length;
 
         const followBtn = document.getElementById('profileFollowBtn');
-        if (!currentUser || currentUser.isGuest || currentUser.name === user.username) { followBtn.style.display = 'none'; }
+        if (!currentUser || currentUser.name === user.username) { followBtn.style.display = 'none'; }
         else {
             followBtn.style.display = 'inline-block';
             const isFollowing = currentUser.following && currentUser.following.includes(user.username);
@@ -1039,12 +735,6 @@
 
     function openAuthorProfile() { openProfileByUsername(getAuthorName(currentNovel)); }
     function closeProfile() { document.getElementById('profilePage').style.display = 'none'; document.getElementById('mainPage').style.display = 'block'; viewingProfile = null; }
-    function showFollowing() {
-        document.getElementById('userDropdown').classList.remove('show');
-        if (!currentUser || currentUser.isGuest) return;
-        const f = currentUser.following || [];
-        alert(f.length ? 'أنت تتابع:\n\n• ' + f.join('\n• ') : 'لا تتابع أحداً');
-    }
 
     function getSeenNovels() { try { return JSON.parse(localStorage.getItem('seen_novels_v2') || '{}'); } catch (e) { return {}; } }
     function saveSeenNovels(s) { localStorage.setItem('seen_novels_v2', JSON.stringify(s)); }
@@ -1052,7 +742,7 @@
     function saveNotifications(n) { localStorage.setItem('notifications_v2', JSON.stringify(n)); }
 
     async function checkForNewContent() {
-        if (!currentUser || currentUser.isGuest) return;
+        if (!currentUser) return;
         const seen = getSeenNovels();
         const notifs = getNotifications();
         let hasNew = false;
@@ -1097,19 +787,6 @@
             saveSeenNovels(seen);
             saveNotifications(filteredNotifs);
             updateNotifBadge();
-            if (hasNew && 'Notification' in window && Notification.permission === 'granted') {
-                const latest = filteredNotifs[filteredNotifs.length - 1];
-                if (latest) {
-                    const title = latest.type === 'new-novel' ? '📚 رواية جديدة!' :
-                                  latest.type === 'new-chapter' ? '📖 فصل جديد!' :
-                                  latest.type === 'interaction' ? '💬 تفاعل جديد!' :
-                                  '👥 متابع جديد!';
-                    const body = latest.type === 'interaction' ? `${latest.fromUser} تفاعل مع روايتك ${latest.novelTitle || ''}` :
-                                 latest.type === 'new-follower' ? `${latest.fromUser} بدأ بمتابعتك` :
-                                 `${latest.novelTitle || ''} - ${latest.author || latest.fromUser || ''}`;
-                    new Notification(title, { body: body });
-                }
-            }
         }
     }
 
@@ -1178,6 +855,12 @@
         updateNotifBadge();
     }
 
+    function getNovelKey(novel) {
+        if (novel && novel.id) return String(novel.id);
+        if (novel && novel.novelId) return String(novel.novelId);
+        return String((novel?.title || 'novel') + '_' + (novel?.createdAt || '0'));
+    }
+
     function resetInteractions(novelKey) {
         const ratings = getRatings();
         updateStars(ratings[novelKey] || 0);
@@ -1192,18 +875,18 @@
     }
     function updateStars(rating) { document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('active', i < rating)); }
     document.querySelectorAll('.star').forEach(s => s.addEventListener('click', function() { 
-        if(!currentNovel || currentUser?.isGuest) return; 
+        if(!currentNovel || !currentUser) return; 
         const rating = parseInt(this.dataset.value);
         setRating(getNovelKey(currentNovel), rating); 
         updateStars(rating); 
     }));
     
     document.getElementById('likeBtn').addEventListener('click', async function() { 
-        if(!currentNovel || currentUser?.isGuest) { alert('سجل دخولك'); return; } 
+        if(!currentNovel || !currentUser) return; 
         handleVote('like'); 
     });
     document.getElementById('dislikeBtn').addEventListener('click', async function() { 
-        if(!currentNovel || currentUser?.isGuest) { alert('سجل دخولك'); return; } 
+        if(!currentNovel || !currentUser) return; 
         handleVote('dislike'); 
     });
 
@@ -1227,10 +910,12 @@
     }
 
     function submitComment() {
-        if (!currentNovel || currentUser?.isGuest) { alert('سجل دخولك'); return; }
+        if (!currentNovel || !currentUser) return;
         const text = document.getElementById('commentInput').value.trim();
         if (!text) return;
-        addComment(getNovelKey(currentNovel), text, currentUser.name, currentUser.role);
+        const isAuthor = currentUser.authorOf && currentUser.authorOf.length > 0;
+        const roleDisplay = isAuthor ? 'مؤلف' : 'قارئ';
+        addComment(getNovelKey(currentNovel), text, currentUser.name, roleDisplay);
         document.getElementById('commentInput').value = '';
         loadComments(getNovelKey(currentNovel));
         notifyAuthorInteraction('علق على');
@@ -1295,7 +980,7 @@
             let index = -1;
             if (novel.id) index = allNovels.findIndex(n => String(n.id) === String(novel.id));
             if (index === -1 && novel.novelId) index = allNovels.findIndex(n => String(n.novelId) === String(novel.novelId));
-            if (index === -1 && novel.deviceId) index = allNovels.findIndex(n => String(n.title || '') === String(novel.title || '') && String(n.deviceId || '') === String(novel.deviceId || ''));
+            if (index === -1 && novel.authorId) index = allNovels.findIndex(n => String(n.title || '') === String(novel.title || '') && String(n.authorId || '') === String(novel.authorId || ''));
             if (index === -1) index = allNovels.findIndex(n => String(n.title || '') === String(novel.title || '') && String(n.createdAt || '') === String(novel.createdAt || ''));
             if (index === -1) index = allNovels.findIndex(n => String(n.title || '') === String(novel.title || ''));
 
@@ -1321,7 +1006,6 @@
                 if (novel.novelId) existing.novelId = novel.novelId;
                 if (novel.authorId) existing.authorId = novel.authorId;
                 if (novel.author) existing.author = novel.author;
-                if (novel._fixedAuthor) existing._fixedAuthor = novel._fixedAuthor;
                 allNovels[index] = existing;
             } else { allNovels.push(novel); }
             payload.novels = allNovels;
@@ -1330,7 +1014,7 @@
     }
 
     async function openSupportModal() {
-        if (!currentUser) { showLoginModal(); return; }
+        if (!currentUser) return;
         document.getElementById('supportModal').style.display = 'flex';
         await loadChatMessages();
     }
@@ -1346,7 +1030,7 @@
                 messages = data.record.messages;
             }
             
-            const myMessages = messages.filter(m => m.deviceId === getDeviceId());
+            const myMessages = messages.filter(m => m.authorId === urlAid || m.from === currentUser.name);
             chatBox.innerHTML = '';
             if (myMessages.length === 0) { chatBox.innerHTML = '<div class="empty-chat">ابدأ المحادثة...</div>'; return; }
             
@@ -1385,8 +1069,8 @@
             const newMessage = {
                 id: Date.now(),
                 from: currentUser.name,
-                role: currentUser.role,
-                deviceId: getDeviceId(),
+                authorId: urlAid,
+                role: currentUser.authorOf?.length > 0 ? 'author' : 'reader',
                 message: text,
                 date: new Date().toISOString(),
                 status: 'new',
@@ -1427,7 +1111,7 @@
         }
     }
 
-    checkUserLogin();
+    loadAllData();
     setInterval(loadAllData, 30000);
     setTimeout(handleDirectLinks, 1500);
 </script>
