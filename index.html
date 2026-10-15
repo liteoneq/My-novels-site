@@ -25,16 +25,29 @@
             --silver-bg: #FFFFFF;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif; background: var(--bg-color); color: var(--text-main); min-height: 100vh; }
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        #mainPage {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
 
         .top-bar {
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             padding: 10px 15px;
             background: #FFFFFF;
             border-bottom: 1px solid #E0E0E0;
             gap: 8px;
-            margin-bottom: 20px;
         }
         .top-bar-btn {
             padding: 8px 14px;
@@ -55,17 +68,44 @@
             flex: 1;
         }
 
-        .search-container { max-width: 600px; margin: 0 auto 20px; padding: 0 20px; position: relative; }
+        .search-container {
+            flex-shrink: 0;
+            max-width: 600px;
+            margin: 15px auto;
+            padding: 0 20px;
+            position: relative;
+            width: 100%;
+        }
         .search-wrapper { position: relative; display: flex; align-items: center; }
         .search-box { width: 100%; padding: 12px 20px 12px 45px; border: 1px solid #E0E0E0; border-radius: 12px; font-size: 1em; background: #FFFFFF; box-shadow: 0 2px 6px rgba(0,0,0,0.02); outline: none; }
         .search-icon { position: absolute; left: 15px; color: #757575; font-size: 1.2em; pointer-events: none; }
         
-        .tabs-container { max-width: 1200px; margin: 0 auto 20px; padding: 0 20px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .tabs-container {
+            flex-shrink: 0;
+            max-width: 1200px;
+            margin: 0 auto 15px;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
         .tab-btn { padding: 10px 20px; border: 1px solid #E0E0E0; border-radius: 10px; background: #ECEFF1; color: #37474F; cursor: pointer; font-size: 0.9em; transition: all 0.3s; }
         .tab-btn.active { background: #1565C0; color: white; border-color: #1565C0; }
         .tab-btn:hover:not(.active) { background: #E0E0E0; }
 
-        .section { max-width: 1200px; margin: 0 auto 40px; padding: 0 20px; }
+        .section {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+            width: 100%;
+        }
         .section-title { font-size: 1.4em; font-weight: 700; margin-bottom: 20px; color: var(--text-main); border-right: 4px solid var(--primary-color); padding-right: 12px; }
         
         .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
@@ -89,9 +129,23 @@
         .notif-badge { background: #C62828; color: white; border-radius: 50%; min-width: 18px; height: 18px; font-size: 0.65em; display: none; align-items: center; justify-content: center; font-weight: bold; padding: 0 4px; position: absolute; top: 2px; right: 2px; }
         .notif-badge.show { display: flex; }
 
-        #novelReaderPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FFFFFF; z-index: 2000; overflow-y: auto; }
-        
+        #novelReaderPage {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: #FFFFFF;
+            z-index: 2000;
+            overflow: hidden;
+            flex-direction: column;
+        }
+        #novelReaderPage[style*="block"] {
+            display: flex !important;
+        }
+
         .reader-top-bar {
+            flex-shrink: 0;
             position: fixed;
             top: 0;
             left: 0;
@@ -135,9 +189,8 @@
             cursor: pointer;
         }
 
-        .reader-body { max-width: 800px; margin: 0 auto; padding: 110px 20px 30px 20px; }
-
         .chapter-nav {
+            flex-shrink: 0;
             display: flex;
             gap: 8px;
             overflow-x: auto;
@@ -165,7 +218,32 @@
         .chapter-btn.active { background: #1565C0; color: white; border-color: #1565C0; }
         .chapter-btn.locked { opacity: 0.5; cursor: not-allowed; }
 
-        .reading-area { min-height: 300px; line-height: 2.2; font-size: 1.2em; color: #1A1A1A; white-space: pre-wrap; margin-bottom: 40px; background: transparent; border: none; padding: 20px 10px; max-width: 100%; text-align: right; }
+        .reader-body {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-top: 110px;
+            padding-bottom: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .reading-area {
+            min-height: 300px;
+            line-height: 1.9;
+            font-size: 1em;
+            color: #1A1A1A;
+            white-space: pre-wrap;
+            margin-bottom: 30px;
+            background: transparent;
+            border: none;
+            padding: 10px 5px;
+            max-width: 100%;
+            text-align: right;
+        }
 
         .interaction-section { background: #FFFFFF; border: 1px solid #E0E0E0; padding: 25px; border-radius: 12px; margin-bottom: 30px; }
         .interaction-title { font-size: 1.1em; font-weight: 700; margin-bottom: 15px; color: var(--text-main); border-right: 3px solid var(--primary-color); padding-right: 10px; }
@@ -641,7 +719,10 @@
         resetInteractions(novelKey);
 
         document.getElementById('mainPage').style.display = 'none';
-        document.getElementById('novelReaderPage').style.display = 'block';
+        const readerPage = document.getElementById('novelReaderPage');
+        readerPage.style.display = 'block';
+        const readerBody = readerPage.querySelector('.reader-body');
+        if (readerBody) readerBody.scrollTop = 0;
         window.scrollTo(0, 0);
     }
 
@@ -651,12 +732,13 @@
         document.querySelectorAll('.chapter-btn').forEach((btn, i) => btn.classList.toggle('active', i === index));
         const contents = Array.isArray(currentNovel.chapterContents) ? currentNovel.chapterContents : [];
         document.getElementById('readerContent').innerText = contents[index] || "لا يوجد نص";
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const readerBody = document.querySelector('#novelReaderPage .reader-body');
+        if (readerBody) readerBody.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function goBackToHome() {
         document.getElementById('novelReaderPage').style.display = 'none';
-        document.getElementById('mainPage').style.display = 'block';
+        document.getElementById('mainPage').style.display = 'flex';
         if (currentNovel && currentUser) setReadingStatus(getNovelKey(currentNovel), 'read');
         currentNovel = null;
         loadNovels();
@@ -809,7 +891,7 @@
     }
 
     function openAuthorProfile() { openProfileByUsername(getAuthorName(currentNovel)); }
-    function closeProfile() { document.getElementById('profilePage').style.display = 'none'; document.getElementById('mainPage').style.display = 'block'; viewingProfile = null; }
+    function closeProfile() { document.getElementById('profilePage').style.display = 'none'; document.getElementById('mainPage').style.display = 'flex'; viewingProfile = null; }
 
     function getSeenNovels() { try { return JSON.parse(localStorage.getItem('seen_novels_v2') || '{}'); } catch (e) { return {}; } }
     function saveSeenNovels(s) { localStorage.setItem('seen_novels_v2', JSON.stringify(s)); }
