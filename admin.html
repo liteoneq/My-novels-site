@@ -341,6 +341,61 @@ button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; fon
     color: #111827;
 }
 
+/* Chapter Edit Block Styles */
+.chapter-edit-block {
+    background: #F9F9F9;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+.chapter-edit-block label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #1565C0;
+}
+.chapter-title-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-family: inherit;
+    font-size: 0.95em;
+}
+.chapter-content-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    min-height: 180px;
+    font-family: inherit;
+    font-size: 0.95em;
+    resize: vertical;
+    line-height: 1.7;
+}
+.chapter-edit-block button {
+    background: #C62828;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+.edit-btn {
+    background: #1565C0;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+
 @media (max-width: 700px) {
     .stats { grid-template-columns: 1fr; }
     .users-stats { grid-template-columns: repeat(2, 1fr); }
@@ -357,6 +412,12 @@ button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; fon
     <p>إدارة الروايات ورسائل الدعم الفني</p>
 </header>
 
+<div id="lastUpdateIndicator" 
+     style="font-size:0.8em; color:#6b7280; text-align:center;
+            padding:6px; background:white;">
+    آخر تحديث: — 
+</div>
+
 <div class="container">
 
     <!-- تبويبات التنقل -->
@@ -364,6 +425,8 @@ button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; fon
         <button class="tab-btn active" onclick="switchTab('novels')">📚 إدارة الروايات</button>
         <button class="tab-btn" onclick="switchTab('messages')">💬 رسائل الدعم (<span id="msgCountBadge">0</span>)</button>
         <button class="tab-btn" onclick="switchTab('users')">👥 المستخدمون</button>
+        <button class="tab-btn" onclick="switchTab('community')">🌐 المنشورات</button>
+        <button class="tab-btn" onclick="switchTab('stats')">📊 الإحصائيات</button>
     </div>
 
     <!-- ================= قسم الروايات ================= -->
@@ -439,7 +502,7 @@ button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; fon
         </div>
     </div>
 
-    <!-- ================= قسم المستخدمين (جديد) ================= -->
+    <!-- ================= قسم المستخدمين ================= -->
     <div id="usersSection" class="section-content">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
             <h2>إدارة المستخدمين</h2>
@@ -447,6 +510,52 @@ button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; fon
         </div>
         <div id="usersContainer">
             <div class="empty-msg">جاري التحميل...</div>
+        </div>
+    </div>
+
+    <!-- ================= قسم المنشورات (Community) ================= -->
+    <div id="communitySection" class="section-content">
+        <div style="background:white; padding:20px; border-radius:14px; margin-bottom:20px;">
+            <h3 style="margin-top:0;">نشر منشور إداري</h3>
+            <textarea id="adminPostText" 
+                placeholder="اكتب نص المنشور (سيظهر باسم: تطبيق خيال)..."
+                style="width:100%; padding:12px; border:1px solid #d1d5db; 
+                       border-radius:8px; min-height:100px; font-family:inherit;
+                       resize:vertical; margin-bottom:10px;"></textarea>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="connect-btn" onclick="publishAdminPost()">
+                    نشر المنشور
+                </button>
+                <label style="display:flex; align-items:center; gap:6px; 
+                       padding:8px; cursor:pointer;">
+                    <input type="checkbox" id="adminPostPin">
+                    <span>تثبيت المنشور (يلغي تثبيت أي منشور آخر)</span>
+                </label>
+            </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2>إدارة المنشورات المجتمعية</h2>
+            <button class="details-btn" onclick="loadCommunityPosts()">🔄 تحديث المنشورات</button>
+        </div>
+        <div id="communityContainer">
+            <div class="empty-msg">جاري التحميل...</div>
+        </div>
+    </div>
+
+    <!-- ================= قسم الإحصائيات ================= -->
+    <div id="statsSection" class="section-content">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2>الإحصائيات العامة الشاملة</h2>
+            <button class="details-btn" onclick="loadGlobalStats()">🔄 تحديث الإحصائيات</button>
+        </div>
+        <div id="globalStatsContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+            <div class="stat"><div class="stat-number" id="statTotalUsers">0</div><div class="stat-title">إجمالي المستخدمين</div></div>
+            <div class="stat"><div class="stat-number" id="statTotalAuthors">0</div><div class="stat-title">إجمالي المؤلفين</div></div>
+            <div class="stat"><div class="stat-number" id="statTotalReaders">0</div><div class="stat-title">إجمالي القراء</div></div>
+            <div class="stat"><div class="stat-number" id="statTotalNovels">0</div><div class="stat-title">إجمالي الروايات</div></div>
+            <div class="stat"><div class="stat-number" id="statTotalCommunity">0</div><div class="stat-title">إجمالي المنشورات</div></div>
+            <div class="stat"><div class="stat-number" id="statTotalComments">0</div><div class="stat-title">إجمالي التعليقات</div></div>
+            <div class="stat"><div class="stat-number" id="statTotalLikes">0</div><div class="stat-title">إجمالي الإعجابات</div></div>
         </div>
     </div>
 
@@ -463,18 +572,42 @@ button { border: 0; border-radius: 9px; padding: 11px 17px; cursor: pointer; fon
     </div>
 </div>
 
+<!-- Modal تعديل الرواية الجديد -->
+<div id="editNovelModal" class="modal">
+    <div class="modal-box" style="max-width: 900px;">
+        <h2 id="editNovelTitle">تعديل الرواية</h2>
+        <div style="margin-bottom: 15px;">
+            <label>اسم الرواية:</label>
+            <input type="text" id="editNovelName" style="width:100%; padding:10px; border:1px solid #E0E0E0; border-radius:8px;">
+        </div>
+        <div id="chaptersEditContainer" style="max-height: 60vh; overflow-y: auto;"></div>
+        <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="details-btn" onclick="addNewChapter()">+ إضافة فصل</button>
+            <button class="connect-btn" onclick="saveAllChapters()">حفظ التعديلات</button>
+            <button class="disconnect-btn" onclick="closeEditNovel()">إلغاء</button>
+        </div>
+    </div>
+</div>
+
 <script>
 
 /* =========================================================
-   إعدادات عامة (تم تعديل الرابط)
+   إعدادات عامة
 ========================================================= */
-// رابط الـProxy الجديد
 const PROXY_URL = "https://transcendent-swan-fdc065.netlify.app/api";
 const API_GET = `${PROXY_URL}/get`;
 const API_PUT = `${PROXY_URL}/save`;
 
 let allNovels = [];
 let allMessages = [];
+let allUsersList = [];
+let allCommunityPosts = [];
+let currentEditingNovelIndex = -1;
+
+let currentActiveTab = 'novels';
+let lastUpdateTimestamp = 0;
+let autoRefreshTimer = null;
+let refreshInProgress = false;
 
 /* =========================================================
    دالة مساعدة لتشفير كلمة المرور
@@ -493,6 +626,7 @@ function hashPassword(password) {
    إدارة التبويبات (Tabs)
 ========================================================= */
 function switchTab(tabName) {
+    currentActiveTab = tabName;
     document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
     
@@ -507,25 +641,114 @@ function switchTab(tabName) {
         document.getElementById('usersSection').classList.add('active');
         document.querySelector('.tab-btn:nth-child(3)').classList.add('active');
         loadUsers();
+    } else if (tabName === 'community') {
+        document.getElementById('communitySection').classList.add('active');
+        document.querySelector('.tab-btn:nth-child(4)').classList.add('active');
+        loadCommunityPosts();
+    } else if (tabName === 'stats') {
+        document.getElementById('statsSection').classList.add('active');
+        document.querySelector('.tab-btn:nth-child(5)').classList.add('active');
+        loadGlobalStats();
     }
 }
 
 /* =========================================================
-   دالة الاتصال (تم التعديل)
+   التحديث التلقائي (Auto Refresh)
 ========================================================= */
-async function connectDatabase() {
-    // لم نعد نحتاج مفتاح — الاتصال تلقائي عبر Proxy
-    await loadNovels();
+function startAutoRefresh() {
+    if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+    autoRefreshTimer = setInterval(refreshActiveTab, 45000);
 }
 
-// استدعاء أولي عند التحميل
+function pauseAutoRefresh() {
+    if (autoRefreshTimer) {
+        clearInterval(autoRefreshTimer);
+        autoRefreshTimer = null;
+    }
+}
+
+function resumeAutoRefresh() {
+    startAutoRefresh();
+}
+
+async function refreshActiveTab() {
+    if (document.querySelector('.modal.show')) return;
+
+    const activeEl = document.activeElement;
+    if (activeEl && (activeEl.tagName === 'TEXTAREA' || 
+                     activeEl.tagName === 'INPUT')) {
+        return;
+    }
+
+    if (refreshInProgress) return;
+    refreshInProgress = true;
+
+    try {
+        if (currentActiveTab === 'novels') {
+            await loadNovels();
+        } else if (currentActiveTab === 'messages') {
+            await loadMessages();
+        } else if (currentActiveTab === 'users') {
+            await loadUsers();
+        } else if (currentActiveTab === 'community') {
+            await loadCommunityPosts();
+        } else if (currentActiveTab === 'stats') {
+            await loadGlobalStats();
+        }
+        lastUpdateTimestamp = Date.now();
+    } catch (e) {
+        console.error("Auto refresh failed:", e);
+    } finally {
+        refreshInProgress = false;
+    }
+}
+
+function updateLastUpdateIndicator() {
+    const el = document.getElementById('lastUpdateIndicator');
+    if (!el) return;
+    if (!lastUpdateTimestamp) {
+        el.innerText = 'آخر تحديث: —';
+        return;
+    }
+    const diff = Math.floor((Date.now() - lastUpdateTimestamp) / 1000);
+    el.innerText = 'آخر تحديث: منذ ' + diff + ' ثانية';
+}
+
+setInterval(updateLastUpdateIndicator, 5000);
+
+/* =========================================================
+   دالة الاتصال
+========================================================= */
+async function connectDatabase() {
+    await loadNovels();
+    lastUpdateTimestamp = Date.now();
+}
+
 window.onload = function() {
     connectDatabase();
+    startAutoRefresh();
 };
 
 /* =========================================================
-   إدارة المستخدمين (جديد)
+   إدارة المستخدمين
 ========================================================= */
+function formatLastSeen(timestamp) {
+    if (!timestamp) return 'غير معروف';
+    const diff = Date.now() - timestamp;
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'الآن';
+    if (mins < 60) return 'منذ ' + mins + ' دقيقة';
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return 'منذ ' + hours + ' ساعة';
+    const days = Math.floor(hours / 24);
+    return 'منذ ' + days + ' يوم';
+}
+
+function isUserOnline(timestamp) {
+    if (!timestamp) return false;
+    return (Date.now() - timestamp) < 5 * 60 * 1000; // 5 دقائق
+}
+
 async function loadUsers() {
     const container = document.getElementById('usersContainer');
     container.innerHTML = '<div class="empty-msg">جاري تحميل بيانات المستخدمين...</div>';
@@ -535,21 +758,18 @@ async function loadUsers() {
         const data = await res.json();
         let record = data.record;
 
-        // إصلاح البنية القديمة (مصفوفة → كائن)
         if (record && Array.isArray(record)) {
-            record = {
-                novels: record,
-                users: [],
-                messages: []
-            };
+            record = { novels: record, users: [], messages: [], community: [] };
         }
         if (record) {
             if (!Array.isArray(record.novels)) record.novels = [];
             if (!Array.isArray(record.users)) record.users = [];
             if (!Array.isArray(record.messages)) record.messages = [];
+            if (!Array.isArray(record.community)) record.community = [];
         }
 
         const users = record.users || [];
+        allUsersList = users;
         const novels = record.novels || [];
 
         if (users.length === 0) {
@@ -557,29 +777,27 @@ async function loadUsers() {
             return;
         }
 
-        // فصل القراء والمؤلفين
-        const readers = users.filter(u => u.role === 'reader');
-        const authors = users.filter(u => u.role === 'author');
+        const authors = users.filter(u => u.authorOf && u.authorOf.length > 0);
+        const readers = users.filter(u => !u.authorOf || u.authorOf.length === 0);
 
         let html = '';
 
-        // عرض المؤلفين
         html += `<h3 class="section-title">✍️ المؤلفون (${authors.length})</h3>`;
         html += `<div class="users-grid">`;
         authors.forEach(user => {
-            // إيجاد روايات المؤلف
-            const userNovels = novels.filter(n => n.author === user.username);
+            const userNovels = novels.filter(n => n.authorId === user.authorId || n.author === user.username);
             const totalViews = userNovels.reduce((sum, n) => sum + (n.views || 0), 0);
             const totalLikes = userNovels.reduce((sum, n) => sum + (n.likes || 0), 0);
             
-            // حساب الأيام منذ التسجيل
-            const joinDate = new Date(user.joinedAt);
+            const joinDate = new Date(user.joinedAt || Date.now());
             const daysSince = Math.floor((new Date() - joinDate) / (1000 * 60 * 60 * 24));
 
             html += `
                 <div class="user-card author">
                     <h3>${escapeHTML(user.username)}</h3>
-                    <div class="user-info-row"><span>تاريخ التسجيل:</span> <span>${daysSince} يوم</span></div>
+                    <div class="user-info-row"><span>تاريخ التسجيل:</span> <span>${daysSince >= 0 ? daysSince : 0} يوم</span></div>
+                    <div class="user-info-row"><span>آخر نشاط:</span> <span>${formatLastSeen(user.lastSeen)}</span></div>
+                    <div class="user-info-row"><span>الحالة:</span> <span>${isUserOnline(user.lastSeen) ? '<span style="color:#10b981; font-weight:bold;">● نشط الآن</span>' : '<span style="color:#9ca3af;">غير نشط</span>'}</span></div>
                     <div class="user-info-row"><span>المتابعون:</span> <span>${(user.followers || []).length}</span></div>
                     <div class="user-info-row"><span>إجمالي المشاهدات:</span> <span>${totalViews}</span></div>
                     <div class="user-info-row"><span>إجمالي الإعجابات:</span> <span>${totalLikes}</span></div>
@@ -589,27 +807,28 @@ async function loadUsers() {
                          <ul class="user-novels-list">${userNovels.map(n => `<li>${escapeHTML(n.title)}</li>`).join('')}</ul>
                          </div>` : ''}
                     
-                    <button class="reset-pass-btn" onclick="resetUserPassword('${user.username}', '${user.id || user.username}')">🔑 إعادة تعيين كلمة المرور</button>
+                    <button class="reset-pass-btn" onclick="resetUserPassword('${user.username}', '${user.deviceId || user.username}')">🔑 إعادة تعيين كلمة المرور</button>
                 </div>
             `;
         });
         html += `</div>`;
 
-        // عرض القراء
         html += `<h3 class="section-title">📖 القراء (${readers.length})</h3>`;
         html += `<div class="users-grid">`;
         readers.forEach(user => {
-            const joinDate = new Date(user.joinedAt);
+            const joinDate = new Date(user.joinedAt || Date.now());
             const daysSince = Math.floor((new Date() - joinDate) / (1000 * 60 * 60 * 24));
 
             html += `
                 <div class="user-card reader">
                     <h3>${escapeHTML(user.username)}</h3>
-                    <div class="user-info-row"><span>تاريخ التسجيل:</span> <span>${daysSince} يوم</span></div>
+                    <div class="user-info-row"><span>تاريخ التسجيل:</span> <span>${daysSince >= 0 ? daysSince : 0} يوم</span></div>
+                    <div class="user-info-row"><span>آخر نشاط:</span> <span>${formatLastSeen(user.lastSeen)}</span></div>
+                    <div class="user-info-row"><span>الحالة:</span> <span>${isUserOnline(user.lastSeen) ? '<span style="color:#10b981; font-weight:bold;">● نشط الآن</span>' : '<span style="color:#9ca3af;">غير نشط</span>'}</span></div>
                     <div class="user-info-row"><span>المتابعون:</span> <span>${(user.followers || []).length}</span></div>
                     <div class="user-info-row"><span>يتابع:</span> <span>${(user.following || []).length}</span></div>
                     
-                    <button class="reset-pass-btn" onclick="resetUserPassword('${user.username}', '${user.id || user.username}')">🔑 إعادة تعيين كلمة المرور</button>
+                    <button class="reset-pass-btn" onclick="resetUserPassword('${user.username}', '${user.deviceId || user.username}')">🔑 إعادة تعيين كلمة المرور</button>
                 </div>
             `;
         });
@@ -623,45 +842,48 @@ async function loadUsers() {
     }
 }
 
-async function resetUserPassword(username, userId) {
+async function resetUserPassword(username, identifier) {
+    pauseAutoRefresh();
     const newPassword = prompt(`أدخل كلمة المرور الجديدة للمستخدم ${username}:`);
     
-    if (newPassword === null) return; // إلغاء
+    if (newPassword === null) {
+        resumeAutoRefresh();
+        return;
+    }
     
     if (newPassword.length < 4) {
         alert("❌ كلمة المرور قصيرة جداً (يجب أن تكون 4 أحرف على الأقل).");
+        resumeAutoRefresh();
         return;
     }
 
     const hashed = hashPassword(newPassword);
 
     try {
-        // جلب البيانات الحالية
         const res = await fetch(API_GET, { cache: 'no-store' });
         const data = await res.json();
         let record = data.record;
 
-        // إصلاح البنية
         if (record && Array.isArray(record)) {
-            record = { novels: record, users: [], messages: [] };
+            record = { novels: record, users: [], messages: [], community: [] };
         }
         if (record) {
             if (!Array.isArray(record.users)) record.users = [];
             if (!Array.isArray(record.novels)) record.novels = [];
             if (!Array.isArray(record.messages)) record.messages = [];
+            if (!Array.isArray(record.community)) record.community = [];
         }
 
-        // البحث عن المستخدم وتحديثه
-        const userIndex = record.users.findIndex(u => (u.id === userId) || (u.username === username));
+        const userIndex = record.users.findIndex(u => (u.deviceId === identifier) || (u.username === username));
         
         if (userIndex !== -1) {
             record.users[userIndex].password = hashed;
             
-            // حفظ التغييرات
             const payload = {
                 novels: record.novels,
                 users: record.users,
-                messages: record.messages
+                messages: record.messages,
+                community: record.community
             };
 
             const saveRes = await fetch(API_PUT, {
@@ -682,6 +904,414 @@ async function resetUserPassword(username, userId) {
     } catch (e) {
         alert("❌ حدث خطأ أثناء الاتصال.");
         console.error(e);
+    } finally {
+        resumeAutoRefresh();
+    }
+}
+
+/* =========================================================
+   إدارة المنشورات (Community)
+========================================================= */
+async function publishAdminPost() {
+    pauseAutoRefresh();
+    const textEl = document.getElementById('adminPostText');
+    const text = textEl.value.trim();
+    const shouldPin = document.getElementById('adminPostPin').checked;
+
+    if (!text) {
+        alert('اكتب نص المنشور أولاً.');
+        resumeAutoRefresh();
+        return;
+    }
+
+    try {
+        const res = await fetch(API_GET, { cache: 'no-store' });
+        const data = await res.json();
+        let record = data.record;
+
+        if (record && Array.isArray(record)) {
+            record = { novels: record, users: [], messages: [], community: [] };
+        }
+        if (record) {
+            if (!Array.isArray(record.novels)) record.novels = [];
+            if (!Array.isArray(record.users)) record.users = [];
+            if (!Array.isArray(record.messages)) record.messages = [];
+            if (!Array.isArray(record.community)) record.community = [];
+        }
+
+        if (shouldPin) {
+            record.community.forEach(p => p.pinned = false);
+        }
+
+        const newPost = {
+            id: 'post_' + Date.now(),
+            authorId: 'admin_app',
+            username: 'تطبيق خيال',
+            isAuthor: true,
+            isAdminPost: true,
+            text: text,
+            likes: [],
+            comments: [],
+            createdAt: Date.now(),
+            pinned: shouldPin
+        };
+
+        record.community.push(newPost);
+
+        const saveRes = await fetch(API_PUT, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(record)
+        });
+
+        if (saveRes.ok) {
+            alert('✓ تم نشر المنشور' + (shouldPin ? ' وتثبيته.' : '.'));
+            textEl.value = '';
+            document.getElementById('adminPostPin').checked = false;
+            loadCommunityPosts();
+        } else {
+            alert('❌ فشل نشر المنشور.');
+        }
+    } catch (e) {
+        alert('❌ خطأ في الاتصال.');
+        console.error(e);
+    } finally {
+        resumeAutoRefresh();
+    }
+}
+
+async function pinPost(postId) {
+    if (!confirm('تثبيت هذا المنشور؟ سيتم فك تثبيت أي منشور آخر.')) return;
+    pauseAutoRefresh();
+
+    try {
+        const res = await fetch(API_GET, { cache: 'no-store' });
+        const data = await res.json();
+        let record = data.record;
+
+        if (record && Array.isArray(record)) {
+            record = { novels: record, users: [], messages: [], community: [] };
+        }
+        if (record && !Array.isArray(record.community)) record.community = [];
+
+        const oldPinned = record.community.filter(p => p.pinned && String(p.id) !== String(postId));
+        record.community = record.community.filter(p => !(p.pinned && String(p.id) !== String(postId)));
+
+        const idx = record.community.findIndex(p => String(p.id) === String(postId));
+        if (idx !== -1) record.community[idx].pinned = true;
+
+        const saveRes = await fetch(API_PUT, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(record)
+        });
+
+        if (saveRes.ok) {
+            alert('✓ تم التثبيت.' + (oldPinned.length > 0 ? ' تم حذف المنشور المثبت السابق.' : ''));
+            loadCommunityPosts();
+        } else {
+            alert('❌ فشل التثبيت.');
+        }
+    } catch (e) {
+        alert('❌ خطأ في الاتصال.');
+        console.error(e);
+    } finally {
+        resumeAutoRefresh();
+    }
+}
+
+async function unpinPost(postId) {
+    if (!confirm('فك التثبيت؟ المنشور سيُحذف فوراً.')) return;
+    pauseAutoRefresh();
+
+    try {
+        const res = await fetch(API_GET, { cache: 'no-store' });
+        const data = await res.json();
+        let record = data.record;
+
+        if (record && Array.isArray(record)) {
+            record = { novels: record, users: [], messages: [], community: [] };
+        }
+        if (record && !Array.isArray(record.community)) record.community = [];
+
+        record.community = record.community.filter(p => String(p.id) !== String(postId));
+
+        const saveRes = await fetch(API_PUT, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(record)
+        });
+
+        if (saveRes.ok) {
+            alert('✓ تم فك التثبيت وحذف المنشور.');
+            loadCommunityPosts();
+        } else {
+            alert('❌ فشل الحذف.');
+        }
+    } catch (e) {
+        alert('❌ خطأ في الاتصال.');
+        console.error(e);
+    } finally {
+        resumeAutoRefresh();
+    }
+}
+
+let currentEditingPostId = null;
+
+async function openEditPost(postId) {
+    const post = allCommunityPosts.find(p => String(p.id) === String(postId));
+    if (!post) return;
+
+    currentEditingPostId = postId;
+
+    let modal = document.getElementById('editPostModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'editPostModal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-box" style="max-width: 600px;">
+                <h2>تعديل المنشور</h2>
+                <textarea id="editPostText" 
+                    style="width:100%; padding:12px; border:1px solid #d1d5db;
+                           border-radius:8px; min-height:150px; font-family:inherit;
+                           resize:vertical;"></textarea>
+                <div style="margin-top:15px; display:flex; gap:10px;">
+                    <button class="connect-btn" onclick="saveEditedPost()">حفظ</button>
+                    <button class="disconnect-btn" onclick="closeEditPost()">إلغاء</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    document.getElementById('editPostText').value = post.text || '';
+    modal.classList.add('show');
+}
+
+async function saveEditedPost() {
+    const newText = document.getElementById('editPostText').value.trim();
+    if (!newText) {
+        alert('لا يمكن ترك المنشور فارغاً.');
+        return;
+    }
+    pauseAutoRefresh();
+
+    try {
+        const res = await fetch(API_GET, { cache: 'no-store' });
+        const data = await res.json();
+        let record = data.record;
+
+        if (record && Array.isArray(record)) {
+            record = { novels: record, users: [], messages: [], community: [] };
+        }
+        if (record && !Array.isArray(record.community)) record.community = [];
+
+        const idx = record.community.findIndex(p => String(p.id) === String(currentEditingPostId));
+        if (idx === -1) {
+            alert('المنشور غير موجود.');
+            resumeAutoRefresh();
+            return;
+        }
+
+        record.community[idx].text = newText;
+        record.community[idx].editedAt = Date.now();
+
+        const saveRes = await fetch(API_PUT, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(record)
+        });
+
+        if (saveRes.ok) {
+            alert('✓ تم تعديل المنشور.');
+            closeEditPost();
+            loadCommunityPosts();
+        } else {
+            alert('❌ فشل التعديل.');
+        }
+    } catch (e) {
+        alert('❌ خطأ في الاتصال.');
+        console.error(e);
+    } finally {
+        resumeAutoRefresh();
+    }
+}
+
+function closeEditPost() {
+    const modal = document.getElementById('editPostModal');
+    if (modal) modal.classList.remove('show');
+    currentEditingPostId = null;
+}
+
+async function loadCommunityPosts() {
+    const container = document.getElementById('communityContainer');
+    container.innerHTML = '<div class="empty-msg">جاري تحميل المنشورات...</div>';
+
+    try {
+        const res = await fetch(API_GET, { cache: 'no-store' });
+        const data = await res.json();
+        let record = data.record;
+
+        if (record && Array.isArray(record)) {
+            record = { novels: record, users: [], messages: [], community: [] };
+        }
+        if (record) {
+            if (!Array.isArray(record.community)) record.community = [];
+        }
+
+        const posts = record.community || [];
+        allCommunityPosts = posts;
+
+        if (posts.length === 0) {
+            container.innerHTML = '<div class="empty-msg">لا توجد منشورات حتى الآن.</div>';
+            return;
+        }
+
+        let html = '';
+        const sortedPosts = [...posts].sort((a, b) => {
+            if (a.pinned && !b.pinned) return -1;
+            if (!a.pinned && b.pinned) return 1;
+            return (b.createdAt || 0) - (a.createdAt || 0);
+        });
+
+        sortedPosts.forEach((post, index) => {
+            const dateStr = post.createdAt ? new Date(post.createdAt).toLocaleString('ar-SA') : 'تاريخ غير معروف';
+            const likesCount = Array.isArray(post.likes) ? post.likes.length : (typeof post.likes === 'number' ? post.likes : 0);
+            const commentsCount = Array.isArray(post.comments) ? post.comments.length : 0;
+
+            html += `
+                <div class="novel" style="margin-bottom: 15px;">
+                    <div class="novel-header">
+                        <div>
+                            <div style="font-weight:bold; font-size:1.1em; color:#111827;">
+                                ${escapeHTML(post.username || 'مستخدم')} 
+                                ${post.isAuthor ? '<span class="badge visible" style="margin-right: 8px;">مؤلف</span>' : ''}
+                                ${post.pinned ? '<span class="badge" style="background:#fbbf24; color:#78350f; margin-right:8px;">📌 مثبت</span>' : ''}
+                                ${post.isAdminPost ? '<span class="badge" style="background:#6a1b9a; color:white; margin-right:8px;">تطبيق خيال</span>' : ''}
+                            </div>
+                            <div style="color:#666; font-size:0.85em; margin-top:3px;">${dateStr}</div>
+                        </div>
+                        <div>
+                            <span class="badge" style="background:#e0f2fe; color:#075985;">❤️ ${likesCount} إعجابات</span>
+                            <span class="badge" style="background:#fef3c7; color:#92400e;">💬 ${commentsCount} تعليقات</span>
+                        </div>
+                    </div>
+                    <div style="margin: 12px 0; font-size: 0.95em; line-height: 1.6; white-space: pre-wrap;">${escapeHTML(post.text || '')}</div>
+                    <div class="novel-actions">
+                        <button class="edit-btn" onclick="openEditPost('${post.id}')">تعديل</button>
+                        ${!post.pinned 
+                            ? `<button class="details-btn" onclick="pinPost('${post.id}')" style="background:#fef3c7; color:#92400e;">📌 تثبيت</button>`
+                            : `<button class="details-btn" onclick="unpinPost('${post.id}')" style="background:#fee2e2; color:#991b1b;">فك التثبيت (حذف فوري)</button>`
+                        }
+                        <button class="delete-btn" onclick="deleteCommunityPost('${post.id}')">حذف المنشور</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+
+    } catch (e) {
+        container.innerHTML = '<div class="empty-msg" style="color:red">فشل تحميل المنشورات.</div>';
+        console.error(e);
+    }
+}
+
+async function deleteCommunityPost(postId) {
+    if (!confirm("هل أنت متأكد من حذف هذا المنشور؟")) return;
+    pauseAutoRefresh();
+
+    try {
+        const res = await fetch(API_GET, { cache: 'no-store' });
+        const data = await res.json();
+        let record = data.record;
+
+        if (record && Array.isArray(record)) {
+            record = { novels: record, users: [], messages: [], community: [] };
+        }
+        if (record) {
+            if (!Array.isArray(record.novels)) record.novels = [];
+            if (!Array.isArray(record.users)) record.users = [];
+            if (!Array.isArray(record.messages)) record.messages = [];
+            if (!Array.isArray(record.community)) record.community = [];
+        }
+
+        record.community = record.community.filter(p => String(p.id) !== String(postId));
+
+        const saveRes = await fetch(API_PUT, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(record)
+        });
+
+        if (saveRes.ok) {
+            alert("✓ تم حذف المنشور بنجاح.");
+            loadCommunityPosts();
+        } else {
+            alert("❌ فشل الحفظ على السيرفر.");
+        }
+    } catch (e) {
+        alert("❌ حدث خطأ أثناء الاتصال.");
+        console.error(e);
+    } finally {
+        resumeAutoRefresh();
+    }
+}
+
+/* =========================================================
+   إدارة الإحصائيات العامة
+========================================================= */
+async function loadGlobalStats() {
+    try {
+        const res = await fetch(API_GET, { cache: 'no-store' });
+        const data = await res.json();
+        let record = data.record;
+
+        if (record && Array.isArray(record)) {
+            record = { novels: record, users: [], messages: [], community: [] };
+        }
+        if (record) {
+            if (!Array.isArray(record.novels)) record.novels = [];
+            if (!Array.isArray(record.users)) record.users = [];
+            if (!Array.isArray(record.messages)) record.messages = [];
+            if (!Array.isArray(record.community)) record.community = [];
+        }
+
+        const users = record.users || [];
+        const novels = record.novels || [];
+        const community = record.community || [];
+
+        const totalUsers = users.length;
+        const totalAuthors = users.filter(u => u.authorOf && u.authorOf.length > 0).length;
+        const totalReaders = totalUsers - totalAuthors;
+        const totalNovels = novels.length;
+        const totalCommunity = community.length;
+        
+        let totalComments = 0;
+        community.forEach(p => {
+            if (Array.isArray(p.comments)) totalComments += p.comments.length;
+        });
+
+        let totalLikes = 0;
+        community.forEach(p => {
+            if (Array.isArray(p.likes)) totalLikes += p.likes.length;
+            else if (typeof p.likes === 'number') totalLikes += p.likes;
+        });
+        novels.forEach(n => {
+            if (typeof n.likes === 'number') totalLikes += n.likes;
+        });
+
+        document.getElementById('statTotalUsers').innerText = totalUsers;
+        document.getElementById('statTotalAuthors').innerText = totalAuthors;
+        document.getElementById('statTotalReaders').innerText = totalReaders >= 0 ? totalReaders : 0;
+        document.getElementById('statTotalNovels').innerText = totalNovels;
+        document.getElementById('statTotalCommunity').innerText = totalCommunity;
+        document.getElementById('statTotalComments').innerText = totalComments;
+        document.getElementById('statTotalLikes').innerText = totalLikes;
+
+    } catch (e) {
+        console.error("فشل تحميل الإحصائيات", e);
     }
 }
 
@@ -700,18 +1330,14 @@ async function loadMessages() {
         const data = await res.json();
         let record = data.record;
 
-        // إصلاح البنية القديمة (مصفوفة → كائن)
         if (record && Array.isArray(record)) {
-            record = {
-                novels: record,
-                users: [],
-                messages: []
-            };
+            record = { novels: record, users: [], messages: [], community: [] };
         }
         if (record) {
             if (!Array.isArray(record.novels)) record.novels = [];
             if (!Array.isArray(record.users)) record.users = [];
             if (!Array.isArray(record.messages)) record.messages = [];
+            if (!Array.isArray(record.community)) record.community = [];
         }
 
         let messages = [];
@@ -723,7 +1349,6 @@ async function loadMessages() {
         allMessages = messages;
         badge.innerText = messages.length;
 
-        // حساب الإحصائيات
         calculateUserStats(messages);
 
         list.innerHTML = '';
@@ -733,7 +1358,6 @@ async function loadMessages() {
             return;
         }
 
-        // عرض الرسائل (الأحدث أولاً)
         [...messages].reverse().forEach((msg) => {
             const card = createMessageCard(msg);
             list.appendChild(card);
@@ -745,7 +1369,6 @@ async function loadMessages() {
     }
 }
 
-// حساب إحصائيات المستخدمين
 function calculateUserStats(messages) {
     const authors = new Set();
     const readers = new Set();
@@ -758,13 +1381,11 @@ function calculateUserStats(messages) {
 
         allUsers.add(userId);
 
-        // تحديد نوع المستخدم
         if (m.role === 'author') {
             authors.add(userId);
         } else if (m.role === 'reader') {
             readers.add(userId);
         } else {
-            // زائر (غير مسجل أو لا يوجد role)
             guests.add(userId);
         }
     });
@@ -775,12 +1396,10 @@ function calculateUserStats(messages) {
     document.getElementById('totalUsersCount').innerText = allUsers.size;
 }
 
-// إنشاء بطاقة رسالة (محادثة كاملة)
 function createMessageCard(msg) {
     const card = document.createElement('div');
     card.className = 'message-card';
 
-    // تحديد الحالة
     const hasUserReply = Array.isArray(msg.userReplies) && msg.userReplies.length > 0;
     const hasAdminReply = msg.reply || (Array.isArray(msg.adminReplies) && msg.adminReplies.length > 0);
 
@@ -790,11 +1409,9 @@ function createMessageCard(msg) {
         card.classList.add('replied');
     }
 
-    // اسم المرسل (الاسم الفعلي وليس role)
     const senderName = msg.from || 'مستخدم مجهول';
     const senderInitial = senderName.charAt(0).toUpperCase();
 
-    // شارة الحالة
     let statusBadge = '';
     if (hasUserReply && !hasAdminReply) {
         statusBadge = '<span class="msg-status-badge user-replied">⚠️ رد جديد من المستخدم</span>';
@@ -804,25 +1421,19 @@ function createMessageCard(msg) {
         statusBadge = '<span class="msg-status-badge new">● جديد</span>';
     }
 
-    // بناء فقاعات المحادثة
     let chatHTML = '<div class="chat-conversation">';
-    
-    // الرسالة الأولى من المستخدم
     chatHTML += createBubble('user', senderName, msg.message, msg.date);
     
-    // الرد الرئيسي من الإدارة
     if (msg.reply) {
         chatHTML += createBubble('admin', 'الإدارة', msg.reply, msg.replyDate);
     }
 
-    // الردود الإضافية من المستخدم
     if (Array.isArray(msg.userReplies)) {
         msg.userReplies.forEach(ur => {
             chatHTML += createBubble('user', senderName, ur.text, ur.date);
         });
     }
 
-    // الردود الإضافية من الإدارة
     if (Array.isArray(msg.adminReplies)) {
         msg.adminReplies.forEach(ar => {
             chatHTML += createBubble('admin', 'الإدارة', ar.text, ar.date);
@@ -860,7 +1471,6 @@ function createMessageCard(msg) {
     return card;
 }
 
-// إنشاء فقاعة دردشة
 function createBubble(type, senderName, text, date) {
     const timeStr = date ? new Date(date).toLocaleTimeString('ar-SA', {hour: '2-digit', minute: '2-digit'}) : '';
     const dateStr = date ? new Date(date).toLocaleDateString('ar-SA') : '';
@@ -874,13 +1484,13 @@ function createBubble(type, senderName, text, date) {
     `;
 }
 
-// إرسال الرد
 async function sendReply(msgId) {
     const replyText = document.getElementById(`replyText_${msgId}`).value.trim();
     if(!replyText) {
         alert('اكتب الرد أولاً');
         return;
     }
+    pauseAutoRefresh();
 
     const sendBtn = document.getElementById(`sendBtn_${msgId}`);
     const originalText = sendBtn.innerHTML;
@@ -888,52 +1498,40 @@ async function sendReply(msgId) {
     sendBtn.disabled = true;
 
     try {
-        // 1. جلب البيانات الحالية (تم التعديل)
         const res = await fetch(API_GET, { cache: 'no-store' });
         const data = await res.json();
         let record = data.record;
 
-        // إصلاح البنية القديمة (مصفوفة → كائن)
         if (record && Array.isArray(record)) {
-            record = {
-                novels: record,
-                users: [],
-                messages: []
-            };
+            record = { novels: record, users: [], messages: [], community: [] };
         }
         if (record) {
             if (!Array.isArray(record.novels)) record.novels = [];
             if (!Array.isArray(record.users)) record.users = [];
             if (!Array.isArray(record.messages)) record.messages = [];
+            if (!Array.isArray(record.community)) record.community = [];
         }
 
         let payload = record || {};
-        
         if(!payload.messages) payload.messages = [];
-        if(Array.isArray(payload)) {
-            payload = { novels: payload, messages: [] };
-        }
 
-        // 2. البحث عن الرسالة بالـ ID
         const msgIndex = payload.messages.findIndex(m => String(m.id) === String(msgId));
         
         if(msgIndex === -1) {
             alert('لم يتم العثور على الرسالة');
             sendBtn.innerHTML = originalText;
             sendBtn.disabled = false;
+            resumeAutoRefresh();
             return;
         }
 
         const message = payload.messages[msgIndex];
 
-        // 3. إضافة الرد
-        // إذا كان الرد الرئيسي فارغاً، نضعه فيه
         if (!message.reply) {
             message.reply = replyText;
             message.replyDate = new Date().toISOString();
             message.status = 'replied';
         } else {
-            // وإلا نضيفه إلى adminReplies
             if (!Array.isArray(message.adminReplies)) {
                 message.adminReplies = [];
             }
@@ -943,7 +1541,6 @@ async function sendReply(msgId) {
             });
         }
 
-        // 4. حفظ التحديث (تم التعديل)
         const saveRes = await fetch(API_PUT, {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
@@ -953,7 +1550,7 @@ async function sendReply(msgId) {
         if (saveRes.ok) {
             alert('✓ تم إرسال الرد بنجاح!');
             document.getElementById(`replyText_${msgId}`).value = '';
-            await loadMessages(); // تحديث القائمة
+            await loadMessages();
         } else {
             alert('فشل إرسال الرد');
         }
@@ -964,37 +1561,30 @@ async function sendReply(msgId) {
     } finally {
         sendBtn.innerHTML = originalText;
         sendBtn.disabled = false;
+        resumeAutoRefresh();
     }
 }
 
 /* =========================================================
    دوال الروايات (Novels Functions)
 ========================================================= */
-// تم حذف دالة disconnectDatabase
-
 async function loadNovels() {
-    // تم حذف شرط MASTER_KEY
     setStatus("جاري التحميل...", "loading");
     
     try {
-        // تم تعديل الرابط
         const res = await fetch(API_GET, { cache: "no-store" });
         if (!res.ok) throw new Error("HTTP Error");
         const data = await res.json();
         let record = data.record;
 
-        // إصلاح البنية القديمة (مصفوفة → كائن)
         if (record && Array.isArray(record)) {
-            record = {
-                novels: record,
-                users: [],
-                messages: []
-            };
+            record = { novels: record, users: [], messages: [], community: [] };
         }
         if (record) {
             if (!Array.isArray(record.novels)) record.novels = [];
             if (!Array.isArray(record.users)) record.users = [];
             if (!Array.isArray(record.messages)) record.messages = [];
+            if (!Array.isArray(record.community)) record.community = [];
         }
         
         if(record && Array.isArray(record.novels)) allNovels = record.novels;
@@ -1052,6 +1642,7 @@ function renderNovels() {
             </div>
             <div class="novel-actions">
                 <button class="details-btn" onclick="showDetails(${idx})">عرض</button>
+                <button class="edit-btn" onclick="openEditNovel(${idx})">تعديل</button>
                 <button class="${visible?'delete-btn':'details-btn'}" style="background:${visible?'#fef3c7':'#dcfce7'}; color:${visible?'#92400e':'#166534'}" 
                     onclick="setVisibility(${idx}, ${!visible})">
                     ${visible?'إخفاء':'إظهار'}
@@ -1088,7 +1679,6 @@ async function confirmDelete(idx) {
 
     const ok = await saveData();
     if (!ok) {
-        // فشل الحفظ — أعد الرواية للقائمة المحلية
         allNovels.splice(idx, 0, removed);
         renderNovels();
         updateStats();
@@ -1098,35 +1688,32 @@ async function confirmDelete(idx) {
 
 async function saveData() {
     setStatus("جاري الحفظ...", "loading");
+    pauseAutoRefresh();
     try {
-        // جلب أحدث نسخة
         const res = await fetch(API_GET, { cache: "no-store" });
         if (!res.ok) throw new Error("GET failed " + res.status);
         const data = await res.json();
         let record = data.record;
 
-        // إصلاح البنية القديمة (مصفوفة → كائن)
         if (record && Array.isArray(record)) {
-            record = {
-                novels: record,
-                users: [],
-                messages: []
-            };
+            record = { novels: record, users: [], messages: [], community: [] };
         }
         if (record) {
             if (!Array.isArray(record.novels)) record.novels = [];
             if (!Array.isArray(record.users)) record.users = [];
             if (!Array.isArray(record.messages)) record.messages = [];
+            if (!Array.isArray(record.community)) record.community = [];
         }
 
-        // استخراج كل البيانات الموجودة قبل الكتابة
         let messages = Array.isArray(record.messages) ? record.messages : [];
         let users = Array.isArray(record.users) ? record.users : [];
+        let community = Array.isArray(record.community) ? record.community : [];
 
         const payload = {
             novels: allNovels,
             users: users,
-            messages: messages
+            messages: messages,
+            community: community
         };
 
         const saveRes = await fetch(API_PUT, {
@@ -1139,15 +1726,18 @@ async function saveData() {
             const errText = await saveRes.text().catch(() => "");
             console.error("PUT failed", saveRes.status, errText);
             setStatus("فشل الحفظ على السيرفر (" + saveRes.status + ").", "error");
+            resumeAutoRefresh();
             return false;
         }
 
         setStatus("تم الحفظ بنجاح.", "success");
         await loadNovels();
+        resumeAutoRefresh();
         return true;
     } catch(e) {
         console.error(e);
         setStatus("فشل الحفظ.", "error");
+        resumeAutoRefresh();
         return false;
     }
 }
@@ -1173,6 +1763,169 @@ function showDetails(idx) {
 }
 
 function closeDetails() { document.getElementById("detailsModal").classList.remove("show"); }
+
+/* =========================================================
+   تعديل الروايات والفصول الجديد
+========================================================= */
+
+function escapeAttr(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function escapeHtmlContent(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function openEditNovel(idx) {
+    currentEditingNovelIndex = idx;
+    const novel = allNovels[idx];
+    if (!novel) return;
+
+    document.getElementById("editNovelTitle").innerText = "تعديل: " + novel.title;
+    document.getElementById("editNovelName").value = novel.title || "";
+
+    const container = document.getElementById("chaptersEditContainer");
+    container.innerHTML = "";
+
+    const titles = novel.chapterTitles || [];
+    const contents = novel.chapterContents || [];
+
+    titles.forEach((title, i) => {
+        const content = contents[i] || "";
+        const block = document.createElement("div");
+        block.className = "chapter-edit-block";
+        block.innerHTML = `
+            <label>الفصل رقم ${i + 1}:</label>
+            <input type="text" class="chapter-title-input" value="${escapeAttr(title)}">
+            <textarea class="chapter-content-input" rows="10">${escapeHtmlContent(content)}</textarea>
+            <button onclick="removeChapter(this)">حذف هذا الفصل</button>
+        `;
+        container.appendChild(block);
+    });
+
+    document.getElementById("editNovelModal").classList.add("show");
+}
+
+function addNewChapter() {
+    const container = document.getElementById("chaptersEditContainer");
+    const blocks = container.getElementsByClassName("chapter-edit-block");
+    const nextNum = blocks.length + 1;
+
+    const block = document.createElement("div");
+    block.className = "chapter-edit-block";
+    block.innerHTML = `
+        <label>الفصل رقم ${nextNum}:</label>
+        <input type="text" class="chapter-title-input" value="الفصل ${nextNum}">
+        <textarea class="chapter-content-input" rows="10"></textarea>
+        <button onclick="removeChapter(this)">حذف هذا الفصل</button>
+    `;
+    container.appendChild(block);
+}
+
+function removeChapter(btn) {
+    const block = btn.closest(".chapter-edit-block");
+    if (block) {
+        block.remove();
+    }
+}
+
+async function saveAllChapters() {
+    if (currentEditingNovelIndex < 0 || currentEditingNovelIndex >= allNovels.length) return;
+    pauseAutoRefresh();
+
+    const novelNameInput = document.getElementById("editNovelName").value.trim();
+    if (!novelNameInput) {
+        alert("❌ يجب إدخال اسم الرواية.");
+        resumeAutoRefresh();
+        return;
+    }
+
+    const container = document.getElementById("chaptersEditContainer");
+    const blocks = container.getElementsByClassName("chapter-edit-block");
+
+    if (blocks.length === 0) {
+        alert("❌ يجب أن تحتوي الرواية على فصل واحد على الأقل.");
+        resumeAutoRefresh();
+        return;
+    }
+
+    const newTitles = [];
+    const newContents = [];
+
+    for (let block of blocks) {
+        const titleInput = block.querySelector(".chapter-title-input").value.trim();
+        const contentInput = block.querySelector(".chapter-content-input").value;
+        newTitles.push(titleInput || "بدون عنوان");
+        newContents.push(contentInput);
+    }
+
+    const targetNovelId = allNovels[currentEditingNovelIndex].novelId;
+
+    try {
+        const res = await fetch(API_GET, { cache: "no-store" });
+        if (!res.ok) throw new Error("GET failed");
+        const data = await res.json();
+        let record = data.record;
+
+        if (record && Array.isArray(record)) {
+            record = { novels: record, users: [], messages: [], community: [] };
+        }
+        if (record) {
+            if (!Array.isArray(record.novels)) record.novels = [];
+            if (!Array.isArray(record.users)) record.users = [];
+            if (!Array.isArray(record.messages)) record.messages = [];
+            if (!Array.isArray(record.community)) record.community = [];
+        }
+
+        const novelIdxInServer = record.novels.findIndex(n => n.novelId === targetNovelId);
+        if (novelIdxInServer !== -1) {
+            record.novels[novelIdxInServer].title = novelNameInput;
+            record.novels[novelIdxInServer].chapterTitles = newTitles;
+            record.novels[novelIdxInServer].chapterContents = newContents;
+        } else {
+            allNovels[currentEditingNovelIndex].title = novelNameInput;
+            allNovels[currentEditingNovelIndex].chapterTitles = newTitles;
+            allNovels[currentEditingNovelIndex].chapterContents = newContents;
+            record.novels = allNovels;
+        }
+
+        const saveRes = await fetch(API_PUT, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(record)
+        });
+
+        if (saveRes.ok) {
+            alert("تم الحفظ بنجاح");
+            closeEditNovel();
+            await loadNovels();
+        } else {
+            alert("❌ فشل حفظ التعديلات على السيرفر.");
+        }
+
+    } catch (e) {
+        console.error(e);
+        alert("❌ حدث خطأ أثناء الاتصال.");
+    } finally {
+        resumeAutoRefresh();
+    }
+}
+
+function closeEditNovel() {
+    document.getElementById("editNovelModal").classList.remove("show");
+    document.getElementById("chaptersEditContainer").innerHTML = "";
+    document.getElementById("editNovelName").value = "";
+    currentEditingNovelIndex = -1;
+}
+
 function setStatus(msg, type) { const el = document.getElementById("status"); el.className = "status "+type; el.innerText = msg; el.style.display = "block"; }
 function escapeHTML(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
