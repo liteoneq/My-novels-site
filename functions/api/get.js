@@ -1,6 +1,7 @@
-export default async (request, context) => {
-  const binId = process.env.BIN_ID;
-  const key = process.env.MASTER_KEY;
+export async function onRequest(context) {
+  const { env } = context;
+  const binId = env.BIN_ID;
+  const key = env.MASTER_KEY;
 
   if (!binId || !key) {
     return new Response(JSON.stringify({ error: "Missing env vars" }), {
@@ -23,8 +24,4 @@ export default async (request, context) => {
       "Access-Control-Allow-Origin": "*"
     }
   });
-};
-
-export const config = {
-  path: "/api/get"
-};
+}
