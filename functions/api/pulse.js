@@ -1,4 +1,6 @@
-export default async (request, context) => {
+export async function onRequest(context) {
+    const { request, env } = context;
+
     // 1) التعامل مع طلبات CORS (OPTIONS)
     if (request.method === "OPTIONS") {
         return new Response(null, {
@@ -21,9 +23,9 @@ export default async (request, context) => {
         });
     }
 
-    // 3) قراءة متغيرات البيئة
-    const binId = process.env.BIN_ID;
-    const key = process.env.MASTER_KEY;
+    // 3) قراءة متغيرات البيئة (الطريقة الصحيحة في Cloudflare)
+    const binId = env.BIN_ID;
+    const key = env.MASTER_KEY;
 
     if (!binId || !key) {
         return new Response(JSON.stringify({ error: "Missing env vars" }), {
@@ -67,19 +69,9 @@ export default async (request, context) => {
 
         // 7) معالجة وبنية البيانات
         if (Array.isArray(record)) {
-            record = {
-                novels: record,
-                users: [],
-                community: [],
-                messages: []
-            };
+            record = { novels: record, users: [], community: [], messages: [] };
         } else if (!record || typeof record !== "object") {
-            record = {
-                novels: [],
-                users: [],
-                community: [],
-                messages: []
-            };
+            record = { novels: [], users: [], community: [], messages: [] };
         } else {
             if (!Array.isArray(record.users)) record.users = [];
             if (!Array.isArray(record.novels)) record.novels = [];
@@ -145,6 +137,4 @@ export default async (request, context) => {
             }
         });
     }
-};
-
-export const config = { path: "/api/pulse" };
+}
